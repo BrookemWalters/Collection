@@ -11,6 +11,27 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "About this site\n\n1 + 1\n\n[1] 2"
+    "text": "About this site\nTEST"
+  },
+  {
+    "objectID": "sections/reflections/reflections_main.html",
+    "href": "sections/reflections/reflections_main.html",
+    "title": "reflections",
+    "section": "",
+    "text": "positionality"
+  },
+  {
+    "objectID": "sections/reflections/positionality.html",
+    "href": "sections/reflections/positionality.html",
+    "title": "Your Quarto Title",
+    "section": "",
+    "text": "Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see https://quarto.org."
+  },
+  {
+    "objectID": "sections/reflections/positionality.html#running-code",
+    "href": "sections/reflections/positionality.html#running-code",
+    "title": "Your Quarto Title",
+    "section": "Running Code",
+    "text": "Running Code\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code."
   }
 ]

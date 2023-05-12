@@ -3,18 +3,62 @@ project:
   output-dir: docs
 
 website:
-  title: "Portfolio"
-  navbar:
-    left:
-      - href: index.qmd
-        text: Home
-      - about.qmd
+  page-navigation: true
+  title: "portfolio"
+  description: "collection of work from stat 631"
+  site-url: "https://brookemwalters.github.io/Collection/"
+  favicon: "images/Brooke_Logo1.png"
+
+  repo-url: https://github.com/BrookemWalters/Collection
+  repo-actions: [edit, issue]
+
+  open-graph: true
+
+  twitter-card:
+    creator: "@imgeneraljack"
+    image: "images/twitter-card.png"
+
+  page-footer:
+    right: "This page is built with ☕ and [Quarto](https://quarto.org/)."
+    background: "#FFFEF6"
+    
+    
+  sidebar:
+    background: "#FFFEF6"
+    logo: "images/logo.png"
+    pinned: true
+    align: center
+    tools:
+      - icon: github
+        href: https://github.com/BrookemWalters
+        text: "GitHub"
+      - icon: linkedin
+        href: https://www.linkedin.com/in/bmwlters
+        text: "LinkedIn"
+      
+    style: "docked"
+    search: true
+    collapse-level: 1
+    contents:
+      - section: "reflections"
+        contents:
+          - href: sections/reflections/reflections_main.qmd
+            text: guide
+          - href: sections/reflections/positionality.qmd
+            text: positionality
+
+
 
 format:
   html:
-    theme: cosmo
-    css: styles.css
+    theme:
+      light: [journal, theme.scss]
+      dark: [cyborg, theme-dark.scss]
+    code-copy: true
+    code-overflow: wrap
     toc: true
+
+freeze: auto
 
 editor: visual
 
