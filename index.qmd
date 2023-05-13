@@ -3,3 +3,5 @@ title: "Portfolio"
 ---
 
 Home to my Stats 631 Projects
+
+![](images/Brooke_Logo1.png)
