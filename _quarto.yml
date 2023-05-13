@@ -1,23 +1,10 @@
 project:
   type: website
 
-format:
-  html:
-    theme:
-      light: [journal, theme.scss]
-      dark: [cyborg, theme-dark.scss]
-    code-copy: true
-    code-overflow: wrap
-    toc: true
-    back-to-top-navigation: true
-
-freeze: auto
-editor: visual  
-
-
 website:
   title: Brooke Walter's Portfolio
   page-navigation: true
+  site-url: https://brookemwalters.github.io/Collection/
   favicon: "images/logos/favicon1.png"
   open-graph: true
 
@@ -27,7 +14,7 @@ website:
   
   sidebar:
     background: "#FEFAF2"
-    logo: "images/logos/logo1.png"
+    # logo: "images/logos/logo1.png"
     pinned: true
     align: center
     tools:
@@ -53,7 +40,15 @@ website:
           - href: sections/reflections/positionality.qmd
             text: positionality
   
-
+format:
+  html:
+    theme:
+      light: cosmo
+      dark: [cosmo, theme-dark.scss]
+    code-background: true
+    code-copy: true
+    css: styles.css
+    toc: true
 
 
   
