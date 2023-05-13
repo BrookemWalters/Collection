@@ -1,54 +1,7 @@
 project:
   type: website
   output-dir: docs
-
-website:
-  page-navigation: true
-  title: "portfolio"
-  description: "collection of work from stat 631"
-  site-url: "https://brookemwalters.github.io/Collection/"
-  favicon: "images/Brooke_Logo1.png"
-
-  repo-url: https://github.com/BrookemWalters/Collection
-  repo-actions: [edit, issue]
-
-  open-graph: true
-
-  twitter-card:
-    creator: "@imgeneraljack"
-    image: "images/twitter-card.png"
-
-  page-footer:
-    right: "This page is built with ☕ and [Quarto](https://quarto.org/)."
-    background: "#FFFEF6"
-    
-    
-  sidebar:
-    background: "#FFFEF6"
-    logo: "images/logo.png"
-    pinned: true
-    align: center
-    tools:
-      - icon: github
-        href: https://github.com/BrookemWalters
-        text: "GitHub"
-      - icon: linkedin
-        href: https://www.linkedin.com/in/bmwlters
-        text: "LinkedIn"
-      
-    style: "docked"
-    search: true
-    collapse-level: 1
-    contents:
-      - section: "reflections"
-        contents:
-          - href: sections/reflections/reflections_main.qmd
-            text: guide
-          - href: sections/reflections/positionality.qmd
-            text: positionality
-
-
-
+  
 format:
   html:
     theme:
@@ -57,8 +10,56 @@ format:
     code-copy: true
     code-overflow: wrap
     toc: true
+    back-to-top-navigation: true
 
 freeze: auto
+editor: visual  
 
-editor: visual
 
+website:
+  title: Brooke Walter's Portfolio
+  page-navigation: true
+  favicon: "images/logos/favicon1.png"
+  open-graph: true
+
+  page-footer:
+    right: "This page is built with ☕ and [Quarto](https://quarto.org/)."
+    background: "#FEFAF2"
+  
+  sidebar:
+    background: "#FEFAF2"
+    logo: "images/logos/logo1.png"
+    pinned: true
+    align: center
+    tools:
+      - icon: github
+        href: https://github.com/BrookemWalters/collection
+        text: "gitHub organization"
+      - icon: linkedin
+        href: https://www.linkedin.com/in/bmwlters
+        text: "LinkedIn"
+    
+    style: "docked"
+    search: true
+    collapse-level: 1
+    contents:
+      - section: "data viz"
+        contents:
+          - href: sections/dataviz/viz_placeholder.qmd
+            text: "Coming Soon"
+      - section: "reflections"
+        contents:
+          - href: sections/reflections/reflections_main.qmd
+            text: guide
+          - href: sections/reflections/positionality.qmd
+            text: positionality
+  
+
+
+
+  
+
+    
+    
+    
+ 

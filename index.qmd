@@ -1,7 +1,8 @@
 ---
 title: "Portfolio"
+
 ---
 
-Home to my Stats 631 Projects
+![](/images/placeholders/universe.png)\-\--
 
-![](images/Brooke_Logo1.png)
+*building this site over the course of the summer 2023 session Stat 631*
