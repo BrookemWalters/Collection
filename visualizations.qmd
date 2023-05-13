@@ -1,7 +1,0 @@
----
-title: "visualizations"
----
-
-![](/images/placeholders/data_viz.png)
-
-###### **definition and image source:**  [javaTpoint](https://www.javatpoint.com/what-is-data-visualization)
