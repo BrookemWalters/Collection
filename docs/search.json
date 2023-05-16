@@ -1,0 +1,23 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Portfolio",
+    "section": "",
+    "text": "---\nbuilding this site over the course of the summer 2023 session Stat 631"
+  },
+  {
+    "objectID": "sections/reflections/reflections_main.html",
+    "href": "sections/reflections/reflections_main.html",
+    "title": "reflections",
+    "section": "",
+    "text": "Click image for my interactive positionality statement"
+  },
+  {
+    "objectID": "sections/dataviz/viz_placeholder.html",
+    "href": "sections/dataviz/viz_placeholder.html",
+    "title": "visualizations",
+    "section": "",
+    "text": "definition and image source: javaTpoint"
+  }
+]
