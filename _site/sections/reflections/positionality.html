@@ -20,6 +20,69 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -155,17 +218,135 @@ ul.task-list li input[type="checkbox"] {
 
 
 
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'plotly' was built under R version 4.2.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: ggplot2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'plotly'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:ggplot2':
+
+    last_plot</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:stats':
+
+    filter</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:graphics':
+
+    layout</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'dplyr' was built under R version 4.2.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the data</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>timeline_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  id <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  positionality <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Parental Socioconomic Status"</span>, <span class="st">"Spirituality"</span>, <span class="st">"Nationality"</span>, <span class="st">"Race"</span>),</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  year <span class="ot">&lt;-</span>  <span class="fu">as.Date</span>(<span class="fu">c</span>(<span class="st">"1985-01-01"</span>, <span class="st">"2004-01-01"</span>, <span class="st">"2014-01-01"</span>, <span class="st">"2023-01-01"</span>)),</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  description <span class="ot">&lt;-</span> </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">"'I don’t want to see you, and I don’t want to hear you.' </span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="st">      These were my father's nightly words for the summers devoid of mandated bedtimes. </span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="st">      In those moments, I discovered a world of books, solitude, and one-thousand-piece jig-saw puzzles.</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="st">      Being born to young parents instilled in me a spirit of self-reliance, yet also nurtured a hint of survivorship bias.</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="st">      The days of food and housing insecurity now reside as nebulous memories, occasionally nudging me to dismiss the struggles faced by others.</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="st">      I firmly believe in the importance of seeking out experiences that reconnect me with the shared humanity of others. </span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="st">      Through art, literature, and the simple act of attentive listening, I regain empathy. </span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="st">      Suffering is not a competition; the intensity of an individual's pain is their valid reality."</span>,</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>      <span class="st">"'You are an expression of the Universe.' </span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="st">      As a born-again evangelical Christian turned atheist, I perceive the world as it is,</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="st">      deriving purpose and meaning from the ordinary intricacies of everyday existence. </span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="st">      That is what I appreciate about science—the constant evolution of our understanding as new information emerges,</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="st">      allowing our perceptions of the world to shift and expand."</span>,</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>      <span class="st">"'This water is potable,'</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="st">      a phrase I diligently practiced in Dari, preparing myself for my deployment to Kabul in 2013. </span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="st">      I’ll never forget the moment the armored vehicle doors opened and I saw my first country outside of North America.</span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a><span class="st">      Rubble, garbage, unpaved roads, dirt. </span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a><span class="st">      I spent my time in Afghanistan visiting local police stations and leading first aid classes. </span></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a><span class="st">      I recall one of my 'students' guiding my hand to the indentation on the back of his head. </span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a><span class="st">      He bore the scars of an encounter with the Taliban's improvised explosive device (IED), the shrapnel having impaled him and leaving a bit of his skull missing. Remarkably, he had packed his own wound and traversed over an hour to reach the sole hospital, where he underwent life-saving surgery provided by a NATO medical unit. After this amazing story, I remarked that he should be leading the class, he joked that I should be his third wife. As an American, the probability of finding myself in a series of circumstances similar to my student’s is rather slim."</span>,</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>     </span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>       <span class="st">"'Let me give you a tip. You wanna make some money here? Use your white voice.' </span></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a><span class="st">      Boots Riley’s 2018 film 'Sorry to Bother You' is the perfect expression of my experience as a black individual new to the middle class. </span></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a><span class="st">      If you do not have the stomach for R-rated movies or approximately 1 hour and 52 minutes to spare, here’s my racial positionality attempt:</span></span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a><span class="st">      </span></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a><span class="st">      It’s the early nineties, I’m at the golden arches with my best friend, and her mom is ordering us Happy Meals with a Barbie prize. </span></span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a><span class="st">      Hell yeah, life’s amazing. </span></span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a><span class="st">      I look over at my friend and she is visibly upset, tears rolling down her chin.</span></span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a><span class="st">      'Brooke, they gave you the wrong meal,' </span></span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a><span class="st">      The mom tries to take my toy in exchange for the black Barbie doll that was meant for me. </span></span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a><span class="st">      I refused and ruined the outing. I don’t blame a six-year-old for being disappointed, </span></span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a><span class="st">      but that experience was one of many that ingrained in me the false notion that white was the ideal.</span></span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a><span class="st">      It's more vivid than any of the racially explicit derogatory terms thrown at me by strangers. </span></span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a><span class="st">      Trying to unlearn that mentality was a journey. </span></span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a><span class="st">      Now that critical race theory has gone corporate, and I often find myself the only brown person in the room, </span></span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a><span class="st">      I wonder just how honest I can be and keep my paycheck."</span> </span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>   pos_palette <span class="ot">&lt;-</span>  <span class="fu">c</span>(<span class="st">"#CBD1C9"</span>, <span class="st">"#F3938F"</span>, <span class="st">"#FCD470"</span>, <span class="st">"#CCAE8E"</span>)</span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>pos_plot <span class="ot">&lt;-</span> timeline_data <span class="sc">%&gt;%</span></span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_ly</span>(</span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="sc">~</span>year,</span>
+<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="sc">~</span>positionality,</span>
+<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a>    <span class="at">text =</span> <span class="sc">~</span>description,</span>
+<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"scatter"</span>,</span>
+<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a>    <span class="at">mode =</span> <span class="st">"markers"</span>,</span>
+<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a>    <span class="at">marker =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="sc">~</span>pos_palette , <span class="at">size =</span> <span class="dv">45</span>)</span>
+<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a>  <span class="fu">layout</span>(</span>
+<span id="cb13-63"><a href="#cb13-63" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Interactive Timeline"</span>,</span>
+<span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a>    <span class="at">xaxis =</span> <span class="fu">list</span>(</span>
+<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"Year"</span>,</span>
+<span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a>      <span class="at">tickvals =</span> <span class="fu">as.Date</span>(<span class="fu">c</span>(<span class="st">"1985-01-01"</span>, <span class="st">"2004-01-01"</span>, <span class="st">"2014-01-01"</span>, <span class="st">"2023-01-01"</span>)),</span>
+<span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a>      <span class="at">ticktext =</span> <span class="fu">c</span>(<span class="st">"1985"</span>, <span class="st">"2004"</span>, <span class="st">"2014"</span>, <span class="st">"2023"</span>)</span>
+<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb13-69"><a href="#cb13-69" aria-hidden="true" tabindex="-1"></a>    <span class="at">yaxis =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">"positionality"</span>),</span>
+<span id="cb13-70"><a href="#cb13-70" aria-hidden="true" tabindex="-1"></a>    <span class="at">hovermode =</span> <span class="st">"closest"</span>,</span>
+<span id="cb13-71"><a href="#cb13-71" aria-hidden="true" tabindex="-1"></a>    <span class="at">hoverlabel =</span> <span class="fu">list</span>(<span class="at">bordercolor =</span> <span class="st">"black"</span>)</span>
+<span id="cb13-72"><a href="#cb13-72" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb13-73"><a href="#cb13-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-74"><a href="#cb13-74" aria-hidden="true" tabindex="-1"></a>pos_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-5135a7a0dc721263b3b9" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-5135a7a0dc721263b3b9">{"x":{"visdat":{"21e01e51349e":["function () ","plotlyVisDat"]},"cur_data":"21e01e51349e","attrs":{"21e01e51349e":{"x":{},"y":{},"text":{},"mode":"markers","marker":{"color":{},"size":45},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Interactive Timeline","xaxis":{"domain":[0,1],"automargin":true,"title":"Year","tickvals":["1985-01-01","2004-01-01","2014-01-01","2023-01-01"],"ticktext":["1985","2004","2014","2023"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"positionality","type":"category","categoryorder":"array","categoryarray":["Nationality","Parental Socioconomic Status","Race","Spirituality"]},"hovermode":"closest","hoverlabel":{"bordercolor":"black"},"showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["1985-01-01","2004-01-01","2014-01-01","2023-01-01"],"y":["Parental Socioconomic Status","Spirituality","Nationality","Race"],"text":["'I don’t want to see you, and I don’t want to hear you.' <br />      These were my father's nightly words for the summers devoid of mandated bedtimes. <br />      In those moments, I discovered a world of books, solitude, and one-thousand-piece jig-saw puzzles.<br />      Being born to young parents instilled in me a spirit of self-reliance, yet also nurtured a hint of survivorship bias.<br />      The days of food and housing insecurity now reside as nebulous memories, occasionally nudging me to dismiss the struggles faced by others.<br />      I firmly believe in the importance of seeking out experiences that reconnect me with the shared humanity of others. <br />      Through art, literature, and the simple act of attentive listening, I regain empathy. <br />      Suffering is not a competition; the intensity of an individual's pain is their valid reality.","'You are an expression of the Universe.' <br />      As a born-again evangelical Christian turned atheist, I perceive the world as it is,<br />      deriving purpose and meaning from the ordinary intricacies of everyday existence. <br />      That is what I appreciate about science—the constant evolution of our understanding as new information emerges,<br />      allowing our perceptions of the world to shift and expand.","'This water is potable,'<br />      a phrase I diligently practiced in Dari, preparing myself for my deployment to Kabul in 2013. <br />      I’ll never forget the moment the armored vehicle doors opened and I saw my first country outside of North America.<br />      Rubble, garbage, unpaved roads, dirt. <br />      I spent my time in Afghanistan visiting local police stations and leading first aid classes. <br />      I recall one of my 'students' guiding my hand to the indentation on the back of his head. <br />      He bore the scars of an encounter with the Taliban's improvised explosive device (IED), the shrapnel having impaled him and leaving a bit of his skull missing. Remarkably, he had packed his own wound and traversed over an hour to reach the sole hospital, where he underwent life-saving surgery provided by a NATO medical unit. After this amazing story, I remarked that he should be leading the class, he joked that I should be his third wife. As an American, the probability of finding myself in a series of circumstances similar to my student’s is rather slim.","'Let me give you a tip. You wanna make some money here? Use your white voice.' <br />      Boots Riley’s 2018 film 'Sorry to Bother You' is the perfect expression of my experience as a black individual new to the middle class. <br />      If you do not have the stomach for R-rated movies or approximately 1 hour and 52 minutes to spare, here’s my racial positionality attempt:<br />      <br />      It’s the early nineties, I’m at the golden arches with my best friend, and her mom is ordering us Happy Meals with a Barbie prize. <br />      Hell yeah, life’s amazing. <br />      I look over at my friend and she is visibly upset, tears rolling down her chin.<br />      'Brooke, they gave you the wrong meal,' <br />      The mom tries to take my toy in exchange for the black Barbie doll that was meant for me. <br />      I refused and ruined the outing. I don’t blame a six-year-old for being disappointed, <br />      but that experience was one of many that ingrained in me the false notion that white was the ideal.<br />      It's more vivid than any of the racially explicit derogatory terms thrown at me by strangers. <br />      Trying to unlearn that mentality was a journey. <br />      Now that critical race theory has gone corporate, and I often find myself the only brown person in the room, <br />      I wonder just how honest I can be and keep my paycheck."],"mode":"markers","marker":{"color":["#CBD1C9","#F3938F","#FCD470","#CCAE8E"],"size":45,"line":{"color":"rgba(31,119,180,1)"}},"type":"scatter","error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="https://arthistory.co/reveur-alphonse-mucha-1897/"><img src="../..\images/positionality.png" class="img-fluid figure-img" alt="Reverie 1897"></a></p>
 </figure>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-
-<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-80dc7eebb7281fa5439c" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-80dc7eebb7281fa5439c">{"x":{"visdat":{"5efc3133579d":["function () ","plotlyVisDat"]},"cur_data":"5efc3133579d","attrs":{"5efc3133579d":{"x":{},"y":{},"text":{},"mode":"markers","marker":{"color":{},"size":45},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Interactive Timeline","xaxis":{"domain":[0,1],"automargin":true,"title":"Year","tickvals":["1985-01-01","2004-01-01","2014-01-01","2023-01-01"],"ticktext":["1985","2004","2014","2023"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"positionality","type":"category","categoryorder":"array","categoryarray":["Nationality","Parental Socioconomic Status","Race","Spirituality"]},"hovermode":"closest","hoverlabel":{"bordercolor":"black"},"showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["1985-01-01","2004-01-01","2014-01-01","2023-01-01"],"y":["Parental Socioconomic Status","Spirituality","Nationality","Race"],"text":["'I don’t want to see you, and I don’t want to hear you.' <br />      These were my father's nightly words for the summers devoid of mandated bedtimes. <br />      In those moments, I discovered a world of books, solitude, and one-thousand-piece jig-saw puzzles.<br />      Being born to young parents instilled in me a spirit of self-reliance, yet also nurtured a hint of survivorship bias.<br />      The days of food and housing insecurity now reside as nebulous memories, occasionally nudging me to dismiss the struggles faced by others.<br />      I firmly believe in the importance of seeking out experiences that reconnect me with the shared humanity of others. <br />      Through art, literature, and the simple act of attentive listening, I regain empathy. <br />      Suffering is not a competition; the intensity of an individual's pain is their valid reality.","'You are an expression of the Universe.' <br />      As a born-again evangelical Christian turned atheist, I perceive the world as it is,<br />      deriving purpose and meaning from the ordinary intricacies of everyday existence. <br />      That is what I appreciate about science—the constant evolution of our understanding as new information emerges,<br />      allowing our perceptions of the world to shift and expand.","'This water is potable,'<br />      a phrase I diligently practiced in Dari, preparing myself for my deployment to Kabul in 2013. <br />      I’ll never forget the moment the armored vehicle doors opened and I saw my first country outside of North America.<br />      Rubble, garbage, unpaved roads, dirt. <br />      I spent my time in Afghanistan visiting local police stations and leading first aid classes. <br />      I recall one of my 'students' guiding my hand to the indentation on the back of his head. <br />      He bore the scars of an encounter with the Taliban's improvised explosive device (IED), the shrapnel having impaled him and leaving a bit of his skull missing. Remarkably, he had packed his own wound and traversed over an hour to reach the sole hospital, where he underwent life-saving surgery provided by a NATO medical unit. After this amazing story, I remarked that he should be leading the class, he joked that I should be his third wife. As an American, the probability of finding myself in a series of circumstances similar to my student’s is rather slim.","'Let me give you a tip. You wanna make some money here? Use your white voice.' <br />      Boots Riley’s 2018 film 'Sorry to Bother You' is the perfect expression of my experience as a black individual new to the middle class. <br />      If you do not have the stomach for R-rated movies or approximately 1 hour and 52 minutes to spare, here’s my racial positionality attempt:<br />      <br />      It’s the early nineties, I’m at the golden arches with my best friend, and her mom is ordering us Happy Meals with a Barbie prize. <br />      Hell yeah, life’s amazing. <br />      I look over at my friend and she is visibly upset, tears rolling down her chin.<br />      'Brooke, they gave you the wrong meal,' <br />      The mom tries to take my toy in exchange for the black Barbie doll that was meant for me. <br />      I refused and ruined the outing. I don’t blame a six-year-old for being disappointed, <br />      but that experience was one of many that ingrained in me the false notion that white was the ideal.<br />      It's more vivid than any of the racially explicit derogatory terms thrown at me by strangers. <br />      Trying to unlearn that mentality was a journey. <br />      Now that critical race theory has gone corporate, and I often find myself the only brown person in the room, <br />      I wonder just how honest I can be and keep my paycheck."],"mode":"markers","marker":{"color":["#CBD1C9","#F3938F","#FCD470","#CCAE8E"],"size":45,"line":{"color":"rgba(31,119,180,1)"}},"type":"scatter","error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
-</div>
 </div>
 
 

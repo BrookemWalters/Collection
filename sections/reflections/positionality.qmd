@@ -2,9 +2,7 @@
 title: " "
 ---
 
-[![](/images/positionality.png){fig-alt="Reverie 1897"}](https://arthistory.co/reveur-alphonse-mucha-1897/)
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r}
 
 library(plotly)
 library(dplyr)
@@ -85,3 +83,6 @@ pos_plot <- timeline_data %>%
 
 pos_plot
 ```
+
+
+[![](/images/positionality.png){fig-alt="Reverie 1897"}](https://arthistory.co/reveur-alphonse-mucha-1897/)
