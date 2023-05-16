@@ -2,8 +2,10 @@
 title: " "
 ---
 
-[![](/images/positionality.png){fig-alt="Reverie 1897"}](https://arthistory.co/reveur-alphonse-mucha-1897/)
-
 <iframe src="https://073308-brooke.shinyapps.io/Positionality/" width="100%" height="600" frameborder="0">
 
 </iframe>
+
+after selecting an aspect of positionality, hover over the plot to learn more.
+
+[![](/images/positionality.png){fig-alt="Reverie 1897"}](https://arthistory.co/reveur-alphonse-mucha-1897/)

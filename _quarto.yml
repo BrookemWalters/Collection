@@ -7,6 +7,9 @@ website:
   site-url: https://brookemwalters.github.io/Collection/
   favicon: "images/logos/favicon1.png"
   open-graph: true
+  
+  repo-url: https://github.com/BrookemWalters/Collection
+  repo-actions: [edit, issue]
 
   page-footer:
     right: "This page is built with ☕ and [Quarto](https://quarto.org/)."
@@ -14,7 +17,7 @@ website:
   
   sidebar:
     background: "#FEFAF2"
-    # logo: "images/logos/logo1.png"
+    logo: "images/logos/logo1.png"
     pinned: true
     align: center
     tools:
