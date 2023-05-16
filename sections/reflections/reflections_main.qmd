@@ -3,3 +3,5 @@ title: "reflections"
 ---
 
 [![Click image for my interactive positionality statement](/images/positionality.png){fig-align="left" width="240"}](https://073308-brooke.shinyapps.io/Positionality/)
+
+[link](https://073308-brooke.shinyapps.io/Positionality/)
