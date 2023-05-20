@@ -5,9 +5,9 @@ account: 073308-brooke
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 9107196
-bundleId: 7242447
+bundleId: 7242462
 url: https://073308-brooke.shinyapps.io/Positionality/
-when: 1684608716.40312
-lastSyncTime: 1684608716.40313
+when: 1684609177.49294
+lastSyncTime: 1684609177.49295
 asMultiple: FALSE
 asStatic: FALSE

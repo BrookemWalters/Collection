@@ -26,14 +26,17 @@ server <- function(input, output) {
                 Summers were my portal into the realms of Steinbeck, Huxley, and L. Frank Baum. 
                 Being born to young parents, struggling to navigate their new adulthood, 
                 instilled within me a deep sense of self-reliance but also curated survivorship bias. 
+                
                 The days of food and housing insecurity are now nebulous memories, 
                 occasionally nudging me to dismiss the struggles faced by others. 
                 Reconnecting with humanity through art, literature, community events, and coffee is the remedy to rekindle empathy. 
+                
                 Suffering is not a competition; the intensity of an individual's pain is their valid reality.",
                 
-                "'Exsistance is an expression of the Universe.' ~ Alan Watts paraphrased. 
+                "'You are an expression of the Universe.' ~ Alan Watts paraphrased. 
                 As a born-again evangelical Christian turned atheist, I perceive the world as it is,
                 deriving purpose and meaning from the ordinary intricacies of everyday existence. 
+                
                 That is what I appreciate about science—the constant evolution of our understanding as new information emerges,
                 allowing our perceptions of the world to shift and expand.",
                 
@@ -64,7 +67,9 @@ server <- function(input, output) {
                 I don’t blame a six-year-old for being disappointed,
                 but that experience was one of many that ingrained in me the false notion that white was the ideal.
                 It's more vivid than any of the racially explicit derogatory terms thrown at me by strangers. 
-                Trying to unlearn that mentality was a journey. 
+                
+                Trying to unlearn that mentality is an ongoing endeavor. 
+                
                 Now that critical race theory has gone corporate, and I often find myself the only brown person in the room, 
                 I wonder just how honest I can be and keep my paycheck." 
             ),
