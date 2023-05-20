@@ -40,7 +40,7 @@ website:
       - section: "reflections"
         contents:
           - href: sections/reflections/reflections_main.qmd
-            text: guide
+            text: "collection of relflections"
 
   
 format:
