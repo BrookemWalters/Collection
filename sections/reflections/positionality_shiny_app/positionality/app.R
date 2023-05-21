@@ -58,8 +58,8 @@ server <- function(input, output) {
                 If you do not have the stomach for R-rated movies or approximately 1 hour and 52 minutes to spare, here’s my racial positionality attempt:
                 
                 It’s the early nineties, I’m at the golden arches with my best friend, and her mom is ordering us Happy Meals with a Barbie prize. 
-                Hell yeah, life’s amazing. 
-                I look over at my friend and she is visibly upset, tears rolling down her chin.
+                Our boxes arrive-  hell yeah, life’s amazing. 
+                But, I look over at my friend and she is visibly upset, tears rolling down her chin.
                 'Brooke, they gave you the wrong meal,' 
                 The mom tries to take my toy in exchange for the black Barbie doll that was meant for me. 
                 I refused and ruined the outing. 

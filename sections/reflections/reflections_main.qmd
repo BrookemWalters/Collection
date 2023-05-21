@@ -2,10 +2,6 @@
 title: "collection of reflections"
 ---
 
-[![click image[^1] for my positionality statement](/images/positionality.png){fig-alt="Reverie (1897) by Alphonse Mucha" fig-align="left" width="332"}](https://073308-brooke.shinyapps.io/Positionality/)
-
-[^1]: Reverie (1897) by Alphonse Mucha
-
-[^2]: Reverie (1897) by Alphonse Mucha
+[![click imageReverie (1897) by Alphonse Mucha for my positionality statement](/images/positionality.png){fig-alt="Reverie (1897) by Alphonse Mucha" fig-align="left" width="332"}](https://073308-brooke.shinyapps.io/Positionality/)
 
 ###### 
