@@ -12,6 +12,7 @@ editor: visual
 
 -   NHS-R Community, "[Plotting interactive visualizations with Plotly in R](https://www.youtube.com/watch?v=WmofiOklux8)"
 -   Posit, "[Great Looking Tables: gt (v0.2)](https://posit.co/blog/great-looking-tables-gt-0-2/)"
+-   Alexandre Morin-Chassé, "[The Stellar Chart: An Elegant Alternative to Radar Charts](https://medium.com/nightingale/the-stellar-chart-an-elegant-alternative-to-radar-charts-ae6a6931a28e)"
 
 ## 
 
@@ -22,4 +23,5 @@ editor: visual
 |                                                                                                                        |                                                                 |
 | [Good Studio](https://stock.adobe.com/images/solar-system-in-dotwork-style-planets-in-orbit-vintage-hand-dr/142591842) | [Artsy](https://www.artsy.net/artwork/alphonse-mucha-reverie-3) |
 +========================================================================================================================+=================================================================+
+|                                                                                                                        |                                                                 |
 +------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
