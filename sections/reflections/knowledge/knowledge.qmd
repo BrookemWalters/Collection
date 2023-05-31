@@ -1,0 +1,70 @@
+---
+title: "Current Level of Understanding"
+subtitle: "Statistical Modeling and Regression" 
+format: html
+editor: visual
+execute:
+  echo: false
+---
+
+![](/images/charts/knowledge_stellar.png)
+
+```{r message=FALSE, warning=FALSE,results = "hide"}
+library(tidyverse)
+library(gt) # table
+library(paletteer)
+
+```
+
+```{r}
+assess <-  read.csv("~/gvsu/summer 23/stat 631/portfolio/Website/sections/reflections/knowledge/assessment.csv")
+assess_data <- assess %>% 
+  rename(
+    `Chapter Title` = Chapter.Title,
+    `Section Title` = Section.Title,
+    `Self Assessment` = Self.Assessment
+  ) 
+
+assess <- assess_data %>%
+  mutate(Week = as.Date(Week, format = "%m/%d/%Y")) %>%
+  filter(Week != as.Date("2023-06-26")) %>% # remove the duplicated year
+  select("Book", "Section", "Section Title", "Self Assessment")
+   
+
+```
+
+## Detailed Self-Assessment
+
+```{r}
+
+assess %>% 
+ gt(rowname_col = "Book") %>%
+  tab_header(title = md("Course Concepts")) %>% 
+  cols_align(align = "left") %>% 
+  data_color(
+    columns = `Self Assessment`,
+    palette = c("#15050B", "#F6D5E2","#D35C9E" ),
+    domain = c(0, 3),
+    alpha = 0.8
+  )  %>% 
+  
+    tab_footnote(
+    footnote = "Proficiency level ranges from 1 (low) to 3 (high).",
+    locations = cells_column_labels(columns = `Self Assessment`)
+  ) %>% 
+    tab_options(
+    grand_summary_row.background.color = "#D35C9E",
+    heading.background.color = "#EFFBFC",
+    column_labels.background.color = "#EFFBFC",
+    stub.background.color = "#EFFBFC",
+    table.font.color = "#323232",
+    stub.border.style = "dashed",
+    stub.border.width = "1px",
+    table.width = "60%"
+  ) %>%
+  opt_all_caps()
+
+
+#https://posit.co/blog/great-looking-tables-gt-0-2/
+
+```

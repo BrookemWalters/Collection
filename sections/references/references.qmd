@@ -1,0 +1,25 @@
+---
+title: "References"
+format: html
+editor: visual
+---
+
+![](/images/rocket.png){width="229"}
+
+## Data Sources
+
+## Resources
+
+-   NHS-R Community, "[Plotting interactive visualizations with Plotly in R](https://www.youtube.com/watch?v=WmofiOklux8)"
+-   Posit, "[Great Looking Tables: gt (v0.2)](https://posit.co/blog/great-looking-tables-gt-0-2/)"
+
+## 
+
+## Image Credits
+
++------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+| ![](https://as1.ftcdn.net/v2/jpg/01/42/59/18/1000_F_142591842_qKTmeBBva06OU8w4SHHMKpx5GlxwuP1b.jpg){width="79"}        | ![](/images/sources/download.webp){width="66"}                  |
+|                                                                                                                        |                                                                 |
+| [Good Studio](https://stock.adobe.com/images/solar-system-in-dotwork-style-planets-in-orbit-vintage-hand-dr/142591842) | [Artsy](https://www.artsy.net/artwork/alphonse-mucha-reverie-3) |
++========================================================================================================================+=================================================================+
++------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+

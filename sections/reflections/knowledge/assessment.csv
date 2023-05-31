@@ -1,0 +1,30 @@
+ Week,Book,Chapter,Chapter Title,Section,Section Title,Self Assessment
+5/29/2023,ISL,3,Linear Regression,3.2,Multiple Linear Regression,3
+6/5/2023,ISL,3,Linear Regression,3.3,Other Considerations in the Regression Model,3
+6/5/2023,ISL,3,Linear Regression,3.4,The Marketing Plan,3
+6/5/2023,ISL,3,Linear Regression,3.5,Comparison of Linear Regression with K-Nearest Neighbors,2.5
+6/12/2023,ISL,4,Classification,4.1,An Overview of Classification,3
+6/12/2023,ISL,4,Classification,4.2,Why Not Linear Regression?,3
+6/19/2023,ISL,4,Classification,4.3,Logistic Regression,2
+6/26/2023,ISL,4,Classification,4.3,Logistic Regression,2
+7/3/2023,ISL,4,Classification,4.4,Generative Models for Classification,1.5
+6/28/2023,ISL,4,Classification,4.5,A Comparison of Classification Methods,2
+7/10/2023,ISL,4,Classification,4.6,Generalized Linear Models,2
+7/17/2023,ISL,5,Resampling Methods,5.1,Cross-Validation,2
+7/17/2023,ISL,5,Resampling Methods,5.2,The Bootstrap,2.5
+7/24/2023,ISL,6,Linear Model Selection and Regularization,6.1,Subset Selection,2
+7/24/2023,ISL,6,Linear Model Selection and Regularization,6.2,Shrinkage Methods,2
+7/24/2023,ISL,6,Linear Model Selection and Regularization,6.3,Dimension Reduction Methods,2.5
+7/24/2023,ISL,6,Linear Model Selection and Regularization,6.4,Considerations in High Dimensions,2
+7/31/2023,ISL,13,Multiple Testing,13.1,A Quick Review of Hypothesis Testing,3
+7/31/2023,ISL,13,Multiple Testing,13.2,The Challenge of Multiple Testing,2
+7/31/2023,ISL,13,Multiple Testing,13.3,The Family-Wise Error Rate,2
+7/31/2023,ISL,13,Multiple Testing,13.4,The False Discovery Rate,2
+7/31/2023,ISL,13,Multiple Testing,13.5, A Re-Sampling Approach to p-Values and False Discovery Rates,2
+8/7/2023,DF,1,The Power Chapter,n/a,The Power Chapter,2
+6/5/2023,DF,2,"Collect, Analyze, Imagine, Teach",n/a,"Collect, Analyze, Imagine, Teach",2
+6/19/2023,DF,3,"On Rational, Scientific, Objective Viewpoints from Mythical, Imaginary, Impossible Standpoints",n/a,"On Rational, Scientific, Objective Viewpoints from Mythical, Imaginary, Impossible Standpoints",2
+7/3/2023,DF,4,What Gets Counted Counts,n/a,What Gets Counted Counts,2
+7/17/2023,DF,5,"Unicorns, Janitors, Ninjas, Wizards, and Rock Stars",n/a,"Unicorns, Janitors, Ninjas, Wizards, and Rock Stars",2
+7/31/2023,DF,6,The Numbers Don’t Speak for Themselves,n/a,The Numbers Don’t Speak for Themselves,2
+8/7/2023,DF,7,Show Your Work,n/a,Show Your Work,2

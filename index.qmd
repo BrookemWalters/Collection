@@ -4,4 +4,4 @@ title: "Portfolio"
 
 ![](/images/placeholders/universe.png)\-\--
 
-*building this site over the course of the summer 2023 session Stat 631*
+*building this site over the course of the summer 2023 session of Stat 631*

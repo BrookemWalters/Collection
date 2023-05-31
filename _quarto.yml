@@ -40,7 +40,12 @@ website:
       - section: "reflections"
         contents:
           - href: sections/reflections/reflections_main.qmd
-            text: "collection of relflections"
+            text: "collection of reflections"
+          - href: sections/reflections/knowledge/knowledge.qmd
+            text: "knowledge"
+      - href: sections/references/references.qmd
+        text: "references"
+
 
   
 format:
@@ -52,6 +57,9 @@ format:
     code-copy: true
     css: styles.css
 
+
+freeze: auto
+editor: visual  
   
 
     

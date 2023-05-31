@@ -61,7 +61,7 @@ server <- function(input, output) {
                 Our boxes arrive-  hell yeah, life’s amazing. 
                 But, I look over at my friend and she is visibly upset, tears rolling down her chin.
                 'Brooke, they gave you the wrong meal,' 
-                The mom tries to take my toy in exchange for the black Barbie doll that was meant for me. 
+                The mom tries to take my toy in exchange for the black Barbie miniature that was meant for me. 
                 I refused and ruined the outing. 
                 
                 I don’t blame a six-year-old for being disappointed,
@@ -110,3 +110,5 @@ server <- function(input, output) {
 
 
 shinyApp(ui = ui, server = server)
+
+# guide https://www.youtube.com/watch?v=WmofiOklux8
