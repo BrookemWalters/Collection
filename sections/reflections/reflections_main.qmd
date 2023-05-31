@@ -4,8 +4,8 @@ title: "collection of reflections"
 
 Click image for reflection
 
-|                                                                                                           |                                           |     |     |
+|                                                                                                           |                                                                                                                                        |     |     |
 |:-------------------:|:-------------------:|:-------------:|:---------------:|
-| ![](images/positionality-01.png){fig-alt="Reverie (1897) by Alphonse Mucha" fig-align="left" width="227"} | ![](images/knowledge-05.png){width="228"} |     |     |
+| ![](images/positionality-01.png){fig-alt="Reverie (1897) by Alphonse Mucha" fig-align="left" width="227"} | [![](images/knowledge-05.png){width="228"}](https://brookemwalters.github.io/Collection/sections/reflections/knowledge/knowledge.html) |     |     |
 
 ###### 
