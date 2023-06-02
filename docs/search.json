@@ -11,7 +11,7 @@
     "href": "sections/reflections/reflections_main.html",
     "title": "collection of reflections",
     "section": "",
-    "text": "Click image for reflection"
+    "text": "click image to read the reflection"
   },
   {
     "objectID": "sections/dataviz/viz_placeholder.html",
@@ -39,7 +39,7 @@
     "href": "sections/references/references.html#resources",
     "title": "References",
     "section": "Resources",
-    "text": "Resources\n\nNHS-R Community, “Plotting interactive visualizations with Plotly in R”\nPosit, “Great Looking Tables: gt (v0.2)”"
+    "text": "Resources\n\nNHS-R Community, “Plotting interactive visualizations with Plotly in R”\nPosit, “Great Looking Tables: gt (v0.2)”\nAlexandre Morin-Chassé, “The Stellar Chart: An Elegant Alternative to Radar Charts”"
   },
   {
     "objectID": "sections/references/references.html#software",
@@ -60,7 +60,7 @@
     "href": "sections/reflections/knowledge/knowledge.html",
     "title": "Current Level of Understanding",
     "section": "",
-    "text": "Detailed Self-Assessment\n\n\n\n\n\n\n  \n    \n      Course Concepts\n    \n    \n    \n      \n      Section\n      Section Title\n      Self Assessment\n    \n  \n  \n    ISL\n3.2\nMultiple Linear Regression\n3.0\n    ISL\n3.3\nOther Considerations in the Regression Model\n3.0\n    ISL\n3.4\nThe Marketing Plan\n3.0\n    ISL\n3.5\nComparison of Linear Regression with K-Nearest Neighbors\n2.5\n    ISL\n4.1\nAn Overview of Classification\n3.0\n    ISL\n4.2\nWhy Not Linear Regression?\n3.0\n    ISL\n4.3\nLogistic Regression\n2.0\n    ISL\n4.4\nGenerative Models for Classification\n1.5\n    ISL\n4.5\nA Comparison of Classification Methods\n2.0\n    ISL\n4.6\nGeneralized Linear Models\n2.0\n    ISL\n5.1\nCross-Validation\n2.0\n    ISL\n5.2\nThe Bootstrap\n2.5\n    ISL\n6.1\nSubset Selection\n2.0\n    ISL\n6.2\nShrinkage Methods\n2.0\n    ISL\n6.3\nDimension Reduction Methods\n2.5\n    ISL\n6.4\nConsiderations in High Dimensions\n2.0\n    ISL\n13.1\nA Quick Review of Hypothesis Testing\n3.0\n    ISL\n13.2\nThe Challenge of Multiple Testing\n2.0\n    ISL\n13.3\nThe Family-Wise Error Rate\n2.0\n    ISL\n13.4\nThe False Discovery Rate\n2.0\n    ISL\n13.5\n A Re-Sampling Approach to p-Values and False Discovery Rates\n2.0\n    DF\nn/a\nThe Power Chapter\n2.0\n    DF\nn/a\nCollect, Analyze, Imagine, Teach\n2.0\n    DF\nn/a\nOn Rational, Scientific, Objective Viewpoints from Mythical, Imaginary, Impossible Standpoints\n2.0\n    DF\nn/a\nWhat Gets Counted Counts\n2.0\n    DF\nn/a\nUnicorns, Janitors, Ninjas, Wizards, and Rock Stars\n2.0\n    DF\nn/a\nThe Numbers Don<92>t Speak for Themselves\n2.0\n    DF\nn/a\nShow Your Work\n2.0"
+    "text": "Aggregation of Brooke’s self-assessed level of understanding on concepts presented in “Introduction to Statistical Learning” and “Data Feminism”."
   },
   {
     "objectID": "sections/reflections/knowledge/knowledge.html#detailed-self-assessment",
@@ -74,6 +74,6 @@
     "href": "sections/references/references.html#image-credits",
     "title": "References",
     "section": "Image Credits",
-    "text": "Image Credits\n\n\n\n\nGood Studio\n\nArtsy"
+    "text": "Image Credits\n\nArtsy\nGood Studio\nOskar Reschke"
   }
 ]
