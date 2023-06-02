@@ -4,8 +4,6 @@ format: html
 editor: visual
 ---
 
-![](/images/rocket.png){width="229"}
-
 ## Data Sources
 
 ## Resources
@@ -18,10 +16,6 @@ editor: visual
 
 ## Image Credits
 
-+------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
-| ![](https://as1.ftcdn.net/v2/jpg/01/42/59/18/1000_F_142591842_qKTmeBBva06OU8w4SHHMKpx5GlxwuP1b.jpg){width="79"}        | ![](/images/sources/download.webp){width="66"}                  |
-|                                                                                                                        |                                                                 |
-| [Good Studio](https://stock.adobe.com/images/solar-system-in-dotwork-style-planets-in-orbit-vintage-hand-dr/142591842) | [Artsy](https://www.artsy.net/artwork/alphonse-mucha-reverie-3) |
-+========================================================================================================================+=================================================================+
-|                                                                                                                        |                                                                 |
-+------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------+
+-   [Artsy](https://www.artsy.net/artwork/alphonse-mucha-reverie-3)
+-   [Good Studio](https://stock.adobe.com/images/solar-system-in-dotwork-style-planets-in-orbit-vintage-hand-dr/142591842)
+-   [Oskar Reschke](https://stock.adobe.com/Library/urn:aaid:sc:US:87e2f0ab-c799-49e7-8814-5a3e64dd8457?asset_id=539531316)
