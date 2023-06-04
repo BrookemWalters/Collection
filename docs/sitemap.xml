@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://brookemwalters.github.io/Collection/index.html</loc>
-    <lastmod>2023-06-02T01:27:34.588Z</lastmod>
-  </url>
-  <url>
-    <loc>https://brookemwalters.github.io/Collection/sections/reflections/reflections_main.html</loc>
-    <lastmod>2023-06-03T02:13:52.855Z</lastmod>
-  </url>
-  <url>
     <loc>https://brookemwalters.github.io/Collection/sections/dataviz/viz_placeholder.html</loc>
-    <lastmod>2023-06-03T02:15:26.289Z</lastmod>
-  </url>
-  <url>
-    <loc>https://brookemwalters.github.io/Collection/sections/about.html</loc>
-    <lastmod>2023-05-20T19:18:53.674Z</lastmod>
-  </url>
-  <url>
-    <loc>https://brookemwalters.github.io/Collection/sections/references/references.html</loc>
-    <lastmod>2023-06-03T02:15:22.529Z</lastmod>
+    <lastmod>2023-06-04T20:27:23.031Z</lastmod>
   </url>
   <url>
     <loc>https://brookemwalters.github.io/Collection/sections/reflections/knowledge/knowledge.html</loc>
-    <lastmod>2023-06-03T02:14:46.211Z</lastmod>
+    <lastmod>2023-06-04T20:28:41.981Z</lastmod>
+  </url>
+  <url>
+    <loc>https://brookemwalters.github.io/Collection/sections/reflections/pitch.html</loc>
+    <lastmod>2023-06-04T20:25:01.755Z</lastmod>
+  </url>
+  <url>
+    <loc>https://brookemwalters.github.io/Collection/index.html</loc>
+    <lastmod>2023-06-04T19:46:45.622Z</lastmod>
+  </url>
+  <url>
+    <loc>https://brookemwalters.github.io/Collection/sections/reflections/reflections_main.html</loc>
+    <lastmod>2023-06-04T19:47:24.972Z</lastmod>
+  </url>
+  <url>
+    <loc>https://brookemwalters.github.io/Collection/sections/references/references.html</loc>
+    <lastmod>2023-06-04T20:27:43.310Z</lastmod>
   </url>
 </urlset>

@@ -28,6 +28,12 @@ website:
       - icon: linkedin
         href: https://www.linkedin.com/in/bmwlters
         text: "LinkedIn"
+      - icon: person-fill
+        text: "pitch"
+        menu:
+          - text: portfolio pitch
+            url: https://brookemwalters.github.io/Collection/sections/references/references.html
+
     
     style: "docked"
     search: true
@@ -45,14 +51,15 @@ website:
             text: "knowledge"
       - href: sections/references/references.qmd
         text: "references"
+      - href: sections/reflections/pitch.qmd
+        text: "work in progress"
 
 
   
 format:
   html:
     theme:
-      light: cosmo
-      dark: [cosmo, theme-dark.scss]
+      light: Sandstone
     code-background: true
     code-copy: true
     css: styles.css
