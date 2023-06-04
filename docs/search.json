@@ -60,7 +60,7 @@
     "href": "sections/reflections/knowledge/knowledge.html",
     "title": "Current Level of Understanding",
     "section": "",
-    "text": "Aggregation of Brooke’s self-assessed level of understanding on concepts presented in “Introduction to Statistical Learning” and “Data Feminism”."
+    "text": "Figure above represents aggregation of my self-assessed level of understanding on concepts presented in “Introduction to Statistical Learning” and “Data Feminism”."
   },
   {
     "objectID": "sections/reflections/knowledge/knowledge.html#detailed-self-assessment",
@@ -110,5 +110,12 @@
     "title": "Portfolio Pitch",
     "section": "Research Question",
     "text": "Research Question\nAs for a topic, I’m still mulling that one over. I am inspired by the intersectionality of my hometown Grand Rapids’ economic growth, the housing crisis, and the hellscape that is suburban spawl.\n\nIdea #1\nWhat Makes a “Good” City? | Market Analysis and Future Predictions for the Greater Grand Rapids, Mi Area\npotential data sources:\n\nCounty Health Rankings\nWalkability Scores\nNational Center for Health Statistics"
+  },
+  {
+    "objectID": "sections/reflections/knowledge/knowledge.html#explanation-of-assessment",
+    "href": "sections/reflections/knowledge/knowledge.html#explanation-of-assessment",
+    "title": "Current Level of Understanding",
+    "section": "Explanation of Assessment",
+    "text": "Explanation of Assessment\n\nProficient Areas:\nI marked items here as proficient because I have had repeated academic exposure and application of these concepts.\n\nLinear regression:\n\nI have a basic understanding of the underlying concepts, assumptions, and techniques involved in both linear regression. I have completed assignments and projects that required implementing these algorithms and analyzing their results.\nFor example, in my final project last semester in CIS 631, I conducted an analysis using multiple linear regression. The project focused on evaluating the relationship between crime rates and the presence of cannabis dispensaries while controlling for socioeconomic factors. I collected relevant data, preprocessed it, and applied multiple linear regression to model the relationship. I carefully interpreted the results and drew meaningful conclusions based on statistical significance and the summary of my model's input.\nOverall, my proficiency in linear regression is based on a combination of theoretical knowledge gained through coursework, practical application in projects and assignments, and the ability to critically analyze and interpret the results obtained.\n\n\n\n\nAware Areas:\nI marked these items as aware because I am familiar with the terms,  but have limited practice applying the techniques.\n\nData Feminism:\n\nMy awareness here derives from a combination of the literature and media I consume, along with principles discussed in PSM 650 – \"Ethical and professionalism\" and CIS 63– \"Data Mining\".\nI'd like to note that I bought the audiobook version of Data Feminism over Memorial Day. I am finding it easier to digest the philosophy presented in that format. \n\nClassification:\n\nI am familiar with the terms in classification and the types of ways we can categorize data as ordinal, nominal and categorical. I've used K-nearest neighbors algorithms, and decision trees in CIS 500 – \"Fundamentals of Software Practice.\"  I recognize I need to more exposure and practice here.\n\nLinear Model Selection and Regularization:\n\nLooking over the section titles of this ISL chapter, I see I have had some practice with dimension reduction using principle component analysis but have not taken the opportunity to apply this methodology outside of a lab exercise.\nAdditionally, as part of your Stat 518 – Statistical Computing and Graphics with R, I deployed bootstrapping methodology in the final project.\n\nMultiple Testing:\n\nI have had exposure to these concepts both professionally, when communicating market research and survey results and academically, particularly in Stat 216. I feel most comfortable with hypothesis testing , understanding type 1 and type 2 errors, and evaluating and explaining p-values.\nI marked this one as aware verses proficient because I feel I need more reinforcement learning in this area."
   }
 ]
