@@ -32,7 +32,7 @@ website:
         text: "pitch"
         menu:
           - text: portfolio pitch
-            url: https://brookemwalters.github.io/Collection/sections/references/references.html
+            url: https://brookemwalters.github.io/Collection/sections/reflections/pitch.html
 
     
     style: "docked"
@@ -51,8 +51,7 @@ website:
             text: "knowledge"
       - href: sections/references/references.qmd
         text: "references"
-      - href: sections/reflections/pitch.qmd
-        text: "work in progress"
+
 
 
   
