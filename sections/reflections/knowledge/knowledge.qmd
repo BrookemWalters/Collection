@@ -43,7 +43,7 @@ I marked items here as proficient because I have had repeated academic exposure 
 
     -   I have a basic understanding of the underlying concepts, assumptions, and techniques involved in linear regression. I have completed assignments and projects that required implementing linear regression and analyzing the results.
 
-        -   For example, in my final project last semester in CIS 631, I conducted an analysis using multiple linear regression. The project focused on evaluating the relationship between crime rates and the presence of cannabis dispensaries while controlling for socioeconomic factors. I collected relevant data, preprocessed it, and applied multiple linear regression to model the relationship. I carefully interpreted the results and drew meaningful conclusions based on statistical significance and the summary of my model's input.
+        -   For example, in my final project last semester in CIS 631, I conducted an analysis using multiple linear regression. The project focused on evaluating the relationship between crime rates and the presence of cannabis dispensaries while controlling for socioeconomic factors. I collected relevant data, preprocessed it, and applied multiple linear regression to model the relationship. I carefully interpreted the results and drew meaningful conclusions based on statistical significance and the summary of my model's output.
 
     -   Overall, my proficiency in linear regression is based on a combination of theoretical knowledge gained through coursework, practical application in projects and assignments, and the ability to critically analyze and interpret the results obtained.
 
@@ -53,7 +53,7 @@ I marked these items as aware because I am familiar with the terms,  but have l
 
 -   **Data Feminism:**
 
-    -   My awareness here derives from a combination of the literature and media I consume, along with principles discussed in PSM 650 -- "Ethical and professionalism" and CIS 63-- "Data Mining".
+    -   My awareness here derives from a combination of the literature and media I consume, along with principles discussed in PSM 650 -- "Ethical and professionalism" and CIS 631-- "Data Mining".
 
     -   I'd like to note that I bought the audiobook version of Data Feminism over Memorial Day. I am finding it easier to digest the philosophy presented in that format. 
 
