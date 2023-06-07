@@ -9,7 +9,7 @@ output:
 
 ## Introduction
 
-The perceived ease of my communications degree was a recurring punchline in my repertoire of self-depreciating jokes. Now studying a quantitative field, I find myself navigating a dichotomy of self-doubt and relentless drive. However, it's time to lean into my liberal arts roots. This complementary combination of skills is my differentiator and is crucial in the data science landscape. After all, what value are analytical insights if they cannot be effectively?
+The perceived ease of my communications degree was a recurring punchline in my repertoire of self-depreciating jokes. Now studying a quantitative field, I find myself navigating a dichotomy of self-doubt and relentless drive. However, it's time to lean into my liberal arts roots. This complementary combination of skills is my differentiator and is crucial in the data science landscape. After all, what value are analytical insights if they cannot be communicated effectively?
 
 For this portfolio I will flex my marketing muscle to demonstrate practical application of statistical modeling and regression in a clear, concise, and visually engaging way.
 
