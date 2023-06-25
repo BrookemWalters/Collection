@@ -7,7 +7,7 @@ execute:
   echo: false
 ---
 
-![*Figure above represents aggregation of my self-assessed level of understanding on concepts presented in "[Introduction to Statistical Learning](https://www.statlearning.com/)" and "[Data Feminism](https://data-feminism.mitpress.mit.edu/)"*.](images/knowledge_stellar.png)
+![*Figure above represents aggregation of my self-assessed level of understanding on concepts presented in "[Introduction to Statistical Learning](https://www.statlearning.com/){target="_blank"}" and "[Data Feminism](https://data-feminism.mitpress.mit.edu/){target="_blank"}"*.](images/knowledge_stellar.png)
 
 ```{r message=FALSE, warning=FALSE,results = "hide"}
 library(tidyverse)

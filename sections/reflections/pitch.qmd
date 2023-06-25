@@ -15,7 +15,7 @@ For this portfolio I will flex my marketing muscle to demonstrate practical appl
 
 ## Elements
 
-My portfolio's "brand theme" is inspired by femininity, philosophy and the art nouveau movement of the early 20^th^ century. Using these styling elements, my goal is to build several mini-interconnected projects utilizing R with a dash of [MySQL](https://services.gvsu.edu/TDClient/60/Portal/KB/?CategoryID=462) .
+My portfolio's "brand theme" is inspired by femininity, philosophy and the art nouveau movement of the early 20^th^ century. Using these styling elements, my goal is to build several mini-interconnected projects utilizing R with a dash of [MySQL](https://services.gvsu.edu/TDClient/60/Portal/KB/?CategoryID=462){target="_blank"} .
 
 The assigned [reflections](https://brookemwalters.github.io/Collection/sections/reflections/reflections_main.html) are incorporated into this site to exercise and refine my writing skills alongside deepening my understanding of statistical modeling. I've chosen to use them as a platform to experiment with less conventional data visualizations, unbound by the professional constraints of my day job; a refreshing departure from the effective, yet monotonous, bar charts and tables that typically dominate the market intelligence reports I produce.
 
@@ -29,10 +29,6 @@ As for a topic, I'm still mulling that one over. I am inspired by the intersecti
 
 potential data sources:
 
--   [County Health Rankings](http://www.countyhealthrankings.org/)
-
--   [Walkability Scores](https://edg.epa.gov/metadata/catalog/main/home.page)
-
--   [National Center for Health Statistics](https://www.cdc.gov/nchs/pressroom/recent-data.htm)
-
-# Goals
+-   [County Health Rankings](http://www.countyhealthrankings.org/){target="_blank"}
+-   [Walkability Scores](https://edg.epa.gov/metadata/catalog/main/home.page){target="_blank"}
+-   [National Center for Health Statistics](https://www.cdc.gov/nchs/pressroom/recent-data.htm){target="_blank"}

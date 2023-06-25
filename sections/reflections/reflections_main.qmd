@@ -3,7 +3,7 @@ title: "collection of reflections"
 ---
 
 ::: {style="display: flex; justify-content: left; flex-direction: column; align-items: left"}
-[<img src="images/positionality-01.png" style="border: 1px solid black;" width="250"/>](https://073308-brooke.shinyapps.io/Positionality/) [![](images/knowledge-05.png){style="border: 1px solid black;" width="251"}](https://brookemwalters.github.io/Collection/sections/reflections/knowledge/knowledge.html)
+[<img src="images/positionality-01.png" style="border: 1px solid black;" width="250"/>](https://073308-brooke.shinyapps.io/Positionality/){target="_blank"} [![](images/knowledge-05.png){style="border: 1px solid black;" width="251"}](https://brookemwalters.github.io/Collection/sections/reflections/knowledge/knowledge.html)
 
 click image to read the reflection
 :::
