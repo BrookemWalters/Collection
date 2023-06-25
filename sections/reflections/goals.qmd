@@ -12,7 +12,7 @@ output:
 
 -   Design a portfolio showcasing key skills sought after in the data science industry, such as SQL, A/B testing, and classification models.
 
--   Bridge the gap between my current resume and market demand, while demonstrating [STAT 618 course objectives](https://dykesb.netlify.app/courses/sta631/#course-objectives){target="_blank"}.\
+-   Bridge the gap between my current resume and market demand, while demonstrating [STAT 631 course objectives](https://dykesb.netlify.app/courses/sta631/#course-objectives){target="_blank"}.\
     \
 
 ### **Project Objectives:**
