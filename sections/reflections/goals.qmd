@@ -10,7 +10,7 @@ output:
 
 ### **Mission:**
 
--   Create a data science portfolio showcasing key skills sought after in the data science industry, such as SQL, A/B Testing, and classification models.
+-   Design a portfolio showcasing key skills sought after in the data science industry, such as SQL, A/B Testing, and classification models.
 
 -   Bridge the gap between my current resume and market demand, while demonstrating STAT 618 course objectives.\
     \
