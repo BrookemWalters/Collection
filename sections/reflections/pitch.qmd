@@ -34,3 +34,5 @@ potential data sources:
 -   [Walkability Scores](https://edg.epa.gov/metadata/catalog/main/home.page)
 
 -   [National Center for Health Statistics](https://www.cdc.gov/nchs/pressroom/recent-data.htm)
+
+# Goals

@@ -1,0 +1,40 @@
+---
+title: "Portfolio Pitch"
+output:
+  html:
+    css: styles.css
+---
+
+![](images/logo_white.png)
+
+# **Goals**
+
+### **Mission:**
+
+-   Create a data science portfolio showcasing key skills sought after in the data science industry, such as SQL, A/B Testing, and classification models
+
+-   Bridge the gap between my current resume and market demand, while demonstrating mastery of STAT 618 course objectives.
+
+**Project Objectives:**
+
+-   Investigate the interplay between walkability and various socio-economic factors within the Greater Grand Rapids Area by leveraging statistical modeling and data analysis techniques.
+
+-   Construct a SQL database integrating historical data from reputable sources including but not limited to:
+
+    -   County Health Rankings
+
+    -   Walkability Scores
+
+    -   National Center for Health Statistics
+
+    -   US Bureau of Labor Statistics
+
+-   Build and evaluate three different predictive models about the impact of a city's walkability on socio-economic parameters. Potential relationships to explore:
+
+    -   Industries Growth Type and Walkability
+
+    -   Walkability Scores and Average Life Expectancy
+
+    -   Income Disparity and Walkability Scores
+
+-   Demonstrate data story telling on Github pages in a concise, easy-to-understand format conforming to 'scannable' UX design principles. The focus will be on translating complex statistical results into business language that appeals to a corporate audience. The portfolio will be designed using Quarto and hosted on GitHub Pages,
