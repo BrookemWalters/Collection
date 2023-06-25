@@ -10,27 +10,29 @@ output:
 
 ### **Mission:**
 
--   Design a portfolio showcasing key skills sought after in the data science industry, such as SQL, A/B Testing, and classification models.
+-   Design a portfolio showcasing key skills sought after in the data science industry, such as SQL, A/B testing, and classification models.
 
--   Bridge the gap between my current resume and market demand, while demonstrating STAT 618 course objectives.\
+-   Bridge the gap between my current resume and market demand, while demonstrating [STAT 618 course objectives](https://dykesb.netlify.app/courses/sta631/#course-objectives){target="_blank"}.\
     \
 
 ### **Project Objectives:**
 
--   Investigate the interplay between a municipality's [walkability index](https://edg.epa.gov/metadata/catalog/search/resource/details.page?uuid=%7B251AFDD9-23A7-4068-9B27-A3048A7E6012%7D){target="_blank"} (promiminty and density of amenities) and various socio-economic factors within the Greater Grand Rapids Area by leveraging statistical modeling and data analysis techniques.
+-   Investigate the interplay between a municipality's [walkability index](https://edg.epa.gov/metadata/catalog/search/resource/details.page?uuid=%7B251AFDD9-23A7-4068-9B27-A3048A7E6012%7D){target="_blank"} (proximity and density of amenities) and various socio-economic factors within the Greater Grand Rapids Area by leveraging statistical modeling and data analysis techniques.
+
+\
 
 -   Construct a SQL database integrating time-series data from reputable sources including but not limited to:
-
     -   [National Center for Health Statistics](https://www.cdc.gov/nchs/pressroom/recent-data.htm){target="_blank"}
     -   [US Bureau of Labor Statistics](https://www.cdc.gov/nchs/pressroom/recent-data.htm){target="_blank"}
     -   [Walkability Scores](https://edg.epa.gov/metadata/catalog/main/home.page;jsessionid=FFF65D9A779A543E6E84CC10BC78B7D3){target="_blank"}
 
 \
 
--   Build and evaluate three different predictive models about the impact of a city's walkability on socio-economic parameters. Potential relationships to explore:
-
+-   Build and evaluate three different predictive models about the impact of a city's walkability on socio-economic parameters. **Potential relationships to explore**:
     -   Industries Growth Type and Walkability
     -   Walkability Scores and Average Life Expectancy
-    -   Income Disparity and Walkability Scores\
+    -   Income Disparity and Walkability Scores
 
--   Demonstrate data storytelling on Github pages in '[scannable](https://uxplanet.org/ux-design-practices-how-to-make-web-interface-scannable-2010125c710e){target="_blank"}' format guided by UX design principles. The focus will be on translating complex statistical results into business language that appeals to a corporate audience. The portfolio will be designed using [Quarto](https://quarto.org/){target="_blank"} and hosted on GitHub pages.
+\
+
+-   Demonstrate data storytelling on Github pages in a '[scannable](https://uxplanet.org/ux-design-practices-how-to-make-web-interface-scannable-2010125c710e){target="_blank"}' format guided by UX design principles. The focus will be on translating complex statistical results into business language that appeals to a corporate audience. The portfolio will be designed using [Quarto](https://quarto.org/){target="_blank"} and hosted on GitHub pages.

@@ -60,11 +60,13 @@ website:
   
 format:
   html:
-    theme:
-      light: Sandstone
+    smooth-scroll: true
+    theme: journal
+    css: styles.css
+    link-external-newwindow: true
     code-background: true
     code-copy: true
-    css: styles.css
+
 
 
 freeze: auto

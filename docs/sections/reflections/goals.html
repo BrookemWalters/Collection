@@ -58,6 +58,7 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "Submit"
   }
 }</script>
+<style>html{ scroll-behavior: smooth; }</style>
 
 
 <link rel="stylesheet" href="../../styles.css">
@@ -165,8 +166,8 @@ ul.task-list li input[type="checkbox"] {
 <section id="mission" class="level3">
 <h3 class="anchored" data-anchor-id="mission"><strong>Mission:</strong></h3>
 <ul>
-<li><p>Design a portfolio showcasing key skills sought after in the data science industry, such as SQL, A/B Testing, and classification models.</p></li>
-<li><p>Bridge the gap between my current resume and market demand, while demonstrating STAT 618 course objectives.<br>
+<li><p>Design a portfolio showcasing key skills sought after in the data science industry, such as SQL, A/B testing, and classification models.</p></li>
+<li><p>Bridge the gap between my current resume and market demand, while demonstrating <a href="https://dykesb.netlify.app/courses/sta631/#course-objectives" target="_blank">STAT 618 course objectives</a>.<br>
 <br>
 </p></li>
 </ul>
@@ -174,8 +175,12 @@ ul.task-list li input[type="checkbox"] {
 <section id="project-objectives" class="level3">
 <h3 class="anchored" data-anchor-id="project-objectives"><strong>Project Objectives:</strong></h3>
 <ul>
-<li><p>Investigate the interplay between a municipality’s <a href="https://edg.epa.gov/metadata/catalog/search/resource/details.page?uuid=%7B251AFDD9-23A7-4068-9B27-A3048A7E6012%7D" target="_blank">walkability index</a> (promiminty and density of amenities) and various socio-economic factors within the Greater Grand Rapids Area by leveraging statistical modeling and data analysis techniques.</p></li>
-<li><p>Construct a SQL database integrating time-series data from reputable sources including but not limited to:</p>
+<li>Investigate the interplay between a municipality’s <a href="https://edg.epa.gov/metadata/catalog/search/resource/details.page?uuid=%7B251AFDD9-23A7-4068-9B27-A3048A7E6012%7D" target="_blank">walkability index</a> (proximity and density of amenities) and various socio-economic factors within the Greater Grand Rapids Area by leveraging statistical modeling and data analysis techniques.</li>
+</ul>
+<p><br>
+</p>
+<ul>
+<li>Construct a SQL database integrating time-series data from reputable sources including but not limited to:
 <ul>
 <li><a href="https://www.cdc.gov/nchs/pressroom/recent-data.htm" target="_blank">National Center for Health Statistics</a></li>
 <li><a href="https://www.cdc.gov/nchs/pressroom/recent-data.htm" target="_blank">US Bureau of Labor Statistics</a></li>
@@ -185,14 +190,17 @@ ul.task-list li input[type="checkbox"] {
 <p><br>
 </p>
 <ul>
-<li><p>Build and evaluate three different predictive models about the impact of a city’s walkability on socio-economic parameters. Potential relationships to explore:</p>
+<li>Build and evaluate three different predictive models about the impact of a city’s walkability on socio-economic parameters. <strong>Potential relationships to explore</strong>:
 <ul>
 <li>Industries Growth Type and Walkability</li>
 <li>Walkability Scores and Average Life Expectancy</li>
-<li>Income Disparity and Walkability Scores<br>
-</li>
+<li>Income Disparity and Walkability Scores</li>
 </ul></li>
-<li><p>Demonstrate data storytelling on Github pages in ‘<a href="https://uxplanet.org/ux-design-practices-how-to-make-web-interface-scannable-2010125c710e" target="_blank">scannable</a>’ format guided by UX design principles. The focus will be on translating complex statistical results into business language that appeals to a corporate audience. The portfolio will be designed using <a href="https://quarto.org/" target="_blank">Quarto</a> and hosted on GitHub pages.</p></li>
+</ul>
+<p><br>
+</p>
+<ul>
+<li>Demonstrate data storytelling on Github pages in a ‘<a href="https://uxplanet.org/ux-design-practices-how-to-make-web-interface-scannable-2010125c710e" target="_blank">scannable</a>’ format guided by UX design principles. The focus will be on translating complex statistical results into business language that appeals to a corporate audience. The portfolio will be designed using <a href="https://quarto.org/" target="_blank">Quarto</a> and hosted on GitHub pages.</li>
 </ul>
 
 
@@ -331,6 +339,20 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       });
     }
   }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp(/https:\/\/brookemwalters\.github\.io\/Collection\//);
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+    var links = window.document.querySelectorAll('a:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+      }
+    }
 });
 </script>
 </div> <!-- /content -->
@@ -342,4 +364,5 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
