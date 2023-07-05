@@ -1,0 +1,66 @@
+---
+title: "Walkability Map"
+format: html
+editor: visual
+---
+
+Import cleaned data from SQL and Census
+
+```{r}
+source("~/gvsu/summer 23/stat 631/portfolio/Website/sections/dataviz/map/import_clean_merge.R")
+```
+
+Map out Walkability Score Across Michigan
+
+```{r}
+#https://bartholomatt.net/posts/census_maps_part2/
+# Making a Better Map Part 2: ggplot and Tigris
+
+wlk_mi%>%
+  ggplot() +
+  geom_sf(aes(fill = NatWalkInd), color = NA) +
+  scale_fill_gradient(low = "white", high = "#3F4D55") +
+  theme_minimal() +
+  labs(title =  "Michigan Walkability",
+       subtitle =  "by census block",
+       fill = "Walkable Index Score")
+```
+
+```{r}
+wlk_gr <-  wlk_mi %>% 
+  filter(CBSA_Name == "Grand Rapids-Kentwood, MI")
+
+
+wlk_gr%>% 
+  ggplot() +
+  geom_sf(aes(fill = NatWalkInd), color = NA) +
+  scale_fill_gradient(low = "white", high = "#3F4D55") +
+  theme_minimal() +
+  labs(title =  "Michigan Walkability",
+       subtitle =  "by census block",
+       fill = "Walkable Index Score")
+```
+
+```{r}
+# Calculate range of longitude (x) and latitude (y)
+xrange <- range(st_coordinates(wlk_gr)[, 1])
+yrange <- range(st_coordinates(wlk_gr)[, 2])
+# Add some margin to the range
+xrange <- xrange + c(-1, 1) * diff(xrange) * 0.15
+yrange <- yrange + c(-1, 1) * diff(yrange) * 0.15
+
+
+# Create the plot
+wlk_gr %>%
+  ggplot() +
+  geom_sf(aes(fill = NatWalkInd), color = NA) +
+  scale_fill_gradient(low = "white", high = "#3F4D55") +
+  coord_sf(xlim = xrange, ylim = yrange) +  # Set the limits of the axes
+  theme_minimal() +
+  theme(panel.grid.major = element_blank(),  # Remove grid lines
+        panel.grid.minor = element_blank()) +
+  labs(title =  "Michigan Walkability",
+       subtitle =  "by census block",
+       fill = "Walkable Index Score")
+
+```

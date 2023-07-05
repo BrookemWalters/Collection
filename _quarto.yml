@@ -45,6 +45,8 @@ website:
         contents:
           - href: sections/dataviz/viz_placeholder.qmd
             text: "Coming Soon"
+          - href: sections/dataviz/viz_placeholder.qmd
+            text: "Coming Soon"
       - section: "reflections"
         contents:
           - href: sections/reflections/reflections_main.qmd

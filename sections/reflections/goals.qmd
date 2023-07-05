@@ -23,7 +23,7 @@ output:
 
 -   Construct a SQL database integrating time-series data from reputable sources including but not limited to:
     -   [National Center for Health Statistics](https://www.cdc.gov/nchs/pressroom/recent-data.htm){target="_blank"}
-    -   [US Bureau of Labor Statistics](https://www.cdc.gov/nchs/pressroom/recent-data.htm){target="_blank"}
+    -   [US Bureau of Labor Statistics](https://www.bls.gov/){target="_blank"}
     -   [Walkability Scores](https://edg.epa.gov/metadata/catalog/main/home.page;jsessionid=FFF65D9A779A543E6E84CC10BC78B7D3){target="_blank"}
 
 \
