@@ -35,4 +35,4 @@ output:
 
 \
 
--   Demonstrate data storytelling a '[scannable](https://uxplanet.org/ux-design-practices-how-to-make-web-interface-scannable-2010125c710e){target="_blank"}' format guided by UX design principles. The focus will be on translating complex statistical results into business language that appeals to a corporate audience. The portfolio will be designed using [Quarto](https://quarto.org/){target="_blank"} and hosted on GitHub pages.
+-   Demonstrate data storytelling in a '[scannable](https://uxplanet.org/ux-design-practices-how-to-make-web-interface-scannable-2010125c710e){target="_blank"}' format guided by UX design principles. The focus will be on translating complex statistical results into business language that appeals to a corporate audience. The portfolio will be designed using [Quarto](https://quarto.org/){target="_blank"} and hosted on GitHub pages.
