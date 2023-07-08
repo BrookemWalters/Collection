@@ -11,6 +11,9 @@ editor: visual
 -   NHS-R Community, "[Plotting interactive visualizations with Plotly in R](https://www.youtube.com/watch?v=WmofiOklux8){target="_blank"}"
 -   Posit, "[Great Looking Tables: gt (v0.2)](https://posit.co/blog/great-looking-tables-gt-0-2/){target="_blank"}"
 -   Alexandre Morin-Chassé, "[The Stellar Chart: An Elegant Alternative to Radar Charts](https://medium.com/nightingale/the-stellar-chart-an-elegant-alternative-to-radar-charts-ae6a6931a28e){target="_blank"}"
+-   Matt Bartholomew, "[The Stellar Chart: An Elegant Alternative to Radar Charts](Making a Better Map ggplot and Tigris){target="_blank"}"
+
+
 
 ## 
 
