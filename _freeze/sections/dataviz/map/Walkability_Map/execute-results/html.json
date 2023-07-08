@@ -1,0 +1,14 @@
+{
+  "hash": "255f106c47d573017168721c0967376e",
+  "result": {
+    "markdown": "---\ntitle: \"Walkability Map\"\nformat: \n  html:\n    code-fold: true\neditor: visual\n---\n\n\n-\\[Explanation of Data\\]\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\n#Map out Walkability Score Across Michigan\n#https://bartholomatt.net/posts/census_maps_part2/\n# Making a Better Map Part 2: ggplot and Tigris\n\nwlk_mi%>%\n  ggplot() +\n  geom_sf(aes(fill = NatWalkInd), color = NA) +\n  scale_fill_gradient(low = \"white\", high = \"#3F4D55\") +\n  theme_minimal() +\n  labs(title =  \"Michigan Walkability\",\n       subtitle =  \"by census block\",\n       fill = \"Walkable Index Score\")\n```\n\n::: {.cell-output-display}\n![](Walkability_Map_files/figure-html/unnamed-chunk-2-1.png){width=672}\n:::\n:::\n\n::: {.cell}\n\n```{.r .cell-code}\nwlk_gr <-  wlk_mi %>% \n  filter(CBSA_Name == \"Grand Rapids-Kentwood, MI\")\n\n\nwlk_gr%>% \n  ggplot() +\n  geom_sf(aes(fill = NatWalkInd), color = NA) +\n  scale_fill_gradient(low = \"white\", high = \"#3F4D55\") +\n  theme_minimal() +\n  labs(title =  \"Michigan Walkability\",\n       subtitle =  \"by census block\",\n       fill = \"Walkable Index Score\")\n```\n\n::: {.cell-output-display}\n![](Walkability_Map_files/figure-html/unnamed-chunk-3-1.png){width=672}\n:::\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

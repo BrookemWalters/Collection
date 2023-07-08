@@ -17,7 +17,10 @@ pacman::p_load(tidyverse,
                osmdata,
                mapview,
                scales,
-               furrr)
+               furrr,
+               sp,
+               geosphere,
+               maps)             
 
 
 #load data from SQLite
@@ -27,14 +30,9 @@ connection <-  dbConnect(
 )
 
 #fetch the walkability table info for michigan
-tbl(connection, "walkable_2021") %>% 
+tbl(connection, "miw_2021") %>% 
   collect() -> wlk_mi 
 
-#filter for michigan
-wlk_mi <- wlk_mi %>% 
-  filter(STATEFP == 26) %>% 
-  select(TRACTCE, COUNTYFP, BLKGRPCE, NatWalkInd, CBSA_Name) %>% 
-  mutate(CTRACT = paste0(COUNTYFP, TRACTCE))
 
 # disconnect from SQL
 dbDisconnect(connection)
@@ -63,5 +61,17 @@ wlk_mi <- mi_sp %>%
 
 #map boudaries
 
+options(tigris_class = "sf")
+mi_counties <- counties(state = 'MI', cb = TRUE)
 
 
+near_kent <- mi_counties %>%
+  filter(COUNTYFP %in% c("005", "015", "045", "067", "081", "107", "037",
+                         "117", "121", "123", "139", "127", "034", "059", "065",
+                         "103", "097"))
+
+
+
+
+wlk_gr <-  wlk_mi %>% 
+  filter(CBSA_Name == "Grand Rapids-Kentwood, MI")

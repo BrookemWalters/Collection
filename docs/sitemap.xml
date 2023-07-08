@@ -2,38 +2,38 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://brookemwalters.github.io/Collection/index.html</loc>
-    <lastmod>2023-06-25T19:21:53.108Z</lastmod>
+    <lastmod>2023-07-08T02:29:55.199Z</lastmod>
   </url>
   <url>
-    <loc>https://brookemwalters.github.io/Collection/sections/dataviz/viz_placeholder.html</loc>
-    <lastmod>2023-06-25T19:21:53.490Z</lastmod>
-  </url>
-  <url>
-    <loc>https://brookemwalters.github.io/Collection/sections/references/references.html</loc>
-    <lastmod>2023-06-25T19:21:53.921Z</lastmod>
-  </url>
-  <url>
-    <loc>https://brookemwalters.github.io/Collection/sections/reflections/goals.html</loc>
-    <lastmod>2023-07-05T01:18:33.211Z</lastmod>
-  </url>
-  <url>
-    <loc>https://brookemwalters.github.io/Collection/sections/reflections/knowledge/knowledge.html</loc>
-    <lastmod>2023-06-25T19:22:21.290Z</lastmod>
-  </url>
-  <url>
-    <loc>https://brookemwalters.github.io/Collection/sections/reflections/pitch.html</loc>
-    <lastmod>2023-06-25T19:21:55.439Z</lastmod>
-  </url>
-  <url>
-    <loc>https://brookemwalters.github.io/Collection/sections/reflections/reflections_main.html</loc>
-    <lastmod>2023-06-25T19:21:55.861Z</lastmod>
+    <loc>https://brookemwalters.github.io/Collection/sections/dataviz/map/map.html</loc>
+    <lastmod>2023-07-08T02:27:48.433Z</lastmod>
   </url>
   <url>
     <loc>https://brookemwalters.github.io/Collection/sections/dataviz/map/Walkability Explore.html</loc>
-    <lastmod>2023-07-05T01:18:02.970Z</lastmod>
+    <lastmod>2023-07-08T01:39:19.256Z</lastmod>
   </url>
   <url>
-    <loc>https://brookemwalters.github.io/Collection/sections/dataviz/map/Walkability Map.html</loc>
-    <lastmod>2023-07-05T01:18:28.919Z</lastmod>
+    <loc>https://brookemwalters.github.io/Collection/sections/dataviz/viz_placeholder.html</loc>
+    <lastmod>2023-07-08T01:39:19.991Z</lastmod>
+  </url>
+  <url>
+    <loc>https://brookemwalters.github.io/Collection/sections/references/references.html</loc>
+    <lastmod>2023-07-08T02:29:22.171Z</lastmod>
+  </url>
+  <url>
+    <loc>https://brookemwalters.github.io/Collection/sections/reflections/goals.html</loc>
+    <lastmod>2023-07-08T01:39:21.675Z</lastmod>
+  </url>
+  <url>
+    <loc>https://brookemwalters.github.io/Collection/sections/reflections/knowledge/knowledge.html</loc>
+    <lastmod>2023-07-08T01:39:23.074Z</lastmod>
+  </url>
+  <url>
+    <loc>https://brookemwalters.github.io/Collection/sections/reflections/pitch.html</loc>
+    <lastmod>2023-07-08T01:39:23.935Z</lastmod>
+  </url>
+  <url>
+    <loc>https://brookemwalters.github.io/Collection/sections/reflections/reflections_main.html</loc>
+    <lastmod>2023-07-08T01:39:24.938Z</lastmod>
   </url>
 </urlset>

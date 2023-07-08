@@ -8,7 +8,8 @@ website:
   site-url: https://brookemwalters.github.io/Collection/
   favicon: "images/logos/favicon2.png"
   open-graph: true
-  
+
+
   repo-url: https://github.com/BrookemWalters/Collection
   repo-actions: [edit, issue]
 
@@ -41,12 +42,12 @@ website:
     search: true
     collapse-level: 1
     contents:
-      - section: "data viz"
+      - section: "projects"
         contents:
           - href: sections/dataviz/viz_placeholder.qmd
-            text: "Coming Soon"
-          - href: sections/dataviz/viz_placeholder.qmd
-            text: "Coming Soon"
+            text: "placeholder"
+          - href: sections/dataviz/map/map.qmd
+            text: "Walkable Cities"
       - section: "reflections"
         contents:
           - href: sections/reflections/reflections_main.qmd
@@ -55,7 +56,6 @@ website:
             text: "knowledge"
       - href: sections/references/references.qmd
         text: "references"
-
 
 
 

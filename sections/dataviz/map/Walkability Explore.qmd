@@ -98,6 +98,3 @@ wlk_county <-  wlk_data %>%
   group_by(COUNTYFP) %>% 
   summarise(county_wlk_index = median(NatWalkInd))
 ```
-
-
-
