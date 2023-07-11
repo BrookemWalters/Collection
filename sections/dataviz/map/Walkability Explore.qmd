@@ -10,7 +10,7 @@ source("~/gvsu/summer 23/stat 631/portfolio/Website/sections/dataviz/map/import_
 
 ```{r}
 wlk_data <-  wlk_mi %>% 
-  select(GEOID, NatWalkInd, COUNTYFP, CBSA_Name, TRACTCE) %>% 
+  select(GEOID.x, NatWalkInd, COUNTYFP, CBSA_Name, TRACTCE) %>% 
   mutate(CTRACT = paste0(COUNTYFP, TRACTCE))
   
 ```
@@ -98,3 +98,9 @@ wlk_county <-  wlk_data %>%
   group_by(COUNTYFP) %>% 
   summarise(county_wlk_index = median(NatWalkInd))
 ```
+
+```{r}
+attach(wlk_data)
+plot(NatWalkInd)
+```
+

@@ -45,9 +45,11 @@ website:
       - section: "projects"
         contents:
           - href: sections/dataviz/viz_placeholder.qmd
-            text: "placeholder"
+            text: "Overview_Draft"
           - href: sections/dataviz/map/map.qmd
-            text: "Walkable Cities"
+            text: "Walkable Cities_Draft"
+          - href: https://brookemwalters.github.io/Nimby_Site/Final%20Report.html
+            text: "Crime in Coloardo"
       - section: "reflections"
         contents:
           - href: sections/reflections/reflections_main.qmd
