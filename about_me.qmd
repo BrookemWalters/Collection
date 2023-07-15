@@ -1,13 +1,13 @@
 ---
 title: "Brooke Walters"
-image: /images/me.png
+image: "images/me.png"
 about:
   template: trestles
   links:
     - text: Email
       url: "mailto:brooke.melissa.walters.@gmail.com"
     - text: Resume
-      url: "BrookeWalters_DataScientist.pdf"
+      url: "https://github.com/BrookemWalters/Collection/blob/main/BrookeWalters%20_DataScientist.pdf"
 comments: false
 ---
 
