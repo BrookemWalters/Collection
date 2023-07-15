@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://brookemwalters.github.io/Collection/about_me.html</loc>
+    <lastmod>2023-07-15T05:22:30.777Z</lastmod>
+  </url>
+  <url>
     <loc>https://brookemwalters.github.io/Collection/index.html</loc>
-    <lastmod>2023-07-08T02:32:28.556Z</lastmod>
+    <lastmod>2023-07-15T05:21:39.765Z</lastmod>
   </url>
   <url>
     <loc>https://brookemwalters.github.io/Collection/sections/dataviz/map/map.html</loc>
-    <lastmod>2023-07-08T02:27:48.433Z</lastmod>
-  </url>
-  <url>
-    <loc>https://brookemwalters.github.io/Collection/sections/dataviz/map/Walkability Explore.html</loc>
-    <lastmod>2023-07-08T01:39:19.256Z</lastmod>
+    <lastmod>2023-07-15T05:21:41.015Z</lastmod>
   </url>
   <url>
     <loc>https://brookemwalters.github.io/Collection/sections/dataviz/viz_placeholder.html</loc>
-    <lastmod>2023-07-08T01:39:19.991Z</lastmod>
+    <lastmod>2023-07-15T05:21:41.698Z</lastmod>
   </url>
   <url>
     <loc>https://brookemwalters.github.io/Collection/sections/references/references.html</loc>
-    <lastmod>2023-07-08T02:39:25.702Z</lastmod>
+    <lastmod>2023-07-15T05:22:35.761Z</lastmod>
   </url>
   <url>
     <loc>https://brookemwalters.github.io/Collection/sections/reflections/goals.html</loc>
-    <lastmod>2023-07-08T01:39:21.675Z</lastmod>
+    <lastmod>2023-07-15T05:21:43.130Z</lastmod>
   </url>
   <url>
     <loc>https://brookemwalters.github.io/Collection/sections/reflections/knowledge/knowledge.html</loc>
-    <lastmod>2023-07-08T01:39:23.074Z</lastmod>
+    <lastmod>2023-07-15T05:22:41.324Z</lastmod>
   </url>
   <url>
     <loc>https://brookemwalters.github.io/Collection/sections/reflections/pitch.html</loc>
-    <lastmod>2023-07-08T01:39:23.935Z</lastmod>
+    <lastmod>2023-07-15T05:21:45.057Z</lastmod>
   </url>
   <url>
     <loc>https://brookemwalters.github.io/Collection/sections/reflections/reflections_main.html</loc>
-    <lastmod>2023-07-08T01:39:24.938Z</lastmod>
+    <lastmod>2023-07-15T05:21:45.756Z</lastmod>
   </url>
 </urlset>

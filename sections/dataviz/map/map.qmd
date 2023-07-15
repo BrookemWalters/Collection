@@ -22,7 +22,7 @@ The Grand Rapids metropolitan area is part of the [Great Lakes Megalopolis](http
 
 ```{r include=FALSE}
 #Import cleaned data from SQL and Census
-source("~/gvsu/summer 23/stat 631/portfolio/Website/sections/dataviz/map/import_clean_merge.R")
+source("~/gvsu/summer 23/stat 631/Collection/sections/dataviz/map/import_clean_merge.R")
 ```
 
 ```{r include=FALSE}
@@ -118,7 +118,8 @@ gr_map <- ggplot() +
   #add roads
   geom_sf(data = roads_data, color = 'white', aes(geometry = geometry))
 
-
+wlk_gr <-  wlk_mi %>% 
+  filter(CBSA_Name == "Grand Rapids-Kentwood, MI")
 # creates coordinates around the geographic area for a zoomed in map!
 limits = st_bbox(wlk_gr$geometry)
 limits
@@ -133,11 +134,11 @@ gr_map = gr_map +
   theme(legend.justification = c(0,0), legend.position = c(0.1,0.1)) + 
   scale_fill_gradient(low = '#F1FCAE', high = '#184F50')
 
-#super proud of my map :-)
+
 ```
 
 ```{r echo=FALSE}
-
+gr_map 
 # Gr and it's immediate suburbs
 # cenus blocks 06:19
 ```

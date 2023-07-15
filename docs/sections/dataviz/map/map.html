@@ -115,7 +115,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../sections/dataviz/viz_placeholder.html">projects</a></li><li class="breadcrumb-item"><a href="../../../sections/dataviz/map/map.html">Walkable Cities</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../sections/dataviz/viz_placeholder.html">projects</a></li><li class="breadcrumb-item"><a href="../../../sections/dataviz/map/map.html">Walkable Cities_Draft</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -171,13 +171,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../sections/dataviz/viz_placeholder.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">placeholder</span></a>
+ <span class="menu-text">Overview_Draft</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../sections/dataviz/map/map.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Walkable Cities</span></a>
+ <span class="menu-text">Walkable Cities_Draft</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://brookemwalters.github.io/Nimby_Site/Final%20Report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Crime in Coloardo</span></a>
   </div>
 </li>
       </ul>
@@ -244,6 +250,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="the-walkability-index">The Walkability Index:</h3>
 <p>“dataset characterizes every Census 2019 block group in the U.S. based on upon characteristics of the built environment that influence the likelihood of walking being used as a mode of travel.<br>
 </p>
+</section>
+</section>
+<section id="geography" class="level2">
+<h2 class="anchored" data-anchor-id="geography">Geography</h2>
+<p>“The <strong>Grand Rapids – Kentwood – Muskegon Combined Statistical Area</strong> is the 2nd largest <a href="https://en.wikipedia.org/wiki/Combined_statistical_area" title="Combined statistical area">CSA</a> in the <a href="https://en.wikipedia.org/wiki/U.S._state" title="U.S. state">U.S. state</a> of <a href="https://en.wikipedia.org/wiki/Michigan" title="Michigan">Michigan</a> (behind <a href="https://en.wikipedia.org/wiki/Metro_Detroit" title="Metro Detroit">Metro Detroit</a>). The CSA had a population of 1,320,064 at the 2010 census. The primary cultural and financial centers of the region are <a href="https://en.wikipedia.org/wiki/Grand_Rapids,_Michigan" title="Grand Rapids, Michigan">Grand Rapids</a>, <a href="https://en.wikipedia.org/wiki/Muskegon,_Michigan" title="Muskegon, Michigan">Muskegon</a> and <a href="https://en.wikipedia.org/wiki/Holland,_Michigan" title="Holland, Michigan">Holland</a>. It includes the four counties in the Grand Rapids-Kentwood MSA plus one <a href="https://en.wikipedia.org/wiki/United_States_metropolitan_area">metropolitan area</a>, adding the Muskegon, MI MSA of <a href="https://en.wikipedia.org/wiki/Muskegon_County,_Michigan" title="Muskegon County, Michigan">Muskegon County</a>, and two <a href="https://en.wikipedia.org/wiki/United_States_micropolitan_area" title="United States micropolitan area">micropolitan areas</a> of Holland of <a href="https://en.wikipedia.org/wiki/Allegan_County" title="Allegan County">Allegan County</a>, and Big Rapids of <a href="https://en.wikipedia.org/wiki/Mecosta_County" title="Mecosta County">Mecosta County</a> for a total of seven counties.</p>
+<p>The Grand Rapids metropolitan area is part of the <a href="https://en.wikipedia.org/wiki/Great_Lakes_Megalopolis" title="Great Lakes Megalopolis">Great Lakes Megalopolis</a> containing an estimated 54 million people.”</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
@@ -283,22 +295,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  <span class="co">#add roads</span></span>
 <span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> roads_data, <span class="at">color =</span> <span class="st">'white'</span>, <span class="fu">aes</span>(<span class="at">geometry =</span> geometry))</span>
 <span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co"># creates coordinates around the geographic area for a zoomed in map!</span></span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>limits <span class="ot">=</span> <span class="fu">st_bbox</span>(wlk_gr<span class="sc">$</span>geometry)</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>limits</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>gr_map <span class="ot">=</span> gr_map <span class="sc">+</span> </span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="fu">as.numeric</span>(limits<span class="sc">$</span>xmin),<span class="fu">as.numeric</span>(limits<span class="sc">$</span>xmax)), </span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>           <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fu">as.numeric</span>(limits<span class="sc">$</span>ymin),<span class="fu">as.numeric</span>(limits<span class="sc">$</span>ymax))) <span class="sc">+</span></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill =</span> <span class="st">'Walkability Index'</span>,</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span>  <span class="st">"Walkability in the Greater Grand Rapids Area"</span>,</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">"Source: 'The Walkability Index' | US Environmental Protection Agency"</span>) <span class="sc">+</span> </span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>  <span class="co"># move legend to bottom left</span></span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.justification =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.1</span>,<span class="fl">0.1</span>)) <span class="sc">+</span> </span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">'#F1FCAE'</span>, <span class="at">high =</span> <span class="st">'#184F50'</span>)</span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="co">#super proud of my map :-)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>wlk_gr <span class="ot">&lt;-</span>  wlk_mi <span class="sc">%&gt;%</span> </span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(CBSA_Name <span class="sc">==</span> <span class="st">"Grand Rapids-Kentwood, MI"</span>)</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co"># creates coordinates around the geographic area for a zoomed in map!</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>limits <span class="ot">=</span> <span class="fu">st_bbox</span>(wlk_gr<span class="sc">$</span>geometry)</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>limits</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>gr_map <span class="ot">=</span> gr_map <span class="sc">+</span> </span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="fu">as.numeric</span>(limits<span class="sc">$</span>xmin),<span class="fu">as.numeric</span>(limits<span class="sc">$</span>xmax)), </span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>           <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fu">as.numeric</span>(limits<span class="sc">$</span>ymin),<span class="fu">as.numeric</span>(limits<span class="sc">$</span>ymax))) <span class="sc">+</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill =</span> <span class="st">'Walkability Index'</span>,</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span>  <span class="st">"Walkability in the Greater Grand Rapids Area"</span>,</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">"Source: 'The Walkability Index' | US Environmental Protection Agency"</span>) <span class="sc">+</span> </span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>  <span class="co"># move legend to bottom left</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.justification =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>), <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.1</span>,<span class="fl">0.1</span>)) <span class="sc">+</span> </span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">'#F1FCAE'</span>, <span class="at">high =</span> <span class="st">'#184F50'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
@@ -310,7 +321,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h6 class="anchored" data-anchor-id="inspired-by-matt-bartholomews-making-a-better-map-ggplot-and-tigris">inspired by Matt Bartholomew’s “<a href="https://bartholomatt.net/posts/census_maps_part2/">Making a Better Map</a>, ggplot and Tigris”</h6>
 
 
-</section>
 </section>
 </section>
 
@@ -565,7 +575,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../../../sections/dataviz/viz_placeholder.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">placeholder</span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Overview_Draft</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

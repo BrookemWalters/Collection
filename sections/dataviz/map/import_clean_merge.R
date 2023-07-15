@@ -24,7 +24,7 @@ pacman::p_load(tidyverse,
 #load data from SQLite
 connection <-  dbConnect(
   drv = SQLite(),
-  dbname = "~/gvsu/summer 23/stat 631/portfolio/database/City_Data.db"
+  dbname = "~/gvsu/summer 23/stat 631/database/City_Data.db"
 )
 
 #fetch the walkability table info for michigan
@@ -59,6 +59,19 @@ wlk_mi$BLKGRPCE <- as.character(wlk_mi$BLKGRPCE)
 # Join the datasets
 wlk_mi <- mi_sp %>%
   left_join(wlk_mi, by = c("TRACTCE", "COUNTYFP", "BLKGRPCE"))
+
+
+
+options(tigris_class = "sf")
+mi_counties <- counties(state = 'MI', cb = TRUE)
+
+near_kent <- mi_counties %>%
+  filter(COUNTYFP %in% c("005", "015", "045", "067", "081", "107", "037",
+                         "117", "121", "123", "139", "127", "034", "059", "065",
+                         "103", "097"))
+
+wlk_gr <-  wlk_mi %>% 
+  filter(CBSA_Name == "Grand Rapids-Kentwood, MI")
 
 #https://medium.com/@nick-kobel/how-to-make-a-social-vulnerability-web-map-part-2-54295ff7e0d
 

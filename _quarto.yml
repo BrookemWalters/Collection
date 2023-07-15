@@ -32,6 +32,8 @@ website:
       - icon: person-fill
         text: "pitch"
         menu:
+          - text: about me
+            href: about_me.qmd
           - text: portfolio pitch
             href: sections/reflections/pitch.qmd
           - text: portfolio goals
