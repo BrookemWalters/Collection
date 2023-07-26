@@ -16,23 +16,23 @@
   {
     "objectID": "sections/dataviz/map/map.html",
     "href": "sections/dataviz/map/map.html",
-    "title": "Map making",
+    "title": "Can a city’s walkability score predict it’s future?",
     "section": "",
-    "text": "[insert visual aid]"
+    "text": "“dataset characterizes every Census 2019 block group in the U.S. based on upon characteristics of the built environment that influence the likelihood of walking being used as a mode of travel."
   },
   {
     "objectID": "sections/dataviz/map/map.html#overview-of-data",
     "href": "sections/dataviz/map/map.html#overview-of-data",
-    "title": "Map making",
-    "section": "Overview of data",
-    "text": "Overview of data\n\nThe Walkability Index:\n“dataset characterizes every Census 2019 block group in the U.S. based on upon characteristics of the built environment that influence the likelihood of walking being used as a mode of travel."
+    "title": "Can a city’s walkability score predict it’s future?",
+    "section": "",
+    "text": "“dataset characterizes every Census 2019 block group in the U.S. based on upon characteristics of the built environment that influence the likelihood of walking being used as a mode of travel."
   },
   {
     "objectID": "sections/dataviz/map/map.html#geography",
     "href": "sections/dataviz/map/map.html#geography",
-    "title": "Map making",
+    "title": "Can a city’s walkability score predict it’s future?",
     "section": "Geography",
-    "text": "Geography\n“The Grand Rapids – Kentwood – Muskegon Combined Statistical Area is the 2nd largest CSA in the U.S. state of Michigan (behind Metro Detroit). The CSA had a population of 1,320,064 at the 2010 census. The primary cultural and financial centers of the region are Grand Rapids, Muskegon and Holland. It includes the four counties in the Grand Rapids-Kentwood MSA plus one metropolitan area, adding the Muskegon, MI MSA of Muskegon County, and two micropolitan areas of Holland of Allegan County, and Big Rapids of Mecosta County for a total of seven counties.\nThe Grand Rapids metropolitan area is part of the Great Lakes Megalopolis containing an estimated 54 million people.”\n\n\nCode\n#import cleaned data\n#Import cleaned data from SQL and Census\n# source(\"~/map/import_clean_merge.R\")\n\n# map areas\nmy_state &lt;-  'MI'\nmy_county &lt;-  c(\"Kent\", \"Ottawa\", \"Allegan\", \"Barry\", \"Eaton\", \"Oceana\", \n                \"Barry\", \"Muskegon\", \"Newaygo\", \"Ionia\", \"Montcalm\", \"Mecosta\",\n                \"Ingham\", \"Gratiot\", \"Clinton\", \"Isabella\")\n\nroads_data &lt;-  primary_secondary_roads(my_state) %&gt;% \n  filter(RTTYP %in% c('U','S','I')) #this will limit the roads to just highways. \n\nlandmass_data &lt;-  counties(cb = TRUE, state = my_state) %&gt;%\n  filter(NAME %in% my_county)\n\nwater_data &lt;-  area_water(my_state, my_county)\n\n# Ensure the CRS for all objects are the same before performing spatial operations\nmap_area &lt;-  st_crs(near_kent)\n\nroads_data &lt;- st_transform(roads_data, map_area)\nlandmass_data &lt;- st_transform(landmass_data, map_area)\nwater_data &lt;- st_transform(water_data, map_area)\n\ngr_map &lt;- ggplot() +\n  theme_void()  + #whiteout\n  # blank gray map\n  geom_sf(data = landmass_data, fill = '#e6e6e6', color = NA,aes(geometry = geometry))+\n  #add walkability scores\n  geom_sf(data = wlk_gr, color = NA, aes(geometry = geometry, fill = NatWalkInd))+\n  #add water\n  geom_sf(data = water_data, fill = '#cce6ff',color = NA, aes(geometry = geometry)) +\n  #add roads\n  geom_sf(data = roads_data, color = 'white', aes(geometry = geometry))\n\nwlk_gr &lt;-  wlk_mi %&gt;% \n  filter(CBSA_Name == \"Grand Rapids-Kentwood, MI\")\n# creates coordinates around the geographic area for a zoomed in map!\nlimits = st_bbox(wlk_gr$geometry)\nlimits\n\ngr_map = gr_map + \n  coord_sf(xlim = c(as.numeric(limits$xmin),as.numeric(limits$xmax)), \n           ylim = c(as.numeric(limits$ymin),as.numeric(limits$ymax))) +\n  labs(fill = 'Walkability Index',\n  title =  \"Walkability in the Greater Grand Rapids Area\",\n  caption = \"Source: 'The Walkability Index' | US Environmental Protection Agency\") + \n  # move legend to bottom left\n  theme(legend.justification = c(0,0), legend.position = c(0.1,0.1)) + \n  scale_fill_gradient(low = '#F1FCAE', high = '#184F50')\n\n\n\n\n\n\n\n\ninspired by Matt Bartholomew’s “Making a Better Map, ggplot and Tigris”"
+    "text": "Geography\n“The Grand Rapids – Kentwood – Muskegon Combined Statistical Area is the 2nd largest CSA in the U.S. state of Michigan (behind Metro Detroit). The CSA had a population of 1,320,064 at the 2010 census. The primary cultural and financial centers of the region are Grand Rapids, Muskegon and Holland. It includes the four counties in the Grand Rapids-Kentwood MSA plus one metropolitan area, adding the Muskegon, MI MSA of Muskegon County, and two micropolitan areas of Holland of Allegan County, and Big Rapids of Mecosta County for a total of seven counties.\nThe Grand Rapids metropolitan area is part of the Great Lakes Megalopolis containing an estimated 54 million people.”\n\ninspired by Matt Bartholomew’s “Making a Better Map, ggplot and Tigris”"
   },
   {
     "objectID": "sections/dataviz/viz_placeholder.html",
@@ -110,5 +110,26 @@
     "title": "collection of reflections",
     "section": "",
     "text": "click image to read the reflection"
+  },
+  {
+    "objectID": "sections/dataviz/map/wlkmod1.html",
+    "href": "sections/dataviz/map/wlkmod1.html",
+    "title": "Can a city’s walkability score predict it’s future?",
+    "section": "",
+    "text": "“dataset characterizes every Census 2019 block group in the U.S. based on upon characteristics of the built environment that influence the likelihood of walking being used as a mode of travel."
+  },
+  {
+    "objectID": "sections/dataviz/map/wlkmod1.html#overview-of-data",
+    "href": "sections/dataviz/map/wlkmod1.html#overview-of-data",
+    "title": "Can a city’s walkability score predict it’s future?",
+    "section": "Overview of data",
+    "text": "Overview of data\n\nThe Walkability Index:\n“dataset characterizes every Census 2019 block group in the U.S. based on upon characteristics of the built environment that influence the likelihood of walking being used as a mode of travel."
+  },
+  {
+    "objectID": "sections/dataviz/map/wlkmod1.html#geography",
+    "href": "sections/dataviz/map/wlkmod1.html#geography",
+    "title": "Can a city’s walkability score predict it’s future?",
+    "section": "Geography",
+    "text": "Geography\n“The Grand Rapids – Kentwood – Muskegon Combined Statistical Area is the 2nd largest CSA in the U.S. state of Michigan (behind Metro Detroit). The CSA had a population of 1,320,064 at the 2010 census. The primary cultural and financial centers of the region are Grand Rapids, Muskegon and Holland. It includes the four counties in the Grand Rapids-Kentwood MSA plus one metropolitan area, adding the Muskegon, MI MSA of Muskegon County, and two micropolitan areas of Holland of Allegan County, and Big Rapids of Mecosta County for a total of seven counties.\nThe Grand Rapids metropolitan area is part of the Great Lakes Megalopolis containing an estimated 54 million people.”\n\ninspired by Matt Bartholomew’s “Making a Better Map, ggplot and Tigris”"
   }
 ]

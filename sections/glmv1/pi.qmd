@@ -1,0 +1,194 @@
+---
+title: "Predicting Inventory"
+format: html
+editor: visual
+---
+
+Import Libraries
+
+```{r}
+if (!require("pacman")) {
+  install.packages("pacman")
+  library("pacman")
+}
+
+# Use p_load() to install (if necessary) and load  packages
+pacman::p_load(tidyverse,
+               tidymodels,
+               leaps,
+               GGall,
+               corrplot) # for subset selection
+```
+
+```{r}
+setwd("~/gvsu/summer 23/stat 631/Collection/sections/glmv1")
+inventory1 <-  read.csv("inventory.csv")
+```
+
+make new variable for 6 week sales periods
+
+```{r}
+inventory <-  inventory1 %>% 
+  mutate(sales_period = cut(week, breaks = seq(0, 54, 9), labels = FALSE, include.lowest = TRUE))
+```
+
+```{r}
+# Calculate total sales for each item in each chunk -->
+inventory <- inventory %>%
+group_by(item_no, sales_period) %>%
+summarise(sold = sum(sold, na.rm = TRUE), .groups = "drop") 
+```
+
+```{r}
+# Calculate the yearly total for each item
+inventory_sum <- inventory %>%
+  group_by(item_no) %>%
+  summarise(year_total = sum(sold), .groups = "drop")
+
+# Join this back to the original data frame
+inventory <- left_join(inventory, inventory_sum, by = c("item_no"))
+
+```
+
+```{r}
+inventory <- inventory %>% 
+  mutate(share_of_year = round((sold/year_total) * 100, 1))
+
+```
+
+```{r}
+inventory %>% 
+  ggplot(aes(x = share_of_year)) +
+  geom_histogram( bins = 30)
+```
+
+```{r}
+inventory <- inventory %>% 
+  mutate(only_season = ifelse(share_of_year >= 90, 1, 0))
+```
+
+```{r}
+inventory <- inventory %>% 
+  mutate(in_season = ifelse(share_of_year >= 60, 1, 0))
+
+```
+
+```{r}
+inventory <- inventory %>%
+  group_by(item_no) %>%
+  mutate(year_round = ifelse(all(share_of_year <= 25), 1, 0))
+```
+
+best sellers
+
+```{r}
+# Calculate the top 10% threshold
+top_10_threshold <- quantile(inventory$year_total, 0.9)
+
+# Create the 'hv_product' column
+inventory <- inventory %>% 
+  mutate(best_seller = ifelse(year_total >= top_10_threshold, 1, 0))
+```
+
+```{r}
+# did sales go up from the last sales period?
+inventory <- inventory %>%
+  group_by(item_no) %>%
+  mutate(up = ifelse(sold > lag(sold, default = first(sold)), 1, 0))
+```
+
+```{r}
+inventory <-  inventory %>% 
+  select(-year_total)
+```
+
+tips make sure all of the weeks are in the training data set test the model on one inventory item try a few different models
+
+Look at the time with the most sales High-sales items often have more data points available, which can lead to better model training and evaluation. More data allows the model to learn patterns and trends more effectively
+
+```{r}
+best_sold <-  inventory %>% 
+  filter(best_seller == 1) %>% 
+  select(-share_of_year, -best_seller, - only_season)
+```
+
+```{r}
+# Identify non-numeric columns
+non_numeric_cols <- sapply(best_sold, FUN = function(col) !is.numeric(col))
+
+# Print non-numeric column names
+cat("Non-numeric columns:\n")
+print(names(best_sold)[non_numeric_cols])
+
+# Exclude non-numeric columns
+best_sold_numeric <- best_sold[, !non_numeric_cols]
+
+# Compute correlation matrix
+correlation_matrix <- cor(best_sold_numeric, use = "complete.obs")
+
+corrplot(correlation_matrix, method = "color")
+correlation_matrix
+```
+
+```{r}
+best_sold %>%
+  ggplot(aes(y = sold, x = sales_period, group = sales_period)) +
+  geom_boxplot()
+
+
+```
+
+regsubsets runs through many methods
+
+```{r}
+#https://www.youtube.com/watch?v=IScjygOnO0w
+# try to predict sold based on all of the variables
+set.seed(3736)
+best_model <- regsubsets(sold ~ ., data = best_sold, really.big = TRUE, nbest=5, nvmax = 5, method = "backward")
+best_summary <-  with(summary(best_model), data.frame(rsq, adjr2, cp, rss, outmat))
+best_summary
+
+```
+
+tips from the book Subset Selection Choosing the Optimal Mode The AIC criterion is defined for models fit by maximum likelihood.
+
+"To perform best subset selection, we fit a separate least squares regression best subset selection for each possible combination of the p predictors."
+
+feature selection
+
+what;s coorelated
+
+```{r}
+set.seed(3736)
+# forward Stepwise Selection
+# nvmax = 8 specifies the maximum number of predictors to incorporate in the model.
+forward_step <- regsubsets(sold ~ ., data = inventory1, nvmax = 8, method = "forward")
+forward_step_summary <- summary(forward_step)
+
+# Print summary
+forward_step_summary
+
+```
+
+next step is to interpret the results
+
+```{r}
+# Extract the summary of the model
+inventory_reg_summary <- summary(inventory_reg)
+
+# Get the R-squared values
+rsq <- inventory_reg_summary$rsq
+
+# Get the number of predictors
+num_predictors <- 1:length(rsq)
+
+# Plot the R-squared values against the number of predictors
+plot(num_predictors, rsq, type = "b",
+     xlab = "Number of Predictors",
+     ylab = "R-squared",
+     main = "R-squared vs. Number of Predictors")
+
+```
+
+https://www.youtube.com/watch?v=6HCJGYYCPR0
+

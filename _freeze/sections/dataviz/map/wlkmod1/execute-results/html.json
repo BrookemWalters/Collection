@@ -1,0 +1,14 @@
+{
+  "hash": "3fc994ecc5624e3ebaa6a70fc6ad36f7",
+  "result": {
+    "markdown": "---\ntitle: \"Can a city's walkability score predict it's future?\"\nformat: \n  html:\n    code-fold: true\neditor: visual\n---\n\n::: {.cell .column-screen}\n\n:::\n\n\n## Overview of data\n\n### The Walkability Index:\n\n\"dataset characterizes every Census 2019 block group in the U.S. based on upon characteristics of the built environment that influence the likelihood of walking being used as a mode of travel.\\\n\n## Geography\n\n\"The **Grand Rapids -- Kentwood -- Muskegon Combined Statistical Area** is the 2nd largest [CSA](https://en.wikipedia.org/wiki/Combined_statistical_area \"Combined statistical area\") in the [U.S. state](https://en.wikipedia.org/wiki/U.S._state \"U.S. state\") of [Michigan](https://en.wikipedia.org/wiki/Michigan \"Michigan\") (behind [Metro Detroit](https://en.wikipedia.org/wiki/Metro_Detroit \"Metro Detroit\")). The CSA had a population of 1,320,064 at the 2010 census. The primary cultural and financial centers of the region are [Grand Rapids](https://en.wikipedia.org/wiki/Grand_Rapids,_Michigan \"Grand Rapids, Michigan\"), [Muskegon](https://en.wikipedia.org/wiki/Muskegon,_Michigan \"Muskegon, Michigan\") and [Holland](https://en.wikipedia.org/wiki/Holland,_Michigan \"Holland, Michigan\"). It includes the four counties in the Grand Rapids-Kentwood MSA plus one [metropolitan area](https://en.wikipedia.org/wiki/United_States_metropolitan_area), adding the Muskegon, MI MSA of [Muskegon County](https://en.wikipedia.org/wiki/Muskegon_County,_Michigan \"Muskegon County, Michigan\"), and two [micropolitan areas](https://en.wikipedia.org/wiki/United_States_micropolitan_area \"United States micropolitan area\") of Holland of [Allegan County](https://en.wikipedia.org/wiki/Allegan_County \"Allegan County\"), and Big Rapids of [Mecosta County](https://en.wikipedia.org/wiki/Mecosta_County \"Mecosta County\") for a total of seven counties.\n\nThe Grand Rapids metropolitan area is part of the [Great Lakes Megalopolis](https://en.wikipedia.org/wiki/Great_Lakes_Megalopolis \"Great Lakes Megalopolis\") containing an estimated 54 million people.\"\n\n###### inspired by Matt Bartholomew's \"[Making a Better Map](https://bartholomatt.net/posts/census_maps_part2/), ggplot and Tigris\"\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
