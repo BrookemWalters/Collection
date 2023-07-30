@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Brooke Walter’s Portfolio - Predicting Inventory</title>
+<title>Brooke Walter’s Portfolio - inventory prediction</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -98,9 +98,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <link rel="stylesheet" href="../../styles.css">
-<meta property="og:title" content="Brooke Walter’s Portfolio - Predicting Inventory">
+<meta property="og:title" content="Brooke Walter’s Portfolio - inventory prediction">
 <meta property="og:description" content="">
-<meta property="og:image" content="https://brookemwalters.github.io/Collection/sections/glmv1/pi_files/figure-html/unnamed-chunk-7-1.png">
+<meta property="og:image" content="https://brookemwalters.github.io/Collection/sections/glmv1/pi_files/figure-html/unnamed-chunk-6-1.png">
 <meta property="og:site-name" content="Brooke Walter's Portfolio">
 <meta property="og:image:height" content="960">
 <meta property="og:image:width" content="1344">
@@ -233,7 +233,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Predicting Inventory</h1>
+<h1 class="title">inventory prediction</h1>
 </div>
 
 
@@ -248,1122 +248,220 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>Import Libraries</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"pacman"</span>)) {</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="st">"pacman"</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(<span class="st">"pacman"</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import data</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>sai <span class="ot">&lt;-</span>  <span class="fu">read.csv</span>(<span class="st">"inventory.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: pacman</code></pre>
 </div>
+<p>DRAFT DRAFT OUTLINE</p>
+<section id="clear-description-of-data" class="level2">
+<h2 class="anchored" data-anchor-id="clear-description-of-data">Clear Description of Data:</h2>
+<p>Start by providing a comprehensive summary of the dataset. This includes source information, timeframe, and the main purpose for collection. Each variable should be properly named and described. This could be presented in the form of a data dictionary.</p>
+<p>[insert]</p>
+</section>
+<section id="statistical-summary" class="level2">
+<h2 class="anchored" data-anchor-id="statistical-summary">Statistical Summary:</h2>
+<p>Provide a statistical summary of the variables. This includes measures of central tendency (mean, median, mode), dispersion (range, standard deviation, variance), and distribution properties (skewness, kurtosis). This could be supplemented with summary tables and histograms.</p>
+<p>[insert]</p>
+</section>
+<section id="visual-exploration" class="level2">
+<h2 class="anchored" data-anchor-id="visual-exploration">Visual Exploration:</h2>
+<p>Use visualizations to give an overview of the data. Histograms, box plots, scatter plots, or correlation heatmaps can be used to show relationships and trends within the data..</p>
+<p>[insert]</p>
+</section>
+<section id="initial-insights" class="level2">
+<h2 class="anchored" data-anchor-id="initial-insights">Initial Insights:</h2>
+<p>Start by providing a comprehensive summary of the dataset. This includes source information, timeframe, and the main purpose for collection. Each variable should be properly named and described. This could be presented in the form of a data dictionary.</p>
+<p>[insert]</p>
+</section>
+<section id="feature-engineering" class="level1">
+<h1>Feature engineering</h1>
+<p>(link to data dictionary)</p>
+<ul>
+<li>totals for each item over the year</li>
+<li>which items are best selling? top ten items based on volume</li>
+<li>convert weeks to dates so we can extract the month</li>
+<li>lag period for seasonality</li>
+<li>rolling mean</li>
+</ul>
+<div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use p_load() to install (if necessary) and load  packages</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse,</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>               tidymodels,</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>               leaps,</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>               GGall,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>               corrplot) <span class="co"># for subset selection</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># total yearly sales for each item</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>inventory_sum <span class="ot">&lt;-</span> sai <span class="sc">%&gt;%</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(item_no) <span class="sc">%&gt;%</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">year_total =</span> <span class="fu">sum</span>(sold), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>sai <span class="ot">&lt;-</span> <span class="fu">left_join</span>(sai, inventory_sum, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"item_no"</span>))</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="do">###</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate the top 10% threshold</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>top_10_threshold <span class="ot">&lt;-</span> <span class="fu">quantile</span>(sai<span class="sc">$</span>year_total, <span class="fl">0.9</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># dummy variable for bestsellers 1= yes 0 = no</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>sai <span class="ot">&lt;-</span> sai <span class="sc">%&gt;%</span> </span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">best_seller =</span> <span class="fu">ifelse</span>(year_total <span class="sc">&gt;=</span> top_10_threshold, <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="do">### figure out month an year for data, assuming the data is from  2022</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co">#week 0: December 27, 2021 - January 2, 2022</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co">#week 52: December 19, 2022 - December 25, 2022</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co">#week 53: December 26, 2022 - January 1, 2023</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>sai<span class="sc">$</span>year <span class="ot">&lt;-</span> <span class="dv">2022</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co"># find the year the week ends in, so we can figure out months</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>sai <span class="ot">&lt;-</span> sai <span class="sc">%&gt;%</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">wk_ending_year =</span> <span class="fu">ifelse</span>(week <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">53</span>), year <span class="sc">+</span> <span class="dv">1</span>, year),</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>         <span class="at">week =</span> <span class="fu">ifelse</span>(week <span class="sc">==</span> <span class="dv">0</span>, <span class="dv">52</span>, <span class="fu">ifelse</span>(week <span class="sc">==</span> <span class="dv">53</span>, <span class="dv">1</span>, week)))</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="co"># create teh data and extract the month</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="co"># wanted month to be quantitative to reduce model complexity </span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>sai<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">MMWRweek2Date</span>(sai<span class="sc">$</span>wk_ending_year, sai<span class="sc">$</span>week)</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>sai<span class="sc">$</span>month <span class="ot">&lt;-</span> <span class="fu">month</span>(sai<span class="sc">$</span>date, <span class="at">label =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>sai<span class="sc">$</span>month <span class="ot">&lt;-</span> <span class="fu">month</span>(sai<span class="sc">$</span>date)</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="co"># create lag periods</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a><span class="co"># https://www.youtube.com/watch?v=Kn3llTjYS5E</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>sai <span class="ot">&lt;-</span> sai <span class="sc">%&gt;%</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">lag1 =</span> <span class="fu">lag</span>(sold, <span class="dv">1</span>),</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>         <span class="at">lag2 =</span> <span class="fu">lag</span>(sold, <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Installing package into 'C:/Users/ekoor/AppData/Local/R/win-library/4.2'
-(as 'lib' is unspecified)</code></pre>
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'GGall' is not available for this version of R
-
-A version of this package for your version of R might be available elsewhere,
-see the ideas at
-https://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Installing-packages</code></pre>
+<p>create a model based on the best selling item for reasons XYZ</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>a5i <span class="ot">&lt;-</span>  sai <span class="sc">%&gt;%</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(item_no <span class="sc">==</span> <span class="st">"A510004"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(month,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>         week,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>         month,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>         sold,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>         lag2,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>         lag1)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># rolling average</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># https://www.rdocumentation.org/packages/zoo/versions/1.8-12/topics/rollmean</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>a5i <span class="ot">&lt;-</span> a5i <span class="sc">%&gt;%</span> </span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">moving_avg_4weeks =</span> zoo<span class="sc">::</span><span class="fu">rollmean</span>(sold, <span class="at">k =</span> <span class="dv">4</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">align =</span> <span class="st">"right"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: unable to access index for repository http://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.2:
-  cannot open URL 'http://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.2/PACKAGES'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: 'BiocManager' not available.  Could not check Bioconductor.
-
-Please use `install.packages('BiocManager')` and then retry.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in p_install(package, character.only = TRUE, ...):</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in library(package, lib.loc = lib.loc, character.only = TRUE,
-logical.return = TRUE, : there is no package called 'GGall'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in pacman::p_load(tidyverse, tidymodels, leaps, GGall, corrplot): Failed to install/load:
-GGall</code></pre>
+<section id="model-evaluation" class="level2">
+<h2 class="anchored" data-anchor-id="model-evaluation">Model Evaluation</h2>
+<p>find the best model using stepwise selection find the 2 best methods for every size predictors</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># https://youtu.be/IScjygOnO0w</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3746</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># forward Stepwise Selection</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># nvmax = 8 specifies the maximum number of predictors to incorporate in the model.</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>a5i_mod <span class="ot">&lt;-</span> <span class="fu">regsubsets</span>(sold <span class="sc">~</span>  .,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                       <span class="at">data =</span> a5i, <span class="at">nbest =</span> <span class="dv">2</span>, <span class="at">method =</span> <span class="st">"exhaustive"</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>a5i_mod_summary_mx <span class="ot">&lt;-</span> <span class="fu">with</span>(<span class="fu">summary</span>(a5i_mod), <span class="fu">data.frame</span>(rsq,adjr2, cp, rss, outmat))</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>a5i_mod_summary_mx<span class="sc">$</span>predictors_cnt <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">5</span>) <span class="co"># for graphing</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>a5i_mod_summary_mx<span class="sc">$</span>model <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'a'</span>,<span class="st">'b'</span>,<span class="st">'a'</span>,<span class="st">'b'</span>,<span class="st">'a'</span>,<span class="st">'b'</span>,<span class="st">'a'</span>,<span class="st">'b'</span>,<span class="st">'a'</span>) <span class="co"># for graphing</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># insert the num_predictors column to a5i_mod_summary_mx</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>a5i_mod_summary_mx </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                rsq     adjr2        cp       rss month week lag2 lag1
+1  ( 1 ) 0.14502533 0.1275769 31.959462 146883607                     
+1  ( 2 ) 0.09746449 0.0790454 36.351847 155054501               *     
+2  ( 1 ) 0.38735758 0.3618308 11.579355 105251221               *     
+2  ( 2 ) 0.18497440 0.1510150 30.270046 140020406                    *
+3  ( 1 ) 0.49724866 0.4651582  3.430586  86372067               *    *
+3  ( 2 ) 0.38901570 0.3500167 13.426223 104966358     *         *     
+4  ( 1 ) 0.49802651 0.4543766  5.358750  86238434     *         *    *
+4  ( 2 ) 0.49758788 0.4538999  5.399259  86313791          *    *    *
+5  ( 1 ) 0.51273908 0.4585990  6.000000  83710833     *    *    *    *
+         moving_avg_4weeks predictors_cnt model
+1  ( 1 )                 *              1     a
+1  ( 2 )                                1     b
+2  ( 1 )                 *              2     a
+2  ( 2 )                 *              2     b
+3  ( 1 )                 *              3     a
+3  ( 2 )                 *              3     b
+4  ( 1 )                 *              4     a
+4  ( 2 )                 *              4     b
+5  ( 1 )                 *              5     a</code></pre>
 </div>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"~/gvsu/summer 23/stat 631/Collection/sections/glmv1"</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>inventory1 <span class="ot">&lt;-</span>  <span class="fu">read.csv</span>(<span class="st">"inventory.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<p>make new variable for 6 week sales periods</p>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>inventory <span class="ot">&lt;-</span>  inventory1 <span class="sc">%&gt;%</span> </span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sales_period =</span> <span class="fu">cut</span>(week, <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">54</span>, <span class="dv">9</span>), <span class="at">labels =</span> <span class="cn">FALSE</span>, <span class="at">include.lowest =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate total sales for each item in each chunk --&gt;</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>inventory <span class="ot">&lt;-</span> inventory <span class="sc">%&gt;%</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">group_by</span>(item_no, sales_period) <span class="sc">%&gt;%</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summarise</span>(<span class="at">sold =</span> <span class="fu">sum</span>(sold, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the yearly total for each item</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>inventory_sum <span class="ot">&lt;-</span> inventory <span class="sc">%&gt;%</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(item_no) <span class="sc">%&gt;%</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">year_total =</span> <span class="fu">sum</span>(sold), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Join this back to the original data frame</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>inventory <span class="ot">&lt;-</span> <span class="fu">left_join</span>(inventory, inventory_sum, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"item_no"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>inventory <span class="ot">&lt;-</span> inventory <span class="sc">%&gt;%</span> </span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">share_of_year =</span> <span class="fu">round</span>((sold<span class="sc">/</span>year_total) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>inventory <span class="sc">%&gt;%</span> </span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> share_of_year)) <span class="sc">+</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>( <span class="at">bins =</span> <span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>a5i_mod_summary_mx <span class="sc">%&gt;%</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">c</span>(adjr2, cp), <span class="at">names_to =</span> <span class="st">"metric"</span>, <span class="at">values_to =</span> <span class="st">"value"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> predictors_cnt, <span class="at">y =</span> value, <span class="at">color =</span> model)) <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">show.legend =</span> F) <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>metric, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="pi_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+<p><img src="pi_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+</section>
+</section>
+<section id="show-the-models-in-a-table" class="level1">
+<h1>show the models in a table</h1>
+<p>explain why this is the best one</p>
+<p>what do each of these things tell me? - rsq -&gt; highest r squared - adjr2 - &gt; highest - cp -&gt; smallest cp - rss -&gt; smallest</p>
+<p>having trouble choosing, i spent a lot of time making my variables so lets look at AIC several models what is AIC? Lower AIC values indicate a better-fit model, and a model with a delta-AIC (the difference between the two AIC values being compared) of more than -2 is considered significantly better than the model it is being compared to</p>
+<p>find the coefficients and AIC</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>inventory <span class="ot">&lt;-</span> inventory <span class="sc">%&gt;%</span> </span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">only_season =</span> <span class="fu">ifelse</span>(share_of_year <span class="sc">&gt;=</span> <span class="dv">90</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>mod_compare <span class="ot">&lt;-</span>  a5i_mod_summary_mx <span class="sc">%&gt;%</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(model <span class="sc">==</span> <span class="st">"a"</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>         predictors_cnt <span class="sc">&gt;</span><span class="dv">2</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(predictors_cnt,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>          rsq,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>          adjr2,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>          cp,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>          rss)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># best adjusted r squared 5 predictors </span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>mod5 <span class="ot">&lt;-</span>  <span class="fu">lm</span>(sold<span class="sc">~</span> month <span class="sc">+</span> week <span class="sc">+</span> lag1 <span class="sc">+</span> lag2 <span class="sc">+</span> moving_avg_4weeks, <span class="at">data =</span> a5i)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>mod5_aic <span class="ot">&lt;-</span> <span class="fu">AIC</span>(mod5)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co"># mix of cp and adjusted r squared model a</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>mod4 <span class="ot">&lt;-</span>  <span class="fu">lm</span>(sold<span class="sc">~</span> month <span class="sc">+</span> lag1 <span class="sc">+</span> lag2 <span class="sc">+</span> moving_avg_4weeks, <span class="at">data =</span> a5i)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>mod4_aic <span class="ot">&lt;-</span> <span class="fu">AIC</span>(mod4)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="co"># best cp model a</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>mod3 <span class="ot">&lt;-</span>  <span class="fu">lm</span>(sold<span class="sc">~</span> lag1 <span class="sc">+</span> lag2 <span class="sc">+</span> moving_avg_4weeks, <span class="at">data =</span> a5i)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>mod3_aic <span class="ot">&lt;-</span> <span class="fu">AIC</span>(mod3)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>mod_compare<span class="sc">$</span>AIC <span class="ot">&lt;-</span>  <span class="fu">c</span>(mod3_aic,mod4_aic, mod5_aic )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>inventory <span class="ot">&lt;-</span> inventory <span class="sc">%&gt;%</span> </span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">in_season =</span> <span class="fu">ifelse</span>(share_of_year <span class="sc">&gt;=</span> <span class="dv">60</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>inventory <span class="ot">&lt;-</span> inventory <span class="sc">%&gt;%</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(item_no) <span class="sc">%&gt;%</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year_round =</span> <span class="fu">ifelse</span>(<span class="fu">all</span>(share_of_year <span class="sc">&lt;=</span> <span class="dv">25</span>), <span class="dv">1</span>, <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<p>best sellers</p>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the top 10% threshold</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>top_10_threshold <span class="ot">&lt;-</span> <span class="fu">quantile</span>(inventory<span class="sc">$</span>year_total, <span class="fl">0.9</span>)</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the 'hv_product' column</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>inventory <span class="ot">&lt;-</span> inventory <span class="sc">%&gt;%</span> </span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">best_seller =</span> <span class="fu">ifelse</span>(year_total <span class="sc">&gt;=</span> top_10_threshold, <span class="dv">1</span>, <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># did sales go up from the last sales period?</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>inventory <span class="ot">&lt;-</span> inventory <span class="sc">%&gt;%</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(item_no) <span class="sc">%&gt;%</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">up =</span> <span class="fu">ifelse</span>(sold <span class="sc">&gt;</span> <span class="fu">lag</span>(sold, <span class="at">default =</span> <span class="fu">first</span>(sold)), <span class="dv">1</span>, <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>inventory <span class="ot">&lt;-</span>  inventory <span class="sc">%&gt;%</span> </span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>year_total)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<p>tips make sure all of the weeks are in the training data set test the model on one inventory item try a few different models</p>
-<p>Look at the time with the most sales High-sales items often have more data points available, which can lead to better model training and evaluation. More data allows the model to learn patterns and trends more effectively</p>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>best_sold <span class="ot">&lt;-</span>  inventory <span class="sc">%&gt;%</span> </span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(best_seller <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>share_of_year, <span class="sc">-</span>best_seller, <span class="sc">-</span> only_season)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Identify non-numeric columns</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>non_numeric_cols <span class="ot">&lt;-</span> <span class="fu">sapply</span>(best_sold, <span class="at">FUN =</span> <span class="cf">function</span>(col) <span class="sc">!</span><span class="fu">is.numeric</span>(col))</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Print non-numeric column names</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Non-numeric columns:</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>Non-numeric columns:</code></pre>
-</div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">names</span>(best_sold)[non_numeric_cols])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "item_no"</code></pre>
-</div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exclude non-numeric columns</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>best_sold_numeric <span class="ot">&lt;-</span> best_sold[, <span class="sc">!</span>non_numeric_cols]</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute correlation matrix</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>correlation_matrix <span class="ot">&lt;-</span> <span class="fu">cor</span>(best_sold_numeric, <span class="at">use =</span> <span class="st">"complete.obs"</span>)</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(correlation_matrix, <span class="at">method =</span> <span class="st">"color"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<p><img src="pi_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
-</div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>correlation_matrix</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>             sales_period        sold   in_season   year_round          up
-sales_period   1.00000000 -0.09336829 -0.02972629  0.000000000 0.108302000
-sold          -0.09336829  1.00000000  0.15073709  0.186136386 0.210992608
-in_season     -0.02972629  0.15073709  1.00000000 -0.122263869 0.137237963
-year_round     0.00000000  0.18613639 -0.12226387  1.000000000 0.006498531
-up             0.10830200  0.21099261  0.13723796  0.006498531 1.000000000</code></pre>
-</div>
-</div>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>best_sold <span class="sc">%&gt;%</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> sold, <span class="at">x =</span> sales_period, <span class="at">group =</span> sales_period)) <span class="sc">+</span></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<p><img src="pi_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>regsubsets runs through many methods when should i split the data? why are my inventory items turned into variables? should i convert my item numbers into dummy variables? what’s a cp value? you want the smallest cp you want the larger r squared</p>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">#https://www.youtube.com/watch?v=IScjygOnO0w</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="co"># try to predict sold based on all of the variables</span></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3736</span>)</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>best_model <span class="ot">&lt;-</span> <span class="fu">regsubsets</span>(sold <span class="sc">~</span> ., <span class="at">data =</span> best_sold, <span class="at">really.big =</span> <span class="cn">TRUE</span>, <span class="at">nbest=</span><span class="dv">5</span>, <span class="at">nvmax =</span> <span class="dv">5</span>, <span class="at">method =</span> <span class="st">"backward"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in leaps.setup(x, y, wt = wt, nbest = nbest, nvmax = nvmax, force.in =
-force.in, : 1 linear dependencies found</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Reordering variables and trying again:</code></pre>
-</div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>best_summary <span class="ot">&lt;-</span>  <span class="fu">with</span>(<span class="fu">summary</span>(best_model), <span class="fu">data.frame</span>(rsq, adjr2, cp, rss, outmat))</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>best_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>                  rsq        adjr2       cp        rss item_no153.2424
-1  ( 1 ) 0.3463944218  0.344156047 456.3893 1172981631                
-1  ( 2 ) 0.0414096153  0.038126772 804.6687 1720317191                
-1  ( 3 ) 0.0007795172 -0.002642471 851.0666 1793233274               *
-2  ( 1 ) 0.4570496325  0.453318015 332.0258  974396224                
-2  ( 2 ) 0.3929648735  0.388792811 405.2078 1089404797                
-2  ( 3 ) 0.0469762751  0.040426284 800.3119 1710327084                
-2  ( 4 ) 0.0460107686  0.039454142 801.4144 1712059813                
-2  ( 5 ) 0.0423979420  0.035816485 805.5401 1718543508                
-3  ( 1 ) 0.5117264953  0.506675390 271.5872  876271364                
-3  ( 2 ) 0.5089427068  0.503862804 274.7662  881267241                
-3  ( 3 ) 0.5067474082  0.501644795 277.2731  885206994                
-3  ( 4 ) 0.4217570573  0.415775234 374.3284 1037733417                
-3  ( 5 ) 0.3968099584  0.390570061 402.8169 1082504284                
-4  ( 1 ) 0.5701702379  0.564221037 206.8470  771386341                
-4  ( 2 ) 0.5608975410  0.554819998 217.4360  788027421                
-4  ( 3 ) 0.5380967350  0.531703610 243.4735  828946482                
-4  ( 4 ) 0.4251598875  0.417203623 372.4425 1031626588                
-4  ( 5 ) 0.4014724447  0.393188326 399.4926 1074136836                
-5  ( 1 ) 0.6231248555  0.616581884 148.3751  676352278                
-5  ( 2 ) 0.5941211967  0.587074690 181.4960  728403178                
-5  ( 3 ) 0.5406739857  0.532699576 242.5304  824321265                
-5  ( 4 ) 0.4264743087  0.416517265 372.9415 1029267685                
-5  ( 5 ) 0.4041949017  0.393851063 398.3836 1069251027                
-6  ( 1 ) 0.6571731597  0.650006048 111.4934  615248094                
-6  ( 2 ) 0.6245353698  0.616685935 148.7644  673820923                
-6  ( 3 ) 0.6028388337  0.594535813 173.5409  712758226                
-6  ( 4 ) 0.5961822593  0.587740077 181.1424  724704329                
-6  ( 5 ) 0.5414883985  0.531902790 243.6004  822859694                
-         item_no154.2424 item_no200830 item_no200833 item_no255002424
-1  ( 1 )                                                             
-1  ( 2 )                             *                               
-1  ( 3 )                                                             
-2  ( 1 )                                                             
-2  ( 2 )                             *                               
-2  ( 3 )                             *                               
-2  ( 4 )                             *             *                 
-2  ( 5 )                             *                              *
-3  ( 1 )                                                             
-3  ( 2 )                                                             
-3  ( 3 )                             *                               
-3  ( 4 )                             *                               
-3  ( 5 )                             *                               
-4  ( 1 )                                                             
-4  ( 2 )                             *                               
-4  ( 3 )                             *                               
-4  ( 4 )                             *                               
-4  ( 5 )                             *                               
-5  ( 1 )                             *                               
-5  ( 2 )                             *                               
-5  ( 3 )                             *                               
-5  ( 4 )                             *                               
-5  ( 5 )                             *                               
-6  ( 1 )                             *                               
-6  ( 2 )                             *                               
-6  ( 3 )                             *                               
-6  ( 4 )                             *                               
-6  ( 5 )                             *                               
-         item_no299242401 item_no41169 item_no41250 item_noA510004
-1  ( 1 )                                                         *
-1  ( 2 )                                                          
-1  ( 3 )                                                          
-2  ( 1 )                                                         *
-2  ( 2 )                                                         *
-2  ( 3 )                *                                         
-2  ( 4 )                                                          
-2  ( 5 )                                                          
-3  ( 1 )                                                         *
-3  ( 2 )                                                         *
-3  ( 3 )                                                         *
-3  ( 4 )                                                         *
-3  ( 5 )                *                                        *
-4  ( 1 )                                                         *
-4  ( 2 )                                                         *
-4  ( 3 )                                                         *
-4  ( 4 )                *                                        *
-4  ( 5 )                *            *                           *
-5  ( 1 )                                                         *
-5  ( 2 )                                                         *
-5  ( 3 )                *                                        *
-5  ( 4 )                *                                        *
-5  ( 5 )                *            *                           *
-6  ( 1 )                                                         *
-6  ( 2 )                                                         *
-6  ( 3 )                                                         *
-6  ( 4 )                *                                        *
-6  ( 5 )                *                                        *
-         item_noBF000230.167 item_noBPONG1P2PWE item_noBPONG25P2PWE
-1  ( 1 )                                                           
-1  ( 2 )                                                           
-1  ( 3 )                                                           
-2  ( 1 )                                                           
-2  ( 2 )                                                           
-2  ( 3 )                                                           
-2  ( 4 )                                                           
-2  ( 5 )                                                           
-3  ( 1 )                                                           
-3  ( 2 )                                                           
-3  ( 3 )                                                           
-3  ( 4 )                                                           
-3  ( 5 )                                                           
-4  ( 1 )                                                           
-4  ( 2 )                                                           
-4  ( 3 )                                                           
-4  ( 4 )                                                           
-4  ( 5 )                                                           
-5  ( 1 )                                                           
-5  ( 2 )                                                           
-5  ( 3 )                                                           
-5  ( 4 )                                                           
-5  ( 5 )                                                           
-6  ( 1 )                                                           
-6  ( 2 )                                                           
-6  ( 3 )                                                           
-6  ( 4 )                                                           
-6  ( 5 )                                                           
-         item_noBPONG50P2PWE item_noDP40.STD.16252 item_noDP40.STD.20202
-1  ( 1 )                                                                
-1  ( 2 )                                                                
-1  ( 3 )                                                                
-2  ( 1 )                                                                
-2  ( 2 )                                                                
-2  ( 3 )                                                                
-2  ( 4 )                                                                
-2  ( 5 )                                                                
-3  ( 1 )                                                                
-3  ( 2 )                                                                
-3  ( 3 )                                                                
-3  ( 4 )                                                                
-3  ( 5 )                                                                
-4  ( 1 )                                                                
-4  ( 2 )                                                                
-4  ( 3 )                                                                
-4  ( 4 )                                                                
-4  ( 5 )                                                                
-5  ( 1 )                                                                
-5  ( 2 )                                                                
-5  ( 3 )                                                                
-5  ( 4 )                                                                
-5  ( 5 )                                                               *
-6  ( 1 )                                                                
-6  ( 2 )                                                                
-6  ( 3 )                                                                
-6  ( 4 )                                                                
-6  ( 5 )                                                                
-         item_noDP40.STD.20252 item_noDP40.STD.24242 item_noDP40.STD.24244
-1  ( 1 )                                                                  
-1  ( 2 )                                                                  
-1  ( 3 )                                                                  
-2  ( 1 )                                                                  
-2  ( 2 )                                                                  
-2  ( 3 )                                                                  
-2  ( 4 )                                                                  
-2  ( 5 )                                                                  
-3  ( 1 )                                                                  
-3  ( 2 )                                                                  
-3  ( 3 )                                                                  
-3  ( 4 )                                                                  
-3  ( 5 )                                                                  
-4  ( 1 )                                                                  
-4  ( 2 )                                                                  
-4  ( 3 )                                                                  
-4  ( 4 )                                                                  
-4  ( 5 )                                                                  
-5  ( 1 )                                                                  
-5  ( 2 )                                                                  
-5  ( 3 )                                                                  
-5  ( 4 )                                                                 *
-5  ( 5 )                                                                  
-6  ( 1 )                                                                  
-6  ( 2 )                                                                  
-6  ( 3 )                                                                  
-6  ( 4 )                                                                  
-6  ( 5 )                                                                 *
-         item_noMX40.STD.16201 item_noMX40.STD.16202 item_noMX40.STD.16252
-1  ( 1 )                                                                  
-1  ( 2 )                                                                  
-1  ( 3 )                                                                  
-2  ( 1 )                                                                  
-2  ( 2 )                                                                  
-2  ( 3 )                                                                  
-2  ( 4 )                                                                  
-2  ( 5 )                                                                  
-3  ( 1 )                                                                  
-3  ( 2 )                                                                  
-3  ( 3 )                                                                  
-3  ( 4 )                                                                  
-3  ( 5 )                                                                  
-4  ( 1 )                                                                  
-4  ( 2 )                                                                  
-4  ( 3 )                                                                  
-4  ( 4 )                                                                  
-4  ( 5 )                                                                  
-5  ( 1 )                                                                  
-5  ( 2 )                                                                  
-5  ( 3 )                                                                  
-5  ( 4 )                                                                  
-5  ( 5 )                                                                  
-6  ( 1 )                                                                  
-6  ( 2 )                                                                  
-6  ( 3 )                                                                  
-6  ( 4 )                                                                  
-6  ( 5 )                                                                  
-         item_noMX40.STD.20201 item_noMX40.STD.20202 item_noMX40.STD.20242
-1  ( 1 )                                                                  
-1  ( 2 )                                                                  
-1  ( 3 )                                                                  
-2  ( 1 )                                                                  
-2  ( 2 )                                                                  
-2  ( 3 )                                                                  
-2  ( 4 )                                                                  
-2  ( 5 )                                                                  
-3  ( 1 )                                                                  
-3  ( 2 )                                                                  
-3  ( 3 )                                                                  
-3  ( 4 )                                                                  
-3  ( 5 )                                                                  
-4  ( 1 )                                                                  
-4  ( 2 )                                                                  
-4  ( 3 )                                                                  
-4  ( 4 )                                                                  
-4  ( 5 )                                                                  
-5  ( 1 )                                                                  
-5  ( 2 )                                                                  
-5  ( 3 )                                                                  
-5  ( 4 )                                                                  
-5  ( 5 )                                                                  
-6  ( 1 )                                                                  
-6  ( 2 )                                                                  
-6  ( 3 )                                                                  
-6  ( 4 )                                                                  
-6  ( 5 )                                                                  
-         item_noMX40.STD.20252 item_noMX40.STD.24242 item_noMX40.STD.24244
-1  ( 1 )                                                                  
-1  ( 2 )                                                                  
-1  ( 3 )                                                                  
-2  ( 1 )                                           *                      
-2  ( 2 )                                                                  
-2  ( 3 )                                                                  
-2  ( 4 )                                                                  
-2  ( 5 )                                                                  
-3  ( 1 )                                           *                      
-3  ( 2 )                                           *                      
-3  ( 3 )                                           *                      
-3  ( 4 )                     *                                            
-3  ( 5 )                                                                  
-4  ( 1 )                                           *                      
-4  ( 2 )                                           *                      
-4  ( 3 )                     *                     *                      
-4  ( 4 )                     *                                            
-4  ( 5 )                                                                  
-5  ( 1 )                                           *                      
-5  ( 2 )                     *                     *                      
-5  ( 3 )                     *                     *                      
-5  ( 4 )                     *                                            
-5  ( 5 )                                                                  
-6  ( 1 )                     *                     *                      
-6  ( 2 )                     *                     *                      
-6  ( 3 )                     *                     *                      
-6  ( 4 )                     *                     *                      
-6  ( 5 )                     *                     *                      
-         item_noNMO200P4SH.A.AJR item_noP.020X02015SW100 item_noPA.3.20X20.NA
-1  ( 1 )                                                                     
-1  ( 2 )                                                                     
-1  ( 3 )                                                                     
-2  ( 1 )                                                                     
-2  ( 2 )                                                                     
-2  ( 3 )                                                                     
-2  ( 4 )                                                                     
-2  ( 5 )                                                                     
-3  ( 1 )                                                                     
-3  ( 2 )                                               *                     
-3  ( 3 )                                                                     
-3  ( 4 )                                                                     
-3  ( 5 )                                                                     
-4  ( 1 )                                               *                     
-4  ( 2 )                                               *                     
-4  ( 3 )                                                                     
-4  ( 4 )                                                                     
-4  ( 5 )                                                                     
-5  ( 1 )                                               *                     
-5  ( 2 )                                               *                     
-5  ( 3 )                                                                     
-5  ( 4 )                                                                     
-5  ( 5 )                                                                     
-6  ( 1 )                                               *                     
-6  ( 2 )                                               *                     
-6  ( 3 )                                               *                     
-6  ( 4 )                                               *                     
-6  ( 5 )                                                                     
-         item_noPES10P3SH.AJR item_noPES1P2SH.30.AJR item_noPES1P2SH.AJR
-1  ( 1 )                                                                
-1  ( 2 )                                                                
-1  ( 3 )                                                                
-2  ( 1 )                                                                
-2  ( 2 )                                                                
-2  ( 3 )                                                                
-2  ( 4 )                                                                
-2  ( 5 )                                                                
-3  ( 1 )                                                                
-3  ( 2 )                                                                
-3  ( 3 )                                                                
-3  ( 4 )                                                                
-3  ( 5 )                                                                
-4  ( 1 )                                                                
-4  ( 2 )                                                                
-4  ( 3 )                                                                
-4  ( 4 )                                                                
-4  ( 5 )                                                                
-5  ( 1 )                                                                
-5  ( 2 )                                                                
-5  ( 3 )                                                                
-5  ( 4 )                                                                
-5  ( 5 )                                                                
-6  ( 1 )                                                                
-6  ( 2 )                                                                
-6  ( 3 )                                                                
-6  ( 4 )                                                                
-6  ( 5 )                                                                
-         item_noPES1P2SSH.AJR item_noPES25P2F.WE.AJR item_noPOG10P2F.WE.AJR
-1  ( 1 )                                                                   
-1  ( 2 )                                                                   
-1  ( 3 )                                                                   
-2  ( 1 )                                                                   
-2  ( 2 )                                                                   
-2  ( 3 )                                                                   
-2  ( 4 )                                                                   
-2  ( 5 )                                                                   
-3  ( 1 )                                                                   
-3  ( 2 )                                                                   
-3  ( 3 )                                                                   
-3  ( 4 )                                                                   
-3  ( 5 )                                                                   
-4  ( 1 )                                                                   
-4  ( 2 )                                                                   
-4  ( 3 )                                                                   
-4  ( 4 )                                                                   
-4  ( 5 )                                                                   
-5  ( 1 )                                                                   
-5  ( 2 )                                                                   
-5  ( 3 )                                                                   
-5  ( 4 )                                                                   
-5  ( 5 )                                                                   
-6  ( 1 )                                                                   
-6  ( 2 )                                                                   
-6  ( 3 )                                                                   
-6  ( 4 )                                                                   
-6  ( 5 )                                                                   
-         item_noPOG15RP2P.AJR item_noPOG25RP2P.AJR item_noPOG3P2SSH.AJR
-1  ( 1 )                                                               
-1  ( 2 )                                                               
-1  ( 3 )                                                               
-2  ( 1 )                                                               
-2  ( 2 )                                                               
-2  ( 3 )                                                               
-2  ( 4 )                                                               
-2  ( 5 )                                                               
-3  ( 1 )                                                               
-3  ( 2 )                                                               
-3  ( 3 )                                                               
-3  ( 4 )                                                               
-3  ( 5 )                                                               
-4  ( 1 )                                                               
-4  ( 2 )                                                               
-4  ( 3 )                                                               
-4  ( 4 )                                                               
-4  ( 5 )                                                               
-5  ( 1 )                                                               
-5  ( 2 )                                                               
-5  ( 3 )                                                               
-5  ( 4 )                                                               
-5  ( 5 )                                                               
-6  ( 1 )                                                               
-6  ( 2 )                                                               
-6  ( 3 )                                                               
-6  ( 4 )                                                               
-6  ( 5 )                                                               
-         item_noPOG5RP1P.AJR item_noPP.020.020.030 item_noVL.EC.PD.82515
-1  ( 1 )                                                                
-1  ( 2 )                                                                
-1  ( 3 )                                                                
-2  ( 1 )                                                                
-2  ( 2 )                                                                
-2  ( 3 )                                                                
-2  ( 4 )                                                                
-2  ( 5 )                                                                
-3  ( 1 )                                                                
-3  ( 2 )                                                                
-3  ( 3 )                                                                
-3  ( 4 )                                                                
-3  ( 5 )                                                                
-4  ( 1 )                                                                
-4  ( 2 )                                                                
-4  ( 3 )                                                                
-4  ( 4 )                                                                
-4  ( 5 )                                                                
-5  ( 1 )                                                                
-5  ( 2 )                                                                
-5  ( 3 )                                                                
-5  ( 4 )                                                                
-5  ( 5 )                                                                
-6  ( 1 )                                                                
-6  ( 2 )                                                                
-6  ( 3 )                                                                
-6  ( 4 )                                                                
-6  ( 5 )                                                                
-         item_noXP.STD.16202 item_noXP.STD.16252 item_noXP.STD.20202
-1  ( 1 )                                                            
-1  ( 2 )                                                            
-1  ( 3 )                                                            
-2  ( 1 )                                                            
-2  ( 2 )                                                            
-2  ( 3 )                                                            
-2  ( 4 )                                                            
-2  ( 5 )                                                            
-3  ( 1 )                                                            
-3  ( 2 )                                                            
-3  ( 3 )                                                            
-3  ( 4 )                                                            
-3  ( 5 )                                                            
-4  ( 1 )                                                            
-4  ( 2 )                                                            
-4  ( 3 )                                                            
-4  ( 4 )                                                            
-4  ( 5 )                                                            
-5  ( 1 )                                                            
-5  ( 2 )                                                            
-5  ( 3 )                                                            
-5  ( 4 )                                                            
-5  ( 5 )                                                            
-6  ( 1 )                                                            
-6  ( 2 )                                                            
-6  ( 3 )                                                            
-6  ( 4 )                                                            
-6  ( 5 )                                                            
-         item_noXP.STD.20252 item_noXP.STD.24242 item_noXPH.STD.24242
-1  ( 1 )                                                             
-1  ( 2 )                                                             
-1  ( 3 )                                                             
-2  ( 1 )                                                             
-2  ( 2 )                                                             
-2  ( 3 )                                                             
-2  ( 4 )                                                             
-2  ( 5 )                                                             
-3  ( 1 )                                                             
-3  ( 2 )                                                             
-3  ( 3 )                                                             
-3  ( 4 )                                                             
-3  ( 5 )                                                             
-4  ( 1 )                                                             
-4  ( 2 )                                                             
-4  ( 3 )                                                             
-4  ( 4 )                                                             
-4  ( 5 )                                                             
-5  ( 1 )                                                             
-5  ( 2 )                                                             
-5  ( 3 )                                                             
-5  ( 4 )                                                             
-5  ( 5 )                                                             
-6  ( 1 )                                                             
-6  ( 2 )                                                             
-6  ( 3 )                                                             
-6  ( 4 )                                                             
-6  ( 5 )                                                             
-         sales_period in_season year_round up
-1  ( 1 )                                     
-1  ( 2 )                                     
-1  ( 3 )                                     
-2  ( 1 )                                     
-2  ( 2 )                                     
-2  ( 3 )                                     
-2  ( 4 )                                     
-2  ( 5 )                                     
-3  ( 1 )                                    *
-3  ( 2 )                                     
-3  ( 3 )                                     
-3  ( 4 )                                     
-3  ( 5 )                                     
-4  ( 1 )                                    *
-4  ( 2 )                                     
-4  ( 3 )                                     
-4  ( 4 )                                     
-4  ( 5 )                                     
-5  ( 1 )                                    *
-5  ( 2 )                                     
-5  ( 3 )                                     
-5  ( 4 )                                     
-5  ( 5 )                                     
-6  ( 1 )                                    *
-6  ( 2 )                      *              
-6  ( 3 )            *                        
-6  ( 4 )                                     
-6  ( 5 )                                     </code></pre>
-</div>
-</div>
-<p>tips from the book Subset Selection Choosing the Optimal Mode The AIC criterion is defined for models fit by maximum likelihood.</p>
-<p>“To perform best subset selection, we fit a separate least squares regression best subset selection for each possible combination of the p predictors.”</p>
-<p>feature selection</p>
-<p>what;s coorelated</p>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3736</span>)</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="co"># forward Stepwise Selection</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="co"># nvmax = 8 specifies the maximum number of predictors to incorporate in the model.</span></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>best_mod <span class="ot">&lt;-</span> <span class="fu">regsubsets</span>(sold <span class="sc">~</span>  .,</span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">data =</span> best_sold, <span class="at">nbest =</span> <span class="dv">2</span>, <span class="at">method =</span> <span class="st">"forward"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in leaps.setup(x, y, wt = wt, nbest = nbest, nvmax = nvmax, force.in =
-force.in, : 1 linear dependencies found</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Reordering variables and trying again:</code></pre>
-</div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>best_mod_summary <span class="ot">&lt;-</span> <span class="fu">with</span>(<span class="fu">summary</span>(best_mod), <span class="fu">data.frame</span>(rsq,adjr2, cp, rss, outmat))</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Print summary</span></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>best_mod_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>               rsq      adjr2        cp        rss item_no153.2424
-1  ( 1 ) 0.3463944 0.34415605 456.38929 1172981631                
-1  ( 2 ) 0.1026017 0.09952846 734.78998 1610499831                
-2  ( 1 ) 0.4570496 0.45331801 332.02582  974396224                
-2  ( 2 ) 0.3950903 0.39093279 402.78076 1085590528                
-3  ( 1 ) 0.5117265 0.50667539 271.58721  876271364                
-3  ( 2 ) 0.5089427 0.50386280 274.76618  881267241                
-4  ( 1 ) 0.5701702 0.56422104 206.84699  771386341                
-4  ( 2 ) 0.5622131 0.55615372 215.93375  785666559                
-5  ( 1 ) 0.6231249 0.61658188 148.37511  676352278                
-5  ( 2 ) 0.6023345 0.59543060 172.11677  713663285                
-6  ( 1 ) 0.6571732 0.65000605 111.49342  615248094                
-6  ( 2 ) 0.6424107 0.63493493 128.35154  641741339                
-7  ( 1 ) 0.6772346 0.66933470  90.58417  579245271                
-7  ( 2 ) 0.6726082 0.66459513  95.86725  587547843                
-8  ( 1 ) 0.6934682 0.68486381  74.04603  550111820                
-8  ( 2 ) 0.6918472 0.68319725  75.89722  553021030                
-9  ( 1 ) 0.7088873 0.69966192  58.43808  522440190                
-9  ( 2 ) 0.7065534 0.69725402  61.10334  526628756                
-         item_no154.2424 item_no200830 item_no200833 item_no255002424
-1  ( 1 )                                                             
-1  ( 2 )                                                             
-2  ( 1 )                                                             
-2  ( 2 )                                                             
-3  ( 1 )                                                             
-3  ( 2 )                                                             
-4  ( 1 )                                                             
-4  ( 2 )                             *                               
-5  ( 1 )                             *                               
-5  ( 2 )                                                             
-6  ( 1 )                             *                               
-6  ( 2 )                             *                               
-7  ( 1 )                             *                               
-7  ( 2 )                             *                               
-8  ( 1 )                             *                               
-8  ( 2 )                             *                               
-9  ( 1 )                             *                               
-9  ( 2 )                             *                               
-         item_no299242401 item_no41169 item_no41250 item_noA510004
-1  ( 1 )                                                         *
-1  ( 2 )                                                          
-2  ( 1 )                                                         *
-2  ( 2 )                                                         *
-3  ( 1 )                                                         *
-3  ( 2 )                                                         *
-4  ( 1 )                                                         *
-4  ( 2 )                                                         *
-5  ( 1 )                                                         *
-5  ( 2 )                                                         *
-6  ( 1 )                                                         *
-6  ( 2 )                                                         *
-7  ( 1 )                                                         *
-7  ( 2 )                                                         *
-8  ( 1 )                                                         *
-8  ( 2 )                                                         *
-9  ( 1 )                                                         *
-9  ( 2 )                                                         *
-         item_noBF000230.167 item_noBPONG1P2PWE item_noBPONG25P2PWE
-1  ( 1 )                                                           
-1  ( 2 )                                                           
-2  ( 1 )                                                           
-2  ( 2 )                                                           
-3  ( 1 )                                                           
-3  ( 2 )                                                           
-4  ( 1 )                                                           
-4  ( 2 )                                                           
-5  ( 1 )                                                           
-5  ( 2 )                                                           
-6  ( 1 )                                                           
-6  ( 2 )                                                           
-7  ( 1 )                                                           
-7  ( 2 )                                                           
-8  ( 1 )                                                           
-8  ( 2 )                                                           
-9  ( 1 )                                                           
-9  ( 2 )                                                           
-         item_noBPONG50P2PWE item_noDP40.STD.16252 item_noDP40.STD.20202
-1  ( 1 )                                                                
-1  ( 2 )                                                                
-2  ( 1 )                                                                
-2  ( 2 )                                                                
-3  ( 1 )                                                                
-3  ( 2 )                                                                
-4  ( 1 )                                                                
-4  ( 2 )                                                                
-5  ( 1 )                                                                
-5  ( 2 )                                                                
-6  ( 1 )                                                                
-6  ( 2 )                                                                
-7  ( 1 )                                                                
-7  ( 2 )                                                                
-8  ( 1 )                                                                
-8  ( 2 )                                                                
-9  ( 1 )                                                                
-9  ( 2 )                                                                
-         item_noDP40.STD.20252 item_noDP40.STD.24242 item_noDP40.STD.24244
-1  ( 1 )                                                                  
-1  ( 2 )                                                                  
-2  ( 1 )                                                                  
-2  ( 2 )                                                                  
-3  ( 1 )                                                                  
-3  ( 2 )                                                                  
-4  ( 1 )                                                                  
-4  ( 2 )                                                                  
-5  ( 1 )                                                                  
-5  ( 2 )                                                                  
-6  ( 1 )                                                                  
-6  ( 2 )                                                                  
-7  ( 1 )                                                                  
-7  ( 2 )                                                                  
-8  ( 1 )                                                                  
-8  ( 2 )                                                                  
-9  ( 1 )                                                                  
-9  ( 2 )                                                                  
-         item_noMX40.STD.16201 item_noMX40.STD.16202 item_noMX40.STD.16252
-1  ( 1 )                                                                  
-1  ( 2 )                                                                  
-2  ( 1 )                                                                  
-2  ( 2 )                                                                  
-3  ( 1 )                                                                  
-3  ( 2 )                                                                  
-4  ( 1 )                                                                  
-4  ( 2 )                                                                  
-5  ( 1 )                                                                  
-5  ( 2 )                                                                  
-6  ( 1 )                                                                  
-6  ( 2 )                                                                  
-7  ( 1 )                                                                  
-7  ( 2 )                                                                  
-8  ( 1 )                                                                  
-8  ( 2 )                                           *                      
-9  ( 1 )                                           *                      
-9  ( 2 )                                                                  
-         item_noMX40.STD.20201 item_noMX40.STD.20202 item_noMX40.STD.20242
-1  ( 1 )                                                                  
-1  ( 2 )                                                                  
-2  ( 1 )                                                                  
-2  ( 2 )                                                                  
-3  ( 1 )                                                                  
-3  ( 2 )                                                                  
-4  ( 1 )                                                                  
-4  ( 2 )                                                                  
-5  ( 1 )                                                                  
-5  ( 2 )                                                                  
-6  ( 1 )                                                                  
-6  ( 2 )                                                                  
-7  ( 1 )                                                                  
-7  ( 2 )                                           *                      
-8  ( 1 )                                           *                      
-8  ( 2 )                                                                  
-9  ( 1 )                                           *                      
-9  ( 2 )                                           *                      
-         item_noMX40.STD.20252 item_noMX40.STD.24242 item_noMX40.STD.24244
-1  ( 1 )                                                                  
-1  ( 2 )                                           *                      
-2  ( 1 )                                           *                      
-2  ( 2 )                                                                  
-3  ( 1 )                                           *                      
-3  ( 2 )                                           *                      
-4  ( 1 )                                           *                      
-4  ( 2 )                                           *                      
-5  ( 1 )                                           *                      
-5  ( 2 )                     *                     *                      
-6  ( 1 )                     *                     *                      
-6  ( 2 )                                           *                      
-7  ( 1 )                     *                     *                      
-7  ( 2 )                     *                     *                      
-8  ( 1 )                     *                     *                      
-8  ( 2 )                     *                     *                      
-9  ( 1 )                     *                     *                      
-9  ( 2 )                     *                     *                      
-         item_noNMO200P4SH.A.AJR item_noP.020X02015SW100 item_noPA.3.20X20.NA
-1  ( 1 )                                                                     
-1  ( 2 )                                                                     
-2  ( 1 )                                                                     
-2  ( 2 )                                               *                     
-3  ( 1 )                                                                     
-3  ( 2 )                                               *                     
-4  ( 1 )                                               *                     
-4  ( 2 )                                                                     
-5  ( 1 )                                               *                     
-5  ( 2 )                                               *                     
-6  ( 1 )                                               *                     
-6  ( 2 )                                               *                     
-7  ( 1 )                                               *                     
-7  ( 2 )                                               *                     
-8  ( 1 )                                               *                     
-8  ( 2 )                                               *                     
-9  ( 1 )                                               *                     
-9  ( 2 )                                               *                     
-         item_noPES10P3SH.AJR item_noPES1P2SH.30.AJR item_noPES1P2SH.AJR
-1  ( 1 )                                                                
-1  ( 2 )                                                                
-2  ( 1 )                                                                
-2  ( 2 )                                                                
-3  ( 1 )                                                                
-3  ( 2 )                                                                
-4  ( 1 )                                                                
-4  ( 2 )                                                                
-5  ( 1 )                                                                
-5  ( 2 )                                                                
-6  ( 1 )                                                                
-6  ( 2 )                                                                
-7  ( 1 )                                                                
-7  ( 2 )                                                                
-8  ( 1 )                                                                
-8  ( 2 )                                                                
-9  ( 1 )                                                                
-9  ( 2 )                                                                
-         item_noPES1P2SSH.AJR item_noPES25P2F.WE.AJR item_noPOG10P2F.WE.AJR
-1  ( 1 )                                                                   
-1  ( 2 )                                                                   
-2  ( 1 )                                                                   
-2  ( 2 )                                                                   
-3  ( 1 )                                                                   
-3  ( 2 )                                                                   
-4  ( 1 )                                                                   
-4  ( 2 )                                                                   
-5  ( 1 )                                                                   
-5  ( 2 )                                                                   
-6  ( 1 )                                                                   
-6  ( 2 )                                                                   
-7  ( 1 )                                                                   
-7  ( 2 )                                                                   
-8  ( 1 )                                                                   
-8  ( 2 )                                                                   
-9  ( 1 )                                                                   
-9  ( 2 )                                                                   
-         item_noPOG15RP2P.AJR item_noPOG25RP2P.AJR item_noPOG3P2SSH.AJR
-1  ( 1 )                                                               
-1  ( 2 )                                                               
-2  ( 1 )                                                               
-2  ( 2 )                                                               
-3  ( 1 )                                                               
-3  ( 2 )                                                               
-4  ( 1 )                                                               
-4  ( 2 )                                                               
-5  ( 1 )                                                               
-5  ( 2 )                                                               
-6  ( 1 )                                                               
-6  ( 2 )                                                               
-7  ( 1 )                                                               
-7  ( 2 )                                                               
-8  ( 1 )                                                               
-8  ( 2 )                                                               
-9  ( 1 )                                                               
-9  ( 2 )                                                               
-         item_noPOG5RP1P.AJR item_noPP.020.020.030 item_noVL.EC.PD.82515
-1  ( 1 )                                                                
-1  ( 2 )                                                                
-2  ( 1 )                                                                
-2  ( 2 )                                                                
-3  ( 1 )                                                                
-3  ( 2 )                                                                
-4  ( 1 )                                                                
-4  ( 2 )                                                                
-5  ( 1 )                                                                
-5  ( 2 )                                                                
-6  ( 1 )                                                                
-6  ( 2 )                                                                
-7  ( 1 )                                                                
-7  ( 2 )                                                                
-8  ( 1 )                                                                
-8  ( 2 )                                                                
-9  ( 1 )                                                                
-9  ( 2 )                                                                
-         item_noXP.STD.16202 item_noXP.STD.16252 item_noXP.STD.20202
-1  ( 1 )                                                            
-1  ( 2 )                                                            
-2  ( 1 )                                                            
-2  ( 2 )                                                            
-3  ( 1 )                                                            
-3  ( 2 )                                                            
-4  ( 1 )                                                            
-4  ( 2 )                                                            
-5  ( 1 )                                                            
-5  ( 2 )                                                            
-6  ( 1 )                                                            
-6  ( 2 )                                                            
-7  ( 1 )                                                            
-7  ( 2 )                                                            
-8  ( 1 )                                                            
-8  ( 2 )                                                            
-9  ( 1 )                                                            
-9  ( 2 )                                                            
-         item_noXP.STD.20252 item_noXP.STD.24242 item_noXPH.STD.24242
-1  ( 1 )                                                             
-1  ( 2 )                                                             
-2  ( 1 )                                                             
-2  ( 2 )                                                             
-3  ( 1 )                                                             
-3  ( 2 )                                                             
-4  ( 1 )                                                             
-4  ( 2 )                                                             
-5  ( 1 )                                                             
-5  ( 2 )                                                             
-6  ( 1 )                                                             
-6  ( 2 )                                                             
-7  ( 1 )                                                             
-7  ( 2 )                                                             
-8  ( 1 )                                                             
-8  ( 2 )                                                             
-9  ( 1 )                                                             
-9  ( 2 )                                                             
-         sales_period in_season year_round up
-1  ( 1 )                                     
-1  ( 2 )                                     
-2  ( 1 )                                     
-2  ( 2 )                                     
-3  ( 1 )                                    *
-3  ( 2 )                                     
-4  ( 1 )                                    *
-4  ( 2 )                                    *
-5  ( 1 )                                    *
-5  ( 2 )                                    *
-6  ( 1 )                                    *
-6  ( 2 )                      *             *
-7  ( 1 )                      *             *
-7  ( 2 )                                    *
-8  ( 1 )                      *             *
-8  ( 2 )                      *             *
-9  ( 1 )                      *             *
-9  ( 2 )            *         *             *</code></pre>
-</div>
-</div>
-<p>next step is to interpret the results</p>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>rsq <span class="ot">&lt;-</span> best_mod_summary<span class="sc">$</span>rsq</span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the number of predictors</span></span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>num_predictors <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(rsq)</span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the R-squared values against the number of predictors</span></span>
-<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(num_predictors, rsq, <span class="at">type =</span> <span class="st">"b"</span>,</span>
-<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Number of Predictors"</span>,</span>
-<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"R-squared"</span>,</span>
-<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"R-squared vs. Number of Predictors"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<p><img src="pi_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>the best model has item_no 154.2424 item_no a510004 item_no</p>
-<p>https://www.youtube.com/watch?v=6HCJGYYCPR0</p>
+<p>show the aic comparisons model 3 is the best, which makes the most sense since the other variables were not significant</p>
+<p>lag 1 and 2 are the best along with rolling monthly average</p>
+<p>next up, how can i apply a monthly rolling average to each invetory item??</p>
+</section>
+<section id="next-up-how-can-u-split-the-data-without-changing-the-weeks" class="level1">
+<h1>next up, how can u split the data without changing the weeks?</h1>
+<p>I can split it up by inventory??</p>
+<p>add back in the best sellers and compare AICs?</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

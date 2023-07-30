@@ -1,7 +1,10 @@
 ---
-title: "best_item"
+title: "inventory prediction"
+format: 
+  html:
+    code-fold: true
+editor: visual
 ---
-
 
 ```{r include=FALSE}
 setwd("~/gvsu/summer 23/stat 631/Collection/sections/glmv1")
@@ -20,11 +23,12 @@ pacman::p_load(tidyverse,
                MMWRweek) # for subset selection
 ```
 
-
 ```{r}
 # import data
 sai <-  read.csv("inventory.csv")
 ```
+
+DRAFT DRAFT OUTLINE
 
 ## Clear Description of Data:
 
@@ -33,6 +37,7 @@ Start by providing a comprehensive summary of the dataset. This includes source 
 \[insert\]
 
 ## Statistical Summary:
+
 Provide a statistical summary of the variables. This includes measures of central tendency (mean, median, mode), dispersion (range, standard deviation, variance), and distribution properties (skewness, kurtosis). This could be supplemented with summary tables and histograms.
 
 \[insert\]
@@ -43,20 +48,21 @@ Use visualizations to give an overview of the data. Histograms, box plots, scatt
 
 \[insert\]
 
-
 ## Initial Insights:
 
 Start by providing a comprehensive summary of the dataset. This includes source information, timeframe, and the main purpose for collection. Each variable should be properly named and described. This could be presented in the form of a data dictionary.
 
 \[insert\]
 
+# Feature engineering
 
-# Feature engineering (link to data dictionary)
-- totals for each item over the year
-- which items are best selling? top ten items based on volume
-- convert weeks to dates so we can extract the month
-- lag period for seasonality
-- rolling mean
+(link to data dictionary)
+
+-   totals for each item over the year
+-   which items are best selling? top ten items based on volume
+-   convert weeks to dates so we can extract the month
+-   lag period for seasonality
+-   rolling mean
 
 ```{r}
 
@@ -108,9 +114,7 @@ sai <- sai %>%
 ```
 
 
-
-create a model based on the best selling item
-for reasons XYZ
+create a model based on the best selling item for reasons XYZ
 ```{r}
 a5i <-  sai %>% 
   filter(item_no == "A510004") %>% 
@@ -129,14 +133,11 @@ a5i <- a5i %>%
 
 ```
 
-
 ## Model Evaluation
 
-find the best model using stepwise selection
-find the 2 best methods for every size predictors
+find the best model using stepwise selection find the 2 best methods for every size predictors
 
-
-```{r}
+```{r message=FALSE, warning=FALSE}
 
 # https://youtu.be/IScjygOnO0w
 set.seed(3746)
@@ -154,26 +155,6 @@ a5i_mod_summary_mx
 
 ```
 
-
-```{r}
-#rsq by predictors
-# https://afit-r.github.io/model_selection
-
-a5i_mod_summary_mx %>% 
-ggplot(aes(x = predictors_cnt , y = adjr2, fill = model)) +
-  geom_line() +
-  geom_point() +
-  scale_x_continuous(breaks = 1:5)
-
-
-a5i_mod_summary_mx %>% 
-ggplot(aes(x = predictors_cnt , y = cp, fill = model)) +
-  geom_line() +
-  geom_point() +
-  scale_x_continuous(breaks = 1:5)
-
-```
-
 ```{r}
 a5i_mod_summary_mx %>% 
   pivot_longer(c(adjr2, cp), names_to = "metric", values_to = "value") %>%
@@ -184,23 +165,15 @@ a5i_mod_summary_mx %>%
   scale_x_continuous(breaks = 1:5)
 ```
 
-
 # show the models in a table
+
 explain why this is the best one
 
-what do each of these things tell me?
-- rsq -> highest r squared
-- adjr2 - > highest
-- cp -> smallest cp
-- rss -> smallest
+what do each of these things tell me? - rsq -\> highest r squared - adjr2 - \> highest - cp -\> smallest cp - rss -\> smallest
 
+having trouble choosing, i spent a lot of time making my variables so lets look at AIC several models what is AIC? Lower AIC values indicate a better-fit model, and a model with a delta-AIC (the difference between the two AIC values being compared) of more than -2 is considered significantly better than the model it is being compared to
 
-having trouble choosing, i spent a lot of time making my variables so lets look at AIC several models
-what is AIC?
-Lower AIC values indicate a better-fit model, and a model with a delta-AIC (the difference between the two AIC values being compared) of more than -2 is considered significantly better than the model it is being compared to
-
-find the coefficients
-
+find the coefficients and AIC
 
 ```{r}
 mod_compare <-  a5i_mod_summary_mx %>% 
@@ -211,47 +184,30 @@ mod_compare <-  a5i_mod_summary_mx %>%
           adjr2,
           cp,
           rss)
-```
 
 
-```{r}
 # best adjusted r squared 5 predictors 
 mod5 <-  lm(sold~ month + week + lag1 + lag2 + moving_avg_4weeks, data = a5i)
-summary(mod5)
 mod5_aic <- AIC(mod5)
-```
 
-```{r}
+
 # mix of cp and adjusted r squared model a
 mod4 <-  lm(sold~ month + lag1 + lag2 + moving_avg_4weeks, data = a5i)
-summary(mod4)
 mod4_aic <- AIC(mod4)
-```
 
-
-```{r}
 # best cp model a
 mod3 <-  lm(sold~ lag1 + lag2 + moving_avg_4weeks, data = a5i)
-summary(mod3)
 mod3_aic <- AIC(mod3)
-```
 
 
-
-```{r}
 mod_compare$AIC <-  c(mod3_aic,mod4_aic, mod5_aic )
 ```
 
-show the aic comparisons
-model 3 is the best, which makes the most sense since the other variables were not significant
+show the aic comparisons model 3 is the best, which makes the most sense since the other variables were not significant
 
-lag 1 and 2 are the best 
-along with rolling monthly average
-
-
+lag 1 and 2 are the best along with rolling monthly average
 
 next up, how can i apply a monthly rolling average to each invetory item??
-
 
 # next up, how can u split the data without changing the weeks?
 
