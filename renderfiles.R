@@ -1,7 +1,7 @@
 library(quarto)
 
 
-folder_path <- "~/gvsu/summer 23/stat 631/portfolio/Website"
+folder_path <- "~/gvsu/summer 23/stat 631/Collection"
 
 
 # Get the list of .qmd files in the folder

@@ -48,8 +48,8 @@ website:
         contents:
           - href: sections/dataviz/viz_placeholder.qmd
             text: "Overview_Draft"
-          - href: sections/dataviz/map/map.qmd
-            text: "Walkable Cities_Draft"
+          - href: sections/glmv1/pi.qmd
+            text: "Predicting Inventory"
           - href: https://brookemwalters.github.io/Nimby_Site/Final%20Report.html
             text: "Crime in Coloardo"
       - section: "reflections"

@@ -1,194 +1,260 @@
 ---
-title: "Predicting Inventory"
-format: html
-editor: visual
+title: "best_item"
 ---
 
-Import Libraries
 
-```{r}
+```{r include=FALSE}
+setwd("~/gvsu/summer 23/stat 631/Collection/sections/glmv1")
+
 if (!require("pacman")) {
   install.packages("pacman")
   library("pacman")
 }
+#Import Libraries
 
 # Use p_load() to install (if necessary) and load  packages
 pacman::p_load(tidyverse,
                tidymodels,
                leaps,
-               GGall,
-               corrplot) # for subset selection
+               corrplot,
+               MMWRweek) # for subset selection
 ```
 
+
 ```{r}
-setwd("~/gvsu/summer 23/stat 631/Collection/sections/glmv1")
-inventory1 <-  read.csv("inventory.csv")
+# import data
+sai <-  read.csv("inventory.csv")
 ```
 
-make new variable for 6 week sales periods
+## Clear Description of Data:
+
+Start by providing a comprehensive summary of the dataset. This includes source information, timeframe, and the main purpose for collection. Each variable should be properly named and described. This could be presented in the form of a data dictionary.
+
+\[insert\]
+
+## Statistical Summary:
+Provide a statistical summary of the variables. This includes measures of central tendency (mean, median, mode), dispersion (range, standard deviation, variance), and distribution properties (skewness, kurtosis). This could be supplemented with summary tables and histograms.
+
+\[insert\]
+
+## Visual Exploration:
+
+Use visualizations to give an overview of the data. Histograms, box plots, scatter plots, or correlation heatmaps can be used to show relationships and trends within the data..
+
+\[insert\]
+
+
+## Initial Insights:
+
+Start by providing a comprehensive summary of the dataset. This includes source information, timeframe, and the main purpose for collection. Each variable should be properly named and described. This could be presented in the form of a data dictionary.
+
+\[insert\]
+
+
+# Feature engineering (link to data dictionary)
+- totals for each item over the year
+- which items are best selling? top ten items based on volume
+- convert weeks to dates so we can extract the month
+- lag period for seasonality
+- rolling mean
 
 ```{r}
-inventory <-  inventory1 %>% 
-  mutate(sales_period = cut(week, breaks = seq(0, 54, 9), labels = FALSE, include.lowest = TRUE))
-```
 
-```{r}
-# Calculate total sales for each item in each chunk -->
-inventory <- inventory %>%
-group_by(item_no, sales_period) %>%
-summarise(sold = sum(sold, na.rm = TRUE), .groups = "drop") 
-```
-
-```{r}
-# Calculate the yearly total for each item
-inventory_sum <- inventory %>%
+# total yearly sales for each item
+inventory_sum <- sai %>%
   group_by(item_no) %>%
   summarise(year_total = sum(sold), .groups = "drop")
 
-# Join this back to the original data frame
-inventory <- left_join(inventory, inventory_sum, by = c("item_no"))
+sai <- left_join(sai, inventory_sum, by = c("item_no"))
 
-```
+###
+# calculate the top 10% threshold
+top_10_threshold <- quantile(sai$year_total, 0.9)
 
-```{r}
-inventory <- inventory %>% 
-  mutate(share_of_year = round((sold/year_total) * 100, 1))
-
-```
-
-```{r}
-inventory %>% 
-  ggplot(aes(x = share_of_year)) +
-  geom_histogram( bins = 30)
-```
-
-```{r}
-inventory <- inventory %>% 
-  mutate(only_season = ifelse(share_of_year >= 90, 1, 0))
-```
-
-```{r}
-inventory <- inventory %>% 
-  mutate(in_season = ifelse(share_of_year >= 60, 1, 0))
-
-```
-
-```{r}
-inventory <- inventory %>%
-  group_by(item_no) %>%
-  mutate(year_round = ifelse(all(share_of_year <= 25), 1, 0))
-```
-
-best sellers
-
-```{r}
-# Calculate the top 10% threshold
-top_10_threshold <- quantile(inventory$year_total, 0.9)
-
-# Create the 'hv_product' column
-inventory <- inventory %>% 
+# dummy variable for bestsellers 1= yes 0 = no
+sai <- sai %>% 
   mutate(best_seller = ifelse(year_total >= top_10_threshold, 1, 0))
+
+### figure out month an year for data, assuming the data is from  2022
+#week 0: December 27, 2021 - January 2, 2022
+#week 52: December 19, 2022 - December 25, 2022
+#week 53: December 26, 2022 - January 1, 2023
+
+sai$year <- 2022
+# find the year the week ends in, so we can figure out months
+sai <- sai %>%
+  mutate(wk_ending_year = ifelse(week %in% c(0, 53), year + 1, year),
+         week = ifelse(week == 0, 52, ifelse(week == 53, 1, week)))
+
+
+# create teh data and extract the month
+# wanted month to be quantitative to reduce model complexity 
+
+sai$date <- MMWRweek2Date(sai$wk_ending_year, sai$week)
+sai$month <- month(sai$date, label = TRUE)
+sai$month <- month(sai$date)
+
+
+
+
+
+
+# create lag periods
+# https://www.youtube.com/watch?v=Kn3llTjYS5E
+
+sai <- sai %>%
+  mutate(lag1 = lag(sold, 1),
+         lag2 = lag(sold, 2))
 ```
 
+
+
+create a model based on the best selling item
+for reasons XYZ
 ```{r}
-# did sales go up from the last sales period?
-inventory <- inventory %>%
-  group_by(item_no) %>%
-  mutate(up = ifelse(sold > lag(sold, default = first(sold)), 1, 0))
-```
+a5i <-  sai %>% 
+  filter(item_no == "A510004") %>% 
+    select(month,
+         week,
+         month,
+         sold,
+         lag2,
+         lag1)
 
-```{r}
-inventory <-  inventory %>% 
-  select(-year_total)
-```
+# rolling average
+# https://www.rdocumentation.org/packages/zoo/versions/1.8-12/topics/rollmean
+a5i <- a5i %>% 
+  mutate(moving_avg_4weeks = zoo::rollmean(sold, k = 4, fill = NA, align = "right"))
 
-tips make sure all of the weeks are in the training data set test the model on one inventory item try a few different models
-
-Look at the time with the most sales High-sales items often have more data points available, which can lead to better model training and evaluation. More data allows the model to learn patterns and trends more effectively
-
-```{r}
-best_sold <-  inventory %>% 
-  filter(best_seller == 1) %>% 
-  select(-share_of_year, -best_seller, - only_season)
-```
-
-```{r}
-# Identify non-numeric columns
-non_numeric_cols <- sapply(best_sold, FUN = function(col) !is.numeric(col))
-
-# Print non-numeric column names
-cat("Non-numeric columns:\n")
-print(names(best_sold)[non_numeric_cols])
-
-# Exclude non-numeric columns
-best_sold_numeric <- best_sold[, !non_numeric_cols]
-
-# Compute correlation matrix
-correlation_matrix <- cor(best_sold_numeric, use = "complete.obs")
-
-corrplot(correlation_matrix, method = "color")
-correlation_matrix
-```
-
-```{r}
-best_sold %>%
-  ggplot(aes(y = sold, x = sales_period, group = sales_period)) +
-  geom_boxplot()
-
-
-```
-
-regsubsets runs through many methods
-
-```{r}
-#https://www.youtube.com/watch?v=IScjygOnO0w
-# try to predict sold based on all of the variables
-set.seed(3736)
-best_model <- regsubsets(sold ~ ., data = best_sold, really.big = TRUE, nbest=5, nvmax = 5, method = "backward")
-best_summary <-  with(summary(best_model), data.frame(rsq, adjr2, cp, rss, outmat))
-best_summary
 
 ```
 
-tips from the book Subset Selection Choosing the Optimal Mode The AIC criterion is defined for models fit by maximum likelihood.
 
-"To perform best subset selection, we fit a separate least squares regression best subset selection for each possible combination of the p predictors."
+## Model Evaluation
 
-feature selection
+find the best model using stepwise selection
+find the 2 best methods for every size predictors
 
-what;s coorelated
 
 ```{r}
-set.seed(3736)
+
+# https://youtu.be/IScjygOnO0w
+set.seed(3746)
 # forward Stepwise Selection
 # nvmax = 8 specifies the maximum number of predictors to incorporate in the model.
-forward_step <- regsubsets(sold ~ ., data = inventory1, nvmax = 8, method = "forward")
-forward_step_summary <- summary(forward_step)
+a5i_mod <- regsubsets(sold ~  .,
+                       data = a5i, nbest = 2, method = "exhaustive")
+a5i_mod_summary_mx <- with(summary(a5i_mod), data.frame(rsq,adjr2, cp, rss, outmat))
 
-# Print summary
-forward_step_summary
+a5i_mod_summary_mx$predictors_cnt <- c(1,1,2,2,3,3,4,4,5) # for graphing
+a5i_mod_summary_mx$model <- c('a','b','a','b','a','b','a','b','a') # for graphing
+
+# insert the num_predictors column to a5i_mod_summary_mx
+a5i_mod_summary_mx 
 
 ```
 
-next step is to interpret the results
 
 ```{r}
-# Extract the summary of the model
-inventory_reg_summary <- summary(inventory_reg)
+#rsq by predictors
+# https://afit-r.github.io/model_selection
 
-# Get the R-squared values
-rsq <- inventory_reg_summary$rsq
+a5i_mod_summary_mx %>% 
+ggplot(aes(x = predictors_cnt , y = adjr2, fill = model)) +
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(breaks = 1:5)
 
-# Get the number of predictors
-num_predictors <- 1:length(rsq)
 
-# Plot the R-squared values against the number of predictors
-plot(num_predictors, rsq, type = "b",
-     xlab = "Number of Predictors",
-     ylab = "R-squared",
-     main = "R-squared vs. Number of Predictors")
+a5i_mod_summary_mx %>% 
+ggplot(aes(x = predictors_cnt , y = cp, fill = model)) +
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(breaks = 1:5)
 
 ```
 
-https://www.youtube.com/watch?v=6HCJGYYCPR0
+```{r}
+a5i_mod_summary_mx %>% 
+  pivot_longer(c(adjr2, cp), names_to = "metric", values_to = "value") %>%
+  ggplot(aes(x = predictors_cnt, y = value, color = model)) +
+  geom_line(show.legend = F) +
+  geom_point() +
+  facet_wrap(~metric, scales = "free") +
+  scale_x_continuous(breaks = 1:5)
+```
 
+
+# show the models in a table
+explain why this is the best one
+
+what do each of these things tell me?
+- rsq -> highest r squared
+- adjr2 - > highest
+- cp -> smallest cp
+- rss -> smallest
+
+
+having trouble choosing, i spent a lot of time making my variables so lets look at AIC several models
+what is AIC?
+Lower AIC values indicate a better-fit model, and a model with a delta-AIC (the difference between the two AIC values being compared) of more than -2 is considered significantly better than the model it is being compared to
+
+find the coefficients
+
+
+```{r}
+mod_compare <-  a5i_mod_summary_mx %>% 
+  filter(model == "a",
+         predictors_cnt >2) %>% 
+  select(predictors_cnt,
+          rsq,
+          adjr2,
+          cp,
+          rss)
+```
+
+
+```{r}
+# best adjusted r squared 5 predictors 
+mod5 <-  lm(sold~ month + week + lag1 + lag2 + moving_avg_4weeks, data = a5i)
+summary(mod5)
+mod5_aic <- AIC(mod5)
+```
+
+```{r}
+# mix of cp and adjusted r squared model a
+mod4 <-  lm(sold~ month + lag1 + lag2 + moving_avg_4weeks, data = a5i)
+summary(mod4)
+mod4_aic <- AIC(mod4)
+```
+
+
+```{r}
+# best cp model a
+mod3 <-  lm(sold~ lag1 + lag2 + moving_avg_4weeks, data = a5i)
+summary(mod3)
+mod3_aic <- AIC(mod3)
+```
+
+
+
+```{r}
+mod_compare$AIC <-  c(mod3_aic,mod4_aic, mod5_aic )
+```
+
+show the aic comparisons
+model 3 is the best, which makes the most sense since the other variables were not significant
+
+lag 1 and 2 are the best 
+along with rolling monthly average
+
+
+
+next up, how can i apply a monthly rolling average to each invetory item??
+
+
+# next up, how can u split the data without changing the weeks?
+
+I can split it up by inventory??
+
+add back in the best sellers and compare AICs?
