@@ -63,8 +63,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../sections/reflections/reflections_main.html" rel="next">
-<link href="../../sections/dataviz/viz_placeholder.html" rel="prev">
 <link href="../../images/logos/favicon2.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -100,7 +98,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="../../styles.css">
 <meta property="og:title" content="Brooke Walter’s Portfolio - inventory prediction">
 <meta property="og:description" content="">
-<meta property="og:image" content="https://brookemwalters.github.io/Collection/sections/glmv1/pi_files/figure-html/unnamed-chunk-8-1.png">
+<meta property="og:image" content="https://brookemwalters.github.io/Collection/sections/glmv1/pi3_files/figure-html/unnamed-chunk-7-1.png">
 <meta property="og:site-name" content="Brooke Walter's Portfolio">
 <meta property="og:image:height" content="960">
 <meta property="og:image:width" content="1344">
@@ -115,7 +113,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../sections/dataviz/viz_placeholder.html">projects</a></li><li class="breadcrumb-item"><a href="../../sections/glmv1/pi.html">Time Series Forecasting</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">inventory prediction</li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -166,13 +164,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false">
  <span class="menu-text">projects</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../sections/dataviz/viz_placeholder.html" class="sidebar-item-text sidebar-link">
@@ -181,7 +179,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../sections/glmv1/pi.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../sections/glmv1/pi.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Time Series Forecasting</span></a>
   </div>
 </li>
@@ -258,7 +256,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>DRAFT DRAFT OUTLINE</p>
 <section id="description-of-data" class="level2">
 <h2 class="anchored" data-anchor-id="description-of-data">Description of Data:</h2>
-<p>The initial inventory dataset contains 488 items sold over the course of 54 weeks (0-53)</p>
+<p>The initial inventory dataset contains 26,352 items sold over the course of 54 weeks (0-53)</p>
 <p>[insert histogram of items sold]</p>
 </section>
 <section id="limitations" class="level2">
@@ -388,53 +386,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(sai, <span class="st">"FEinventory.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-</section>
-<section id="two-model-predictions-update-this-to-select-random-item-numbers-75" class="level1">
-<h1>two model predictions update this to select random item numbers 75%</h1>
-</section>
-<section id="second-model-will-use-week-0-to-predict-week-54-vs-25" class="level1">
-<h1>second model will use week 0 to predict week 54 vs 25%</h1>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1985</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>items_sample_list <span class="ot">&lt;-</span>  <span class="fu">unique</span>(sai<span class="sc">$</span>item_no) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample</span>(<span class="dv">366</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 75% of the data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># splitting the inventory by item type to keep the temporal order</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>is_train <span class="ot">&lt;-</span>  sai <span class="sc">%&gt;%</span> </span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(item_no <span class="sc">%in%</span> items_sample_list) <span class="sc">%&gt;%</span> </span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    item_no,</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    week,</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    month,</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    lag1,</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    lag2,</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    rolling_4wk_avg,</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    best_seller, </span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    sold) <span class="co">#not sure why i had to include the dplyr package</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>is_test<span class="ot">&lt;-</span>  sai <span class="sc">%&gt;%</span> </span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>(item_no <span class="sc">%in%</span> items_sample_list)) <span class="sc">%&gt;%</span> </span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    item_no,</span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    week,</span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    month,</span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    lag1,</span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>    lag2,</span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    rolling_4wk_avg,</span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    best_seller, </span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>    sold) <span class="co">#not sure why i had to include the dplyr package</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>a5i <span class="ot">&lt;-</span>  sai <span class="sc">%&gt;%</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(item_no <span class="sc">==</span> <span class="st">'A510004'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    week,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    month,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    lag1,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    lag2,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    rolling_4wk_avg,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    sold) <span class="co">#not sure why i had to include the dplyr package</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>create a model based on the best selling item, inventory with more items sold are more predcitable.</p>
+</section>
 <section id="model-selection" class="level2">
 <h2 class="anchored" data-anchor-id="model-selection">Model Selection</h2>
 <p>find the best model using stepwise selection find the 2 best methods for every size predictors</p>
@@ -445,44 +412,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># https://youtu.be/IScjygOnO0w</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># forward Stepwise Selection</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># nvmax = 8 specifies the maximum number of predictors to incorporate in the model.</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>is_mod <span class="ot">&lt;-</span> <span class="fu">regsubsets</span>(sold <span class="sc">~</span> week <span class="sc">+</span> month <span class="sc">+</span> lag1 <span class="sc">+</span> lag2 <span class="sc">+</span> rolling_4wk_avg <span class="sc">+</span> best_seller,</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">data =</span> is_test, <span class="at">nbest =</span> <span class="dv">2</span>, <span class="at">method =</span> <span class="st">"exhaustive"</span>)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>is_mod_summary_mx <span class="ot">&lt;-</span> <span class="fu">with</span>(<span class="fu">summary</span>(is_mod), <span class="fu">data.frame</span>(rsq,adjr2, cp, rss, outmat))</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>is_mod_summary_mx<span class="sc">$</span>predictors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">6</span>) <span class="co"># for graphing</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>is_mod_summary_mx<span class="sc">$</span>model <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'a'</span>,<span class="st">'b'</span>,<span class="st">'a'</span>,<span class="st">'b'</span>,<span class="st">'a'</span>,<span class="st">'b'</span>,<span class="st">'a'</span>,<span class="st">'b'</span>,<span class="st">'a'</span>, <span class="st">'b'</span>, <span class="st">'a'</span>) <span class="co"># for graphing</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co"># insert the num_predictors column to a5i_mod_summary_mx</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>is_mod_summary_mx </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># https://youtu.be/IScjygOnO0w</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3746</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># forward Stepwise Selection</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># nvmax = 8 specifies the maximum number of predictors to incorporate in the model.</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>a5i_mod <span class="ot">&lt;-</span> <span class="fu">regsubsets</span>(sold <span class="sc">~</span>  .,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                       <span class="at">data =</span> a5i, <span class="at">nbest =</span> <span class="dv">2</span>, <span class="at">method =</span> <span class="st">"exhaustive"</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>a5i_mod_summary_mx <span class="ot">&lt;-</span> <span class="fu">with</span>(<span class="fu">summary</span>(a5i_mod), <span class="fu">data.frame</span>(rsq,adjr2, cp, rss, outmat))</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>a5i_mod_summary_mx<span class="sc">$</span>predictors_cnt <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">5</span>) <span class="co"># for graphing</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>a5i_mod_summary_mx<span class="sc">$</span>model <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'a'</span>,<span class="st">'b'</span>,<span class="st">'a'</span>,<span class="st">'b'</span>,<span class="st">'a'</span>,<span class="st">'b'</span>,<span class="st">'a'</span>,<span class="st">'b'</span>,<span class="st">'a'</span>) <span class="co"># for graphing</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>a5i_mod_summary_mx<span class="sc">$</span>modeltype <span class="ot">&lt;-</span>  <span class="st">"lrm"</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co"># insert the num_predictors column to a5i_mod_summary_mx</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>a5i_mod_summary_mx </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>                rsq      adjr2          cp       rss week month lag1 lag2
-1  ( 1 ) 0.35517493 0.35507126 3641.238692 347410480                     
-1  ( 2 ) 0.07253195 0.07238283 7962.790093 499689200                     
-2  ( 1 ) 0.47178311 0.47161324 1860.324363 284585840                    *
-2  ( 2 ) 0.40971495 0.40952512 2809.333361 318026117               *     
-3  ( 1 ) 0.59311658 0.59292027    7.161336 219215369               *    *
-3  ( 2 ) 0.47179023 0.47153538 1862.215571 284582007          *         *
-4  ( 1 ) 0.59312292 0.59286113    9.064396 219211953          *    *    *
-4  ( 2 ) 0.59311764 0.59285586    9.145038 219214795               *    *
-5  ( 1 ) 0.59351846 0.59319149    5.016718 218998851    *     *    *    *
-5  ( 2 ) 0.59312400 0.59279672   11.047895 219211372          *    *    *
-6  ( 1 ) 0.59351955 0.59312713    7.000000 218998262    *     *    *    *
-         rolling_4wk_avg best_seller predictors model
-1  ( 1 )               *                      1     a
-1  ( 2 )                           *          1     b
-2  ( 1 )               *                      2     a
-2  ( 2 )               *                      2     b
-3  ( 1 )               *                      3     a
-3  ( 2 )               *                      3     b
-4  ( 1 )               *                      4     a
-4  ( 2 )               *           *          4     b
-5  ( 1 )               *                      5     a
-5  ( 2 )               *           *          5     b
-6  ( 1 )               *           *          6     a</code></pre>
+<pre><code>                rsq     adjr2        cp       rss week month lag1 lag2
+1  ( 1 ) 0.14502533 0.1275769 31.959462 146883607                     
+1  ( 2 ) 0.09746449 0.0790454 36.351847 155054501                    *
+2  ( 1 ) 0.38735758 0.3618308 11.579355 105251221                    *
+2  ( 2 ) 0.18497440 0.1510150 30.270046 140020406               *     
+3  ( 1 ) 0.49724866 0.4651582  3.430586  86372067               *    *
+3  ( 2 ) 0.38901570 0.3500167 13.426223 104966358          *         *
+4  ( 1 ) 0.49802651 0.4543766  5.358750  86238434          *    *    *
+4  ( 2 ) 0.49758788 0.4538999  5.399259  86313791    *          *    *
+5  ( 1 ) 0.51273908 0.4585990  6.000000  83710833    *     *    *    *
+         rolling_4wk_avg predictors_cnt model modeltype
+1  ( 1 )               *              1     a       lrm
+1  ( 2 )                              1     b       lrm
+2  ( 1 )               *              2     a       lrm
+2  ( 2 )               *              2     b       lrm
+3  ( 1 )               *              3     a       lrm
+3  ( 2 )               *              3     b       lrm
+4  ( 1 )               *              4     a       lrm
+4  ( 2 )               *              4     b       lrm
+5  ( 1 )               *              5     a       lrm</code></pre>
 </div>
 </div>
 <section id="model-evaluation" class="level3">
@@ -490,19 +455,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>is_mod_summary_mx <span class="sc">%&gt;%</span> </span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">c</span>(adjr2, cp), <span class="at">names_to =</span> <span class="st">"metric"</span>, <span class="at">values_to =</span> <span class="st">"value"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> predictors, <span class="at">y =</span> value, <span class="at">color =</span> model)) <span class="sc">+</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">show.legend =</span> F) <span class="sc">+</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>metric, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>a5i_mod_summary_mx <span class="sc">%&gt;%</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">c</span>(adjr2, cp), <span class="at">names_to =</span> <span class="st">"metric"</span>, <span class="at">values_to =</span> <span class="st">"value"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> predictors_cnt, <span class="at">y =</span> value, <span class="at">color =</span> model)) <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">show.legend =</span> F) <span class="sc">+</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>metric, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="pi_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+<p><img src="pi3_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-</section>
 </section>
 </section>
 <section id="show-the-models-in-a-table" class="level1">
@@ -510,105 +474,83 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the table</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create the table</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>explain why this is the best one what do each of these things tell me?</p>
 <ul>
-<li><p>rsq -&gt; highest r squared, explains the variability in the model</p></li>
-<li><p>adjr2 - &gt; highest</p></li>
-<li><p>cp -&gt; smallest</p></li>
-<li><p>rss -&gt; smallest</p></li>
+<li>rsq -&gt; highest r squared, explains the variability in the model</li>
+<li>adjr2 - &gt; highest</li>
+<li>cp -&gt; smallest</li>
+<li>rss -&gt; smallest</li>
 </ul>
 <p>having trouble choosing, i spent a lot of time making my variables so lets look at AIC several models what is AIC? Lower AIC values indicate a better-fit model, and a model with a delta-AIC (the difference between the two AIC values being compared) of more than -2 is considered significantly better than the model it is being compared to</p>
-<p>find the coefficients and (Akaike Information Criterion) AIC Multiple linear regression</p>
+<p>find the coefficients and (Akaike Information Criterion) AIC</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#https://emilhvitfeldt.github.io/ISLR-tidymodels-labs/03-linear-regression.html</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># tidy model way</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a> specs <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"regression"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"lm"</span>)</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>lm_3 <span class="ot">&lt;-</span> specs <span class="sc">%&gt;%</span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(sold<span class="sc">~</span> lag1 <span class="sc">+</span> lag2 <span class="sc">+</span> rolling_4wk_avg , <span class="at">data =</span> is_train)</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>lm_4 <span class="ot">&lt;-</span> specs <span class="sc">%&gt;%</span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(sold<span class="sc">~</span> month <span class="sc">+</span> lag1 <span class="sc">+</span> lag2 <span class="sc">+</span> rolling_4wk_avg , <span class="at">data =</span> is_train)</span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>lm_5 <span class="ot">&lt;-</span> specs <span class="sc">%&gt;%</span></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(sold<span class="sc">~</span> month <span class="sc">+</span> week <span class="sc">+</span> lag1 <span class="sc">+</span> lag2 <span class="sc">+</span> rolling_4wk_avg , <span class="at">data =</span> is_train)</span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>mod_compare <span class="ot">&lt;-</span>  <span class="fu">rbind</span>(<span class="fu">glance</span>(lm_3),<span class="fu">glance</span>(lm_4),<span class="fu">glance</span>(lm_5))</span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>mod_compare</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>mod_compare <span class="ot">&lt;-</span>  a5i_mod_summary_mx <span class="sc">%&gt;%</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(model <span class="sc">==</span> <span class="st">"a"</span>,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>         predictors_cnt <span class="sc">&gt;</span><span class="dv">2</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span> <span class="fu">select</span>(predictors_cnt,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>          rsq,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>          adjr2,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>          cp,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>          rss)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co"># best adjusted r squared 5 predictors </span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>mod5 <span class="ot">&lt;-</span>  <span class="fu">lm</span>(sold<span class="sc">~</span> month <span class="sc">+</span> week <span class="sc">+</span> lag1 <span class="sc">+</span> lag2 <span class="sc">+</span> rolling_4wk_avg , <span class="at">data =</span> a5i)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>mod5_aic <span class="ot">&lt;-</span> <span class="fu">AIC</span>(mod5)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co"># mix of cp and adjusted r squared model a</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>mod4 <span class="ot">&lt;-</span>  <span class="fu">lm</span>(sold<span class="sc">~</span> month <span class="sc">+</span> lag1 <span class="sc">+</span> lag2 <span class="sc">+</span> rolling_4wk_avg , <span class="at">data =</span> a5i)</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>mod4_aic <span class="ot">&lt;-</span> <span class="fu">AIC</span>(mod4)</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="co"># best cp model a</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>mod3 <span class="ot">&lt;-</span>  <span class="fu">lm</span>(sold<span class="sc">~</span> lag1 <span class="sc">+</span> lag2 <span class="sc">+</span> rolling_4wk_avg , <span class="at">data =</span> a5i)</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>mod3_aic <span class="ot">&lt;-</span> <span class="fu">AIC</span>(mod3)</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>mod_compare<span class="sc">$</span>AIC <span class="ot">&lt;-</span>  <span class="fu">c</span>(mod3_aic,mod4_aic, mod5_aic )</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>mod_compare</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 × 12
-  r.squared adj.r.squared sigma statistic p.value    df   logLik     AIC     BIC
-      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-1     0.597         0.597  133.     9213.       0     3 -117797. 235603. 235642.
-2     0.597         0.597  133.     6910.       0     4 -117796. 235605. 235652.
-3     0.597         0.597  133.     5528.       0     5 -117796. 235606. 235661.
-# ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
+<pre><code>         predictors_cnt       rsq     adjr2       cp      rss      AIC
+3  ( 1 )              3 0.4972487 0.4651582 3.430586 86372067 886.1915
+4  ( 1 )              4 0.4980265 0.4543766 5.358750 86238434 888.1126
+5  ( 1 )              5 0.5127391 0.4585990 6.000000 83710833 888.5954</code></pre>
 </div>
 </div>
-<p>interpret the results</p>
+<p>https://emilhvitfeldt.github.io/ISLR-tidymodels-labs/04-classification.html</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_cols</span>(</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(lm_3, <span class="at">new_data =</span> is_train, <span class="at">type =</span> <span class="st">"conf_int"</span>),</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  is_train</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(item_no, week, sold, .pred_lower, .pred_upper)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 19,764 × 5
-   item_no  week  sold .pred_lower .pred_upper
-   &lt;chr&gt;   &lt;dbl&gt; &lt;int&gt;       &lt;dbl&gt;       &lt;dbl&gt;
- 1 020-502     0     0       NA          NA   
- 2 020-502     1     0       NA          NA   
- 3 020-502     2     0       NA          NA   
- 4 020-502     3     0       -1.93        2.19
- 5 020-502     4    84       40.3        44.4 
- 6 020-502     5     0       -1.48        2.69
- 7 020-502     6     0       -2.59        1.58
- 8 020-502     7    84       82.5        86.7 
- 9 020-502     8     0       -1.48        2.69
-10 020-502     9     0       -2.59        1.58
-# ℹ 19,754 more rows</code></pre>
-</div>
-</div>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>lm_3 <span class="ot">&lt;-</span> specs <span class="sc">%&gt;%</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(sold<span class="sc">~</span> lag1 <span class="sc">+</span> lag2 <span class="sc">+</span> rolling_4wk_avg , <span class="at">data =</span> is_train)</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>lm_3t <span class="ot">&lt;-</span> specs <span class="sc">%&gt;%</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(sold<span class="sc">~</span> lag1 <span class="sc">+</span> lag2 <span class="sc">+</span> rolling_4wk_avg , <span class="at">data =</span> is_test)</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>tt_compare <span class="ot">&lt;-</span>  <span class="fu">rbind</span>(<span class="fu">glance</span>(lm_3),<span class="fu">glance</span>(lm_3t))</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>tt_compare<span class="sc">$</span>mod <span class="ot">&lt;-</span>  <span class="fu">c</span>(<span class="st">"train"</span>, <span class="st">"test"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>train_index <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>(<span class="fu">nrow</span>(sai) <span class="sc">-</span> <span class="dv">12</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>sai_train <span class="ot">&lt;-</span> sai[train_index, ]</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>sai_test <span class="ot">&lt;-</span> sai[<span class="sc">-</span>train_index, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>actual_predicted <span class="ot">&lt;-</span> <span class="fu">bind_cols</span>(</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(lm_3t, <span class="at">new_data =</span> is_train, <span class="at">type =</span> <span class="st">"conf_int"</span>),</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  is_train</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(item_no, week, sold, .pred_lower, .pred_upper)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>pois_spec <span class="ot">&lt;-</span> <span class="fu">poisson_reg</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"regression"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-</section>
-<section id="graph-results" class="level1">
-<h1>graph results</h1>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>pois_rec_spec <span class="ot">&lt;-</span> <span class="fu">recipe</span>(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  sold<span class="sc">~</span> lag1 <span class="sc">+</span> lag2 <span class="sc">+</span> rolling_4wk_avg <span class="sc">+</span> best_seller ,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> sai,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_dummy</span>(<span class="fu">all_nominal_predictors</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>use a group of items</p>
 
 
 </section>
@@ -861,18 +803,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
 });
 </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-      <a href="../../sections/dataviz/viz_placeholder.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Overview_Draft</span>
-      </a>          
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="../../sections/reflections/reflections_main.html" class="pagination-link">
-        <span class="nav-page-text">collection of reflections</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
@@ -881,7 +811,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/BrookemWalters/Collection/edit/main/sections/glmv1/pi.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/BrookemWalters/Collection/issues/new" class="toc-action">Report an issue</a></p></div></div></div>
+    <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/BrookemWalters/Collection/edit/main/sections/glmv1/pi3.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/BrookemWalters/Collection/issues/new" class="toc-action">Report an issue</a></p></div></div></div>
     <div class="nav-footer-right">This page is built with ☕ and <a href="https://quarto.org/">Quarto</a>.</div>
   </div>
 </footer>

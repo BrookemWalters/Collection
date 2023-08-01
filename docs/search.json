@@ -131,5 +131,145 @@
     "title": "inventory prediction",
     "section": "Model Evaluation",
     "text": "Model Evaluation\nfind the best model using stepwise selection find the 2 best methods for every size predictors\n\n\nCode\n# https://youtu.be/IScjygOnO0w\nset.seed(3746)\n# forward Stepwise Selection\n# nvmax = 8 specifies the maximum number of predictors to incorporate in the model.\na5i_mod &lt;- regsubsets(sold ~  .,\n                       data = a5i, nbest = 2, method = \"exhaustive\")\na5i_mod_summary_mx &lt;- with(summary(a5i_mod), data.frame(rsq,adjr2, cp, rss, outmat))\n\na5i_mod_summary_mx$predictors_cnt &lt;- c(1,1,2,2,3,3,4,4,5) # for graphing\na5i_mod_summary_mx$model &lt;- c('a','b','a','b','a','b','a','b','a') # for graphing\n\n# insert the num_predictors column to a5i_mod_summary_mx\na5i_mod_summary_mx \n\n\n                rsq     adjr2        cp       rss month week lag2 lag1\n1  ( 1 ) 0.14502533 0.1275769 31.959462 146883607                     \n1  ( 2 ) 0.09746449 0.0790454 36.351847 155054501               *     \n2  ( 1 ) 0.38735758 0.3618308 11.579355 105251221               *     \n2  ( 2 ) 0.18497440 0.1510150 30.270046 140020406                    *\n3  ( 1 ) 0.49724866 0.4651582  3.430586  86372067               *    *\n3  ( 2 ) 0.38901570 0.3500167 13.426223 104966358     *         *     \n4  ( 1 ) 0.49802651 0.4543766  5.358750  86238434     *         *    *\n4  ( 2 ) 0.49758788 0.4538999  5.399259  86313791          *    *    *\n5  ( 1 ) 0.51273908 0.4585990  6.000000  83710833     *    *    *    *\n         moving_avg_4weeks predictors_cnt model\n1  ( 1 )                 *              1     a\n1  ( 2 )                                1     b\n2  ( 1 )                 *              2     a\n2  ( 2 )                 *              2     b\n3  ( 1 )                 *              3     a\n3  ( 2 )                 *              3     b\n4  ( 1 )                 *              4     a\n4  ( 2 )                 *              4     b\n5  ( 1 )                 *              5     a\n\n\n\n\nCode\na5i_mod_summary_mx %&gt;% \n  pivot_longer(c(adjr2, cp), names_to = \"metric\", values_to = \"value\") %&gt;%\n  ggplot(aes(x = predictors_cnt, y = value, color = model)) +\n  geom_line(show.legend = F) +\n  geom_point() +\n  facet_wrap(~metric, scales = \"free\") +\n  scale_x_continuous(breaks = 1:5)"
+  },
+  {
+    "objectID": "sections/glmv1/pi.html#feature-engineering",
+    "href": "sections/glmv1/pi.html#feature-engineering",
+    "title": "inventory prediction",
+    "section": "Feature engineering",
+    "text": "Feature engineering\nI needed to create a few more variables help with the predictions:\n(link to data dictionary)\n\ntotals for each item over the year\nwhich items are best selling? top ten items based on volume\nconvert weeks to dates so we can extract the month\nlag period for seasonality\nrolling mean\n\n\n\nCode\n# total yearly sales for each item\ninventory_sum &lt;- sai %&gt;%\n  group_by(item_no) %&gt;%\n  summarise(year_total = sum(sold), .groups = \"drop\")\n\nsai &lt;- left_join(sai, inventory_sum, by = c(\"item_no\"))\n\n###\n# calculate the top 10% threshold\ntop_10_threshold &lt;- quantile(sai$year_total, 0.9)\n\n# dummy variable for bestsellers 1= yes 0 = no\nsai &lt;- sai %&gt;%\n  mutate(best_seller = ifelse(year_total &gt;= top_10_threshold, 1, 0))\n\n## figure out month an year for data, assuming the data is from  2022\n# week 0: December 27, 2021 - January 2, 2022\n# week 52: December 19, 2022 - December 25, 2022\n# week 53: December 26, 2022 - January 1, 2023\n\nsai$year &lt;- 2022\n\nsai &lt;- sai %&gt;%\n  mutate(calendar_week = ifelse(week == 0, 52, ifelse(week == 53, 1, week)),\n         calendar_year = ifelse(week == 0, year - 1, ifelse(week == 53, year + 1, year)))\n\n# Now use calendar_year and calendar_week in the MMWRweek2Date function\nsai$date &lt;- MMWRweek2Date(sai$calendar_year, sai$calendar_week)\n\n\n\n# find the year the week ends in, so we can figure out months\nsai &lt;- sai %&gt;%\n  mutate(wk_ending_year = ifelse(week %in% c(0, 53), year + 1, year),\n         week = ifelse(week == 53, 1, week))\n\n\n\n# create teh data and extract the month\n# wanted month to be quantitative to reduce model complexity\n\nsai$date &lt;- MMWRweek2Date(sai$wk_ending_year, sai$calendar_week)\nsai$month &lt;- month(sai$date, label = TRUE)\nsai$month &lt;- month(sai$date)\n\n\n# create lag periods\n# https://www.youtube.com/watch?v=Kn3llTjYS5E\n\nsai &lt;- sai %&gt;%\n  mutate(lag1 = lag(sold, 1),\n         lag2 = lag(sold, 2))\n\n# https://www.rdocumentation.org/packages/zoo/versions/1.8-12/topics/rollmean\nsai &lt;- sai %&gt;%\n  group_by(item_no) %&gt;%\n  mutate(rolling_4wk_avg = zoo::rollmean(sold, k = 4, fill = NA, align = \"right\")) %&gt;%\n  ungroup()\n\n\n\n\nCode\nhead(sai)\n\n\n# A tibble: 6 × 14\n  item_no  week  sold year_total best_seller  year calendar_week calendar_year\n  &lt;chr&gt;   &lt;dbl&gt; &lt;int&gt;      &lt;int&gt;       &lt;dbl&gt; &lt;dbl&gt;         &lt;dbl&gt;         &lt;dbl&gt;\n1 020-307     0     0        880           0  2022            52          2021\n2 020-307     1    80        880           0  2022             1          2022\n3 020-307     2     0        880           0  2022             2          2022\n4 020-307     3     0        880           0  2022             3          2022\n5 020-307     4     0        880           0  2022             4          2022\n6 020-307     5     0        880           0  2022             5          2022\n# ℹ 6 more variables: date &lt;date&gt;, wk_ending_year &lt;dbl&gt;, month &lt;dbl&gt;,\n#   lag1 &lt;int&gt;, lag2 &lt;int&gt;, rolling_4wk_avg &lt;dbl&gt;\n\n\nCode\ncolnames(sai)\n\n\n [1] \"item_no\"         \"week\"            \"sold\"            \"year_total\"     \n [5] \"best_seller\"     \"year\"            \"calendar_week\"   \"calendar_year\"  \n [9] \"date\"            \"wk_ending_year\"  \"month\"           \"lag1\"           \n[13] \"lag2\"            \"rolling_4wk_avg\"\n\n\nCode\n# validate data\nwrite.csv(sai, \"FEinventory.csv\")"
+  },
+  {
+    "objectID": "sections/glmv1/pi.html#model-selection",
+    "href": "sections/glmv1/pi.html#model-selection",
+    "title": "inventory prediction",
+    "section": "Model Selection",
+    "text": "Model Selection\nfind the best model using stepwise selection find the 2 best methods for every size predictors\n\ndefine generalized linear regression and why I chose this for the model\ni removed the best sellers because all of the items were best sellers\n\n\n\nCode\n# https://youtu.be/IScjygOnO0w\n# forward Stepwise Selection\n# nvmax = 8 specifies the maximum number of predictors to incorporate in the model.\nis_mod &lt;- regsubsets(sold ~ week + month + lag1 + lag2 + rolling_4wk_avg + best_seller,\n                       data = is_test, nbest = 2, method = \"exhaustive\")\nis_mod_summary_mx &lt;- with(summary(is_mod), data.frame(rsq,adjr2, cp, rss, outmat))\n\nis_mod_summary_mx$predictors &lt;- c(1,1,2,2,3,3,4,4,5,5,6) # for graphing\nis_mod_summary_mx$model &lt;- c('a','b','a','b','a','b','a','b','a', 'b', 'a') # for graphing\n\n# insert the num_predictors column to a5i_mod_summary_mx\nis_mod_summary_mx \n\n\n                rsq      adjr2          cp       rss week month lag1 lag2\n1  ( 1 ) 0.35517493 0.35507126 3641.238692 347410480                     \n1  ( 2 ) 0.07253195 0.07238283 7962.790093 499689200                     \n2  ( 1 ) 0.47178311 0.47161324 1860.324363 284585840                    *\n2  ( 2 ) 0.40971495 0.40952512 2809.333361 318026117               *     \n3  ( 1 ) 0.59311658 0.59292027    7.161336 219215369               *    *\n3  ( 2 ) 0.47179023 0.47153538 1862.215571 284582007          *         *\n4  ( 1 ) 0.59312292 0.59286113    9.064396 219211953          *    *    *\n4  ( 2 ) 0.59311764 0.59285586    9.145038 219214795               *    *\n5  ( 1 ) 0.59351846 0.59319149    5.016718 218998851    *     *    *    *\n5  ( 2 ) 0.59312400 0.59279672   11.047895 219211372          *    *    *\n6  ( 1 ) 0.59351955 0.59312713    7.000000 218998262    *     *    *    *\n         rolling_4wk_avg best_seller predictors model\n1  ( 1 )               *                      1     a\n1  ( 2 )                           *          1     b\n2  ( 1 )               *                      2     a\n2  ( 2 )               *                      2     b\n3  ( 1 )               *                      3     a\n3  ( 2 )               *                      3     b\n4  ( 1 )               *                      4     a\n4  ( 2 )               *           *          4     b\n5  ( 1 )               *                      5     a\n5  ( 2 )               *           *          5     b\n6  ( 1 )               *           *          6     a\n\n\n\nmodel evaluation\n\n\nCode\nis_mod_summary_mx %&gt;% \n  pivot_longer(c(adjr2, cp), names_to = \"metric\", values_to = \"value\") %&gt;%\n  ggplot(aes(x = predictors, y = value, color = model)) +\n  geom_line(show.legend = F) +\n  geom_point() +\n  facet_wrap(~metric, scales = \"free\") +\n  scale_x_continuous(breaks = 1:6)"
+  },
+  {
+    "objectID": "sections/glmv1/pi.html#description-of-data",
+    "href": "sections/glmv1/pi.html#description-of-data",
+    "title": "inventory prediction",
+    "section": "Description of Data:",
+    "text": "Description of Data:\nThe initial inventory dataset contains 488 items sold over the course of 54 weeks (0-53)\n[insert histogram of items sold]"
+  },
+  {
+    "objectID": "sections/glmv1/pi.html#limitations",
+    "href": "sections/glmv1/pi.html#limitations",
+    "title": "inventory prediction",
+    "section": "Limitations",
+    "text": "Limitations\n12 months of data is not great for this preserves the temporal order. A more robost dataset to work on would include a couple years of data"
+  },
+  {
+    "objectID": "sections/glmv1/pi2.html",
+    "href": "sections/glmv1/pi2.html",
+    "title": "inventory prediction",
+    "section": "",
+    "text": "Code\n# import data\nsai &lt;-  read.csv(\"inventory.csv\")\nDRAFT DRAFT OUTLINE"
+  },
+  {
+    "objectID": "sections/glmv1/pi2.html#clear-description-of-data",
+    "href": "sections/glmv1/pi2.html#clear-description-of-data",
+    "title": "inventory prediction",
+    "section": "Clear Description of Data:",
+    "text": "Clear Description of Data:\nStart by providing a comprehensive summary of the dataset. This includes source information, timeframe, and the main purpose for collection. Each variable should be properly named and described. This could be presented in the form of a data dictionary.\n[insert]"
+  },
+  {
+    "objectID": "sections/glmv1/pi2.html#statistical-summary",
+    "href": "sections/glmv1/pi2.html#statistical-summary",
+    "title": "inventory prediction",
+    "section": "Statistical Summary:",
+    "text": "Statistical Summary:\nProvide a statistical summary of the variables. This includes measures of central tendency (mean, median, mode), dispersion (range, standard deviation, variance), and distribution properties (skewness, kurtosis). This could be supplemented with summary tables and histograms.\n[insert]"
+  },
+  {
+    "objectID": "sections/glmv1/pi2.html#visual-exploration",
+    "href": "sections/glmv1/pi2.html#visual-exploration",
+    "title": "inventory prediction",
+    "section": "Visual Exploration:",
+    "text": "Visual Exploration:\nUse visualizations to give an overview of the data. Histograms, box plots, scatter plots, or correlation heatmaps can be used to show relationships and trends within the data..\n[insert]"
+  },
+  {
+    "objectID": "sections/glmv1/pi2.html#initial-insights",
+    "href": "sections/glmv1/pi2.html#initial-insights",
+    "title": "inventory prediction",
+    "section": "Initial Insights:",
+    "text": "Initial Insights:\nStart by providing a comprehensive summary of the dataset. This includes source information, timeframe, and the main purpose for collection. Each variable should be properly named and described. This could be presented in the form of a data dictionary.\n[insert]"
+  },
+  {
+    "objectID": "sections/glmv1/pi2.html#feature-engineering",
+    "href": "sections/glmv1/pi2.html#feature-engineering",
+    "title": "inventory prediction",
+    "section": "Feature engineering",
+    "text": "Feature engineering\n(link to data dictionary)\n\ntotals for each item over the year\nwhich items are best selling? top ten items based on volume\nconvert weeks to dates so we can extract the month\nlag period for seasonality\nrolling mean\n\n\n\nCode\n# total yearly sales for each item\ninventory_sum &lt;- sai %&gt;%\n  group_by(item_no) %&gt;%\n  summarise(year_total = sum(sold), .groups = \"drop\")\n\nsai &lt;- left_join(sai, inventory_sum, by = c(\"item_no\"))\n\n###\n# calculate the top 10% threshold\ntop_10_threshold &lt;- quantile(sai$year_total, 0.9)\n\n# dummy variable for bestsellers 1= yes 0 = no\nsai &lt;- sai %&gt;% \n  mutate(best_seller = ifelse(year_total &gt;= top_10_threshold, 1, 0))\n\n### figure out month an year for data, assuming the data is from  2022\n#week 0: December 27, 2021 - January 2, 2022\n#week 52: December 19, 2022 - December 25, 2022\n#week 53: December 26, 2022 - January 1, 2023\n\nsai$year &lt;- 2022\n# find the year the week ends in, so we can figure out months\nsai &lt;- sai %&gt;%\n  mutate(wk_ending_year = ifelse(week %in% c(0, 53), year + 1, year),\n         week = ifelse(week == 0, 52, ifelse(week == 53, 1, week)))\n\n\n# create teh data and extract the month\n# wanted month to be quantitative to reduce model complexity \n\nsai$date &lt;- MMWRweek2Date(sai$wk_ending_year, sai$week)\nsai$month &lt;- month(sai$date, label = TRUE)\nsai$month &lt;- month(sai$date)\n\n\n# create lag periods\n# https://www.youtube.com/watch?v=Kn3llTjYS5E\n\nsai &lt;- sai %&gt;%\n  mutate(lag1 = lag(sold, 1),\n         lag2 = lag(sold, 2))\n\n# https://www.rdocumentation.org/packages/zoo/versions/1.8-12/topics/rollmean\nsai &lt;- sai %&gt;%\n  group_by(item_no) %&gt;% \n  mutate(rolling_4wk_avg = zoo::rollmean(sold, k = 4, fill = NA, align = \"right\")) %&gt;%\n  ungroup()\n\n\n\n\nCode\n# validate data\nwrite.csv(sai, \"FEinventory.csv\")\n\n\n\n\nCode\na5i &lt;-  sai %&gt;% \n  filter(item_no == 'A510004') %&gt;% \n  dplyr::select(\n    week,\n    month,\n    lag1,\n    lag2,\n    rolling_4wk_avg,\n    sold) #not sure why i had to include the dplyr package\n\n\ncreate a model based on the best selling item for reasons XYZ"
+  },
+  {
+    "objectID": "sections/glmv1/pi2.html#model-selection",
+    "href": "sections/glmv1/pi2.html#model-selection",
+    "title": "inventory prediction",
+    "section": "Model Selection",
+    "text": "Model Selection\nfind the best model using stepwise selection find the 2 best methods for every size predictors\n\n\nCode\n# https://youtu.be/IScjygOnO0w\nset.seed(3746)\n# forward Stepwise Selection\n# nvmax = 8 specifies the maximum number of predictors to incorporate in the model.\na5i_mod &lt;- regsubsets(sold ~  .,\n                       data = a5i, nbest = 2, method = \"exhaustive\")\na5i_mod_summary_mx &lt;- with(summary(a5i_mod), data.frame(rsq,adjr2, cp, rss, outmat))\n\na5i_mod_summary_mx$predictors_cnt &lt;- c(1,1,2,2,3,3,4,4,5) # for graphing\na5i_mod_summary_mx$model &lt;- c('a','b','a','b','a','b','a','b','a') # for graphing\na5i_mod_summary_mx$modeltype &lt;-  \"lrm\"\n\n# insert the num_predictors column to a5i_mod_summary_mx\na5i_mod_summary_mx \n\n\n                rsq     adjr2        cp       rss week month lag1 lag2\n1  ( 1 ) 0.14502533 0.1275769 31.959462 146883607                     \n1  ( 2 ) 0.09746449 0.0790454 36.351847 155054501                    *\n2  ( 1 ) 0.38735758 0.3618308 11.579355 105251221                    *\n2  ( 2 ) 0.18497440 0.1510150 30.270046 140020406               *     \n3  ( 1 ) 0.49724866 0.4651582  3.430586  86372067               *    *\n3  ( 2 ) 0.38901570 0.3500167 13.426223 104966358          *         *\n4  ( 1 ) 0.49802651 0.4543766  5.358750  86238434          *    *    *\n4  ( 2 ) 0.49758788 0.4538999  5.399259  86313791    *          *    *\n5  ( 1 ) 0.51273908 0.4585990  6.000000  83710833    *     *    *    *\n         rolling_4wk_avg predictors_cnt model modeltype\n1  ( 1 )               *              1     a       lrm\n1  ( 2 )                              1     b       lrm\n2  ( 1 )               *              2     a       lrm\n2  ( 2 )               *              2     b       lrm\n3  ( 1 )               *              3     a       lrm\n3  ( 2 )               *              3     b       lrm\n4  ( 1 )               *              4     a       lrm\n4  ( 2 )               *              4     b       lrm\n5  ( 1 )               *              5     a       lrm\n\n\n\nmodel evaluation\n\n\nCode\na5i_mod_summary_mx %&gt;% \n  pivot_longer(c(adjr2, cp), names_to = \"metric\", values_to = \"value\") %&gt;%\n  ggplot(aes(x = predictors_cnt, y = value, color = model)) +\n  geom_line(show.legend = F) +\n  geom_point() +\n  facet_wrap(~metric, scales = \"free\") +\n  scale_x_continuous(breaks = 1:5)"
+  },
+  {
+    "objectID": "sections/glmv1/pi3.html",
+    "href": "sections/glmv1/pi3.html",
+    "title": "inventory prediction",
+    "section": "",
+    "text": "Code\n# import data\nsai &lt;-  read.csv(\"inventory.csv\")\nDRAFT DRAFT OUTLINE"
+  },
+  {
+    "objectID": "sections/glmv1/pi3.html#description-of-data",
+    "href": "sections/glmv1/pi3.html#description-of-data",
+    "title": "inventory prediction",
+    "section": "Description of Data:",
+    "text": "Description of Data:\nThe initial inventory dataset contains 26,352 items sold over the course of 54 weeks (0-53)\n[insert histogram of items sold]"
+  },
+  {
+    "objectID": "sections/glmv1/pi3.html#limitations",
+    "href": "sections/glmv1/pi3.html#limitations",
+    "title": "inventory prediction",
+    "section": "Limitations",
+    "text": "Limitations\n12 months of data is not great for this preserves the temporal order. A more robost dataset to work on would include a couple years of data"
+  },
+  {
+    "objectID": "sections/glmv1/pi3.html#statistical-summary",
+    "href": "sections/glmv1/pi3.html#statistical-summary",
+    "title": "inventory prediction",
+    "section": "Statistical Summary:",
+    "text": "Statistical Summary:\nProvide a statistical summary of the variables. This includes measures of central tendency (mean, median, mode), dispersion (range, standard deviation, variance), and distribution properties (skewness, kurtosis). This could be supplemented with summary tables and histograms.\n[insert]"
+  },
+  {
+    "objectID": "sections/glmv1/pi3.html#visual-exploration",
+    "href": "sections/glmv1/pi3.html#visual-exploration",
+    "title": "inventory prediction",
+    "section": "Visual Exploration:",
+    "text": "Visual Exploration:\nUse visualizations to give an overview of the data. Histograms, box plots, scatter plots, or correlation heatmaps can be used to show relationships and trends within the data..\n[insert]"
+  },
+  {
+    "objectID": "sections/glmv1/pi3.html#initial-insights",
+    "href": "sections/glmv1/pi3.html#initial-insights",
+    "title": "inventory prediction",
+    "section": "Initial Insights:",
+    "text": "Initial Insights:\nStart by providing a comprehensive summary of the dataset. This includes source information, timeframe, and the main purpose for collection. Each variable should be properly named and described. This could be presented in the form of a data dictionary.\n[insert]"
+  },
+  {
+    "objectID": "sections/glmv1/pi3.html#feature-engineering",
+    "href": "sections/glmv1/pi3.html#feature-engineering",
+    "title": "inventory prediction",
+    "section": "Feature engineering",
+    "text": "Feature engineering\nI needed to create a few more variables help with the predictions:\n(link to data dictionary)\n\ntotals for each item over the year\nwhich items are best selling? top ten items based on volume\nconvert weeks to dates so we can extract the month\nlag period for seasonality\nrolling mean\n\n\n\nCode\n# total yearly sales for each item\ninventory_sum &lt;- sai %&gt;%\n  group_by(item_no) %&gt;%\n  summarise(year_total = sum(sold), .groups = \"drop\")\n\nsai &lt;- left_join(sai, inventory_sum, by = c(\"item_no\"))\n\n###\n# calculate the top 10% threshold\ntop_10_threshold &lt;- quantile(sai$year_total, 0.9)\n\n# dummy variable for bestsellers 1= yes 0 = no\nsai &lt;- sai %&gt;%\n  mutate(best_seller = ifelse(year_total &gt;= top_10_threshold, 1, 0))\n\n## figure out month an year for data, assuming the data is from  2022\n# week 0: December 27, 2021 - January 2, 2022\n# week 52: December 19, 2022 - December 25, 2022\n# week 53: December 26, 2022 - January 1, 2023\n\nsai$year &lt;- 2022\n\nsai &lt;- sai %&gt;%\n  mutate(calendar_week = ifelse(week == 0, 52, ifelse(week == 53, 1, week)),\n         calendar_year = ifelse(week == 0, year - 1, ifelse(week == 53, year + 1, year)))\n\n# Now use calendar_year and calendar_week in the MMWRweek2Date function\nsai$date &lt;- MMWRweek2Date(sai$calendar_year, sai$calendar_week)\n\n\n\n# find the year the week ends in, so we can figure out months\nsai &lt;- sai %&gt;%\n  mutate(wk_ending_year = ifelse(week %in% c(0, 53), year + 1, year),\n         week = ifelse(week == 53, 1, week))\n\n\n\n# create teh data and extract the month\n# wanted month to be quantitative to reduce model complexity\n\nsai$date &lt;- MMWRweek2Date(sai$wk_ending_year, sai$calendar_week)\nsai$month &lt;- month(sai$date, label = TRUE)\nsai$month &lt;- month(sai$date)\n\n\n# create lag periods\n# https://www.youtube.com/watch?v=Kn3llTjYS5E\n\nsai &lt;- sai %&gt;%\n  mutate(lag1 = lag(sold, 1),\n         lag2 = lag(sold, 2))\n\n# https://www.rdocumentation.org/packages/zoo/versions/1.8-12/topics/rollmean\nsai &lt;- sai %&gt;%\n  group_by(item_no) %&gt;%\n  mutate(rolling_4wk_avg = zoo::rollmean(sold, k = 4, fill = NA, align = \"right\")) %&gt;%\n  ungroup()\n\n\n\n\nCode\nhead(sai)\n\n\n# A tibble: 6 × 14\n  item_no  week  sold year_total best_seller  year calendar_week calendar_year\n  &lt;chr&gt;   &lt;dbl&gt; &lt;int&gt;      &lt;int&gt;       &lt;dbl&gt; &lt;dbl&gt;         &lt;dbl&gt;         &lt;dbl&gt;\n1 020-307     0     0        880           0  2022            52          2021\n2 020-307     1    80        880           0  2022             1          2022\n3 020-307     2     0        880           0  2022             2          2022\n4 020-307     3     0        880           0  2022             3          2022\n5 020-307     4     0        880           0  2022             4          2022\n6 020-307     5     0        880           0  2022             5          2022\n# ℹ 6 more variables: date &lt;date&gt;, wk_ending_year &lt;dbl&gt;, month &lt;dbl&gt;,\n#   lag1 &lt;int&gt;, lag2 &lt;int&gt;, rolling_4wk_avg &lt;dbl&gt;\n\n\nCode\ncolnames(sai)\n\n\n [1] \"item_no\"         \"week\"            \"sold\"            \"year_total\"     \n [5] \"best_seller\"     \"year\"            \"calendar_week\"   \"calendar_year\"  \n [9] \"date\"            \"wk_ending_year\"  \"month\"           \"lag1\"           \n[13] \"lag2\"            \"rolling_4wk_avg\"\n\n\nCode\n# validate data\nwrite.csv(sai, \"FEinventory.csv\")\n\n\n\n\nCode\na5i &lt;-  sai %&gt;% \n  filter(item_no == 'A510004') %&gt;% \n  dplyr::select(\n    week,\n    month,\n    lag1,\n    lag2,\n    rolling_4wk_avg,\n    sold) #not sure why i had to include the dplyr package\n\n\ncreate a model based on the best selling item, inventory with more items sold are more predcitable."
+  },
+  {
+    "objectID": "sections/glmv1/pi3.html#model-selection",
+    "href": "sections/glmv1/pi3.html#model-selection",
+    "title": "inventory prediction",
+    "section": "Model Selection",
+    "text": "Model Selection\nfind the best model using stepwise selection find the 2 best methods for every size predictors\n\ndefine generalized linear regression and why I chose this for the model\ni removed the best sellers because all of the items were best sellers\n\n\n\nCode\n# https://youtu.be/IScjygOnO0w\nset.seed(3746)\n# forward Stepwise Selection\n# nvmax = 8 specifies the maximum number of predictors to incorporate in the model.\na5i_mod &lt;- regsubsets(sold ~  .,\n                       data = a5i, nbest = 2, method = \"exhaustive\")\na5i_mod_summary_mx &lt;- with(summary(a5i_mod), data.frame(rsq,adjr2, cp, rss, outmat))\n\na5i_mod_summary_mx$predictors_cnt &lt;- c(1,1,2,2,3,3,4,4,5) # for graphing\na5i_mod_summary_mx$model &lt;- c('a','b','a','b','a','b','a','b','a') # for graphing\na5i_mod_summary_mx$modeltype &lt;-  \"lrm\"\n\n# insert the num_predictors column to a5i_mod_summary_mx\na5i_mod_summary_mx \n\n\n                rsq     adjr2        cp       rss week month lag1 lag2\n1  ( 1 ) 0.14502533 0.1275769 31.959462 146883607                     \n1  ( 2 ) 0.09746449 0.0790454 36.351847 155054501                    *\n2  ( 1 ) 0.38735758 0.3618308 11.579355 105251221                    *\n2  ( 2 ) 0.18497440 0.1510150 30.270046 140020406               *     \n3  ( 1 ) 0.49724866 0.4651582  3.430586  86372067               *    *\n3  ( 2 ) 0.38901570 0.3500167 13.426223 104966358          *         *\n4  ( 1 ) 0.49802651 0.4543766  5.358750  86238434          *    *    *\n4  ( 2 ) 0.49758788 0.4538999  5.399259  86313791    *          *    *\n5  ( 1 ) 0.51273908 0.4585990  6.000000  83710833    *     *    *    *\n         rolling_4wk_avg predictors_cnt model modeltype\n1  ( 1 )               *              1     a       lrm\n1  ( 2 )                              1     b       lrm\n2  ( 1 )               *              2     a       lrm\n2  ( 2 )               *              2     b       lrm\n3  ( 1 )               *              3     a       lrm\n3  ( 2 )               *              3     b       lrm\n4  ( 1 )               *              4     a       lrm\n4  ( 2 )               *              4     b       lrm\n5  ( 1 )               *              5     a       lrm\n\n\n\nmodel evaluation\n\n\nCode\na5i_mod_summary_mx %&gt;% \n  pivot_longer(c(adjr2, cp), names_to = \"metric\", values_to = \"value\") %&gt;%\n  ggplot(aes(x = predictors_cnt, y = value, color = model)) +\n  geom_line(show.legend = F) +\n  geom_point() +\n  facet_wrap(~metric, scales = \"free\") +\n  scale_x_continuous(breaks = 1:5)"
+  },
+  {
+    "objectID": "sections/dataviz/viz_placeholder.html",
+    "href": "sections/dataviz/viz_placeholder.html",
+    "title": "visualizations",
+    "section": "",
+    "text": "definition and image source: javaTpoint"
   }
 ]
