@@ -163,3 +163,9 @@ b, strong {
     color: black;
     font-weight: bolder;
 }
+
+.graph-label {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: black;
+}

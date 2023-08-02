@@ -1,7 +1,20 @@
 ---
-title: "Portfolio"
+title: "Brooke Walters"
+image: "images/me.png"
+about:
+  template: trestles
+  links:
+    - text: Email
+      url: "mailto:brooke.melissa.walters.@gmail.com"
+    - text: Resume
+      url: "https://github.com/BrookemWalters/Collection/blob/main/BrookeWalters_DataScientist.pdf"
+    - text: Data Science Projects
+      url: "https://brookemwalters.github.io/Collection/sections/dataviz/viz_placeholder.html"
+comments: false
 ---
 
-![](/images/placeholders/universe.png)\-\--
+# Bio
 
-*building this site over the course of the summer 2023 session of Stat 631*
+Welcome to my portfolio! I'm Brooke, and I help companies find the hidden stories living in their data. I am fascinated by digital anthropology, machine learning, and the latest developments in AI.
+
+I've been fortunate enough to work in some impressive organizations, from Fortune 100 companies to non-profits of all sizes. Currently, I'm working in the healthcare sector while pursuing my master's in data science and analytics. Work is just one piece of the puzzle, and I believe it's crucial to find joy in what you do; for me, that's advanced analytics.

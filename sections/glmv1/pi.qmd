@@ -22,42 +22,94 @@ pacman::p_load(tidyverse,
                MMWRweek,
                broom,
                poissonreg) # parsnips for poisson
-```
 
-```{r}
 # import data
 sai <-  read.csv("inventory.csv")
+# import my custom theme :-)
+source("artNov_theme.R")
+
 ```
 
 DRAFT DRAFT OUTLINE
 
-## Description of Data:
+# Project Overview
 
-The initial inventory dataset contains 488 items sold over the course of 54 weeks (0-53)
+**goal**: predict inventory for the following year
 
-\[insert histogram of items sold\]
+**limitations**: 12 months of data is not great for this preserves the temporal order. A more robust data set to work on would include a couple years of data
 
-## Limitations
+**steps:**
 
-12 months of data is not great for this preserves the temporal order. A more robost dataset to work on would include a couple years of data
-
-## Statistical Summary:
-
-Provide a statistical summary of the variables. This includes measures of central tendency (mean, median, mode), dispersion (range, standard deviation, variance), and distribution properties (skewness, kurtosis). This could be supplemented with summary tables and histograms.
-
-\[insert\]
-
-## Visual Exploration:
-
-Use visualizations to give an overview of the data. Histograms, box plots, scatter plots, or correlation heatmaps can be used to show relationships and trends within the data..
-
-\[insert\]
+-   exploratory analysis and descriptive analytics -
+-   feature engineer new variables -
+-   step-wise model selection
+-   test and train a predictive model
+-   interpret and evaluate the results
+-   visualize the process
 
 ## Initial Insights:
 
-Start by providing a comprehensive summary of the dataset. This includes source information, timeframe, and the main purpose for collection. Each variable should be properly named and described. This could be presented in the form of a data dictionary.
+The initial inventory data set contains 488 items sold over the course of 54 weeks (0-53)
 
-\[insert\]
+The figures below distribution of items sold by item type and week. The line graph shows the seasonality of the product
+
+```{r fig.height=4, fig.width=10}
+hist <- sai %>% 
+  group_by(item_no) %>%
+  summarise(total_sold = sum(sold)) %>% 
+ 
+ggplot(aes(x = total_sold)) +
+  geom_histogram(binwidth = 2100, color = "black", fill = "#7D998F", 
+                 alpha = .6) +
+        scale_x_continuous(labels = scales::comma_format()) +
+  
+  labs(x = "Number of Items Sold", y = "Count of Item Type", 
+       title = "Number of Items Sold by Item Type", 
+       caption =  " figure a")+
+    theme_art_nouveau()
+
+
+
+hist1 <- sai %>% 
+  group_by(week) %>%
+  summarise(total_sold = sum(sold)) %>% 
+ 
+ggplot(aes(x = total_sold)) +
+  geom_histogram(binwidth =  2100, color = "black", fill = "#DF5875", 
+                 alpha = .6) +
+        scale_x_continuous(labels = scales::comma_format()) +
+        scale_y_continuous(position = "right") +
+  
+  labs(x = "Number of Items Sold", y = "Count of Weeks", 
+       title = "Number of Items Sold by Week",
+        caption =  " figure b")+
+  theme_art_nouveau()
+
+# display the histograms side by side
+gridExtra::grid.arrange(hist, hist1, ncol = 2)
+```
+
+-   What does this histogram tell me?
+    -   sales per week is slightly more evenly distributed throughout the sales cycle
+    -   the average week sells \~25K
+
+```{r fig.height=4, fig.width=10, warning=FALSE}
+line1 <- sai %>%
+  group_by(week) %>%
+  summarise(total_sold = sum(sold)) %>%
+  ggplot(aes(x = week, y = total_sold)) +
+  geom_line(size = 2, alpha = 0.5, color = "#DF5875") +
+  geom_point(size = 4, alpha = 0.5, color = "#DF5875")+
+  geom_area(fill = "#DF5875", alpha = 0.4) +
+  scale_x_continuous(breaks = seq(0, 55, by = 5)) + 
+  scale_y_continuous(labels = scales::comma_format()) +
+   
+  labs(x = "week", y = "Count of Items Sold", 
+       title = "Number of Items Sold by Week",
+        caption =  " figure c")+
+  theme_art_nouveau()
+line1
+```
 
 ## Feature engineering
 
@@ -131,12 +183,46 @@ sai <- sai %>%
   mutate(rolling_4wk_avg = zoo::rollmean(sold, k = 4, fill = NA, align = "right")) %>%
   ungroup()
 
-datawrite.csv(sai, "FEinventory.csv")
+write.csv(sai, "FEinventory.csv")
 ```
 
-# two model predictions update this to select random item numbers 75%
+```{r fig.height=4, fig.width=10}
 
-# second model will use week 0 to predict week 54 vs 25%
+month_abbreviations <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+
+sai_average <-  sai %>%
+  filter(wk_ending_year == 2022) %>% 
+  group_by(month) %>% 
+  summarise(month_average = mean(sold))
+
+
+
+bar <- sai %>%
+    filter(wk_ending_year == 2022) %>% 
+    mutate(month = factor(month, levels = 1:12, labels = month_abbreviations)) %>%
+  ggplot(aes(x = month, y = sold)) +
+  geom_bar(stat = "sum", fill = "#68576D", alpha = 0.75) +
+  labs(x = "Month", y = "Total Sold", title = "Total Sold by Month",
+       caption =  " figure d") +
+  theme_art_nouveau() +
+  theme(legend.position = "none")
+
+dot <-  sai_average %>%
+  mutate(month = factor(month, levels = 1:12, labels = month_abbreviations)) %>%
+  ggplot(aes(x=month, y= month_average)) +
+  geom_point(size = 4, shape = 8, alpha = .75)+
+  scale_y_continuous(position = "right") +
+  labs(x = "Month", y = "Average Sold", title = "Average Items Sold by Month",
+       caption =  " figure e") +
+  theme_art_nouveau() 
+ 
+  
+
+gridExtra::grid.arrange(bar, dot, ncol = 2)
+
+```
+
+### splitting the data
 
 ```{r}
 # create a list of all items to randomly select
@@ -198,40 +284,37 @@ is_mod_summary_mx$model <- c('a','b','a','b','a','b','a','b','a', 'b', 'a') # fo
 
 ```
 
-
 ```{r}
 # turn results into a pretty table
 # is_mod_summary_mx
 ```
 
-
-
 ### model evaluation
 
-```{r}
+```{r fig.height=4, fig.width=10}
 
 # make this chart prettier
-is_mod_summary_mx %>% 
+custom_colors <- c("#68576D", "#DF5875")
+
+is_mod_summary_mx %>%
   pivot_longer(c(adjr2, cp), names_to = "metric", values_to = "value") %>%
   ggplot(aes(x = predictors, y = value, color = model)) +
-  geom_line(show.legend = F) +
+  geom_line(show.legend = FALSE) +
   geom_point() +
   facet_wrap(~metric, scales = "free") +
-  scale_x_continuous(breaks = 1:6)
+  scale_x_continuous(breaks = 1:6) +
+  scale_color_manual(values = custom_colors) +  # Set custom colors here
+  theme_art_nouveau()
 ```
 
-[interpret the graph]
+\[interpret the graph\]
 
-explain why this is the best one what do each of these things tell me?
--   rsq -\> highest r squared, explains the variability in the model
--   adjr2 - \> highest
--   cp -\> smallest
--   rss -\> smallest
+explain why this is the best one what do each of these things tell me? - rsq -\> highest r squared, explains the variability in the model - adjr2 - \> highest - cp -\> smallest - rss -\> smallest
 
 having trouble choosing, i spent a lot of time making my variables so lets look at AIC several models what is AIC? Lower AIC values indicate a better-fit model, and a model with a delta-AIC (the difference between the two AIC values being compared) of more than -2 is considered significantly better than the model it is being compared to
 
-find the coefficients and (Akaike Information Criterion) AIC Multiple linear regression
-compare the three best models
+find the coefficients and (Akaike Information Criterion) AIC Multiple linear regression compare the three best models
+
 ```{r}
 #https://emilhvitfeldt.github.io/ISLR-tidymodels-labs/03-linear-regression.html
 
@@ -255,13 +338,10 @@ mod_compare <-  rbind(glance(lm_3),glance(lm_4),glance(lm_5))
 
 ```
 
-
 ```{r}
 # create a cool table
 # mod_compare
 ```
-
-
 
 interpret the results
 
@@ -275,8 +355,8 @@ train_precict <- bind_cols(
 # graph the results
 ```
 
-
 compare the train model against the test
+
 ```{r}
 lm_3 <- specs %>%
   fit(sold~ lag1 + lag2 + rolling_4wk_avg , data = is_train)
@@ -298,4 +378,4 @@ actual_predicted <- bind_cols(
   select(item_no, week, sold, .pred_lower, .pred_upper)
 ```
 
-# graph results
+### graph results
