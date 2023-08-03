@@ -21,6 +21,7 @@ pacman::p_load(tidyverse,
                corrplot,
                MMWRweek,
                broom,
+               gt,
                poissonreg) # parsnips for poisson
 
 # import data
@@ -34,24 +35,27 @@ DRAFT DRAFT OUTLINE
 
 # Project Overview
 
-**goal**: predict inventory for the following year
+-   Describe probability as a foundation of statistical modeling, including inference and maximum likelihood estimation
+-   Determine and apply the appropriate generalized linear model for a specific data context Conduct model selection for a set of candidate models
+-   Communicate the results of statistical models to a general audience Use programming software (i.e., R) to fit and assess statistical models
 
-**limitations**: 12 months of data is not great for this preserves the temporal order. A more robust data set to work on would include a couple years of data
+Here is my final project for Stats 631: Statistical Modeling and Regression
 
-**steps:**
+**goal**: use the data set below to predict inventory for the following year
 
--   exploratory analysis and descriptive analytics -
--   feature engineer new variables -
+**limitations**: For time series predictions it is best to use a data set that can be trended over multiple years. The data below only include 54 weeks of data
+
+**this report contains:**
+
+-   an exploratory analysis and descriptive analytics
+-   feature engineering
 -   step-wise model selection
--   test and train a predictive model
--   interpret and evaluate the results
--   visualize the process
+-   splitting data into test and train sets and models
+-   interpretation and evaluation the results
 
 ## Initial Insights:
 
-The initial inventory data set contains 488 items sold over the course of 54 weeks (0-53)
-
-The figures below distribution of items sold by item type and week. The line graph shows the seasonality of the product
+The initial inventory data set contains 488 items sold over the course of 54 weeks (0-53), with a total of \~ 1.3 million units sold.
 
 ```{r fig.height=4, fig.width=10}
 hist <- sai %>% 
@@ -63,9 +67,9 @@ ggplot(aes(x = total_sold)) +
                  alpha = .6) +
         scale_x_continuous(labels = scales::comma_format()) +
   
-  labs(x = "Number of Items Sold", y = "Count of Item Type", 
+  labs(x = "Number of Items Sold", y = "Frequency", 
        title = "Number of Items Sold by Item Type", 
-       caption =  " figure a")+
+       caption =  " figure 1.1")+
     theme_art_nouveau()
 
 
@@ -80,18 +84,16 @@ ggplot(aes(x = total_sold)) +
         scale_x_continuous(labels = scales::comma_format()) +
         scale_y_continuous(position = "right") +
   
-  labs(x = "Number of Items Sold", y = "Count of Weeks", 
+  labs(x = "Number of Items Sold", 
        title = "Number of Items Sold by Week",
-        caption =  " figure b")+
+        caption =  " figure 1.2")+
   theme_art_nouveau()
 
 # display the histograms side by side
 gridExtra::grid.arrange(hist, hist1, ncol = 2)
 ```
 
--   What does this histogram tell me?
-    -   sales per week is slightly more evenly distributed throughout the sales cycle
-    -   the average week sells \~25K
+###### **figure 1.** *The histograms demonstrate the distribution of the dataset by variable. The green histogram demonstrates the frequency of each item sold, with most items ranging between 500 and 1300 in total. The pink histogram conveys the temporal dispersion of weekly sales. Both graphs exhibit a right skew, particularly pronounced in the green histogram, implying a scarcity of high-sales items or weeks.*
 
 ```{r fig.height=4, fig.width=10, warning=FALSE}
 line1 <- sai %>%
@@ -106,22 +108,28 @@ line1 <- sai %>%
    
   labs(x = "week", y = "Count of Items Sold", 
        title = "Number of Items Sold by Week",
-        caption =  " figure c")+
+        caption =  " figure 2")+
   theme_art_nouveau()
 line1
 ```
 
+###### **figure 2.** *The line graph shows annual sales trends in the unprocessed data set. Weekly sales fluctuate within a range of 10,000 to 50,000 items, with the majority hovering between \~20k and \~30k units sold. A distinct sales peak is observed in week 20, while week 46 registers the slowest sales activity. This trend analysis aids in identifying key sales periods and provides valuable context for refining our predictive models*
+
 ## Feature engineering
 
-I needed to create a few more variables help with the predictions:
+I crafted new variables to derive a better understanding of sales trends, with the hope of enhancing the predictive model's performanc. These variables provide valuable insights into sales trends, seasonality, and best-selling items, which can be used to enhance the predictive model's performance and gain a better understanding of the data's dynamics. Ideally, meeting with domain experts would be part of this process, to ensure the variables represent reality.
 
-(link to data dictionary)
+### data dictionary
 
--   totals for each item over the year
--   which items are best selling? top ten items based on volume
--   convert weeks to dates so we can extract the month
--   lag period for seasonality
--   rolling mean
+-   **item_no**: the unique identifier for each item
+-   **week**: the week number. "sold": number of items sold during a specific week
+-   **year_total**:the total number of items sold for each item over the entire year
+-   **best_seller**: A binary variable indicating whether the item is one of the top ten best-selling items based on volume
+-   **date**: The specific date corresponding to a week
+-   **month**: the month corresponding to a specific week
+-   **lag1**: period for capturing seasonality or time-dependent patterns, item's sold from the previous week
+-   **lag2**: item's sold from two-weeks prior
+-   **rolling_4wk_avg**:rolling four-week average for each item, calculated as the total number of items sold over the past four weeks
 
 ```{r}
 # total yearly sales for each item
@@ -203,18 +211,21 @@ bar <- sai %>%
   ggplot(aes(x = month, y = sold)) +
   geom_bar(stat = "sum", fill = "#68576D", alpha = 0.75) +
   labs(x = "Month", y = "Total Sold", title = "Total Sold by Month",
-       caption =  " figure d") +
+       caption =  " figure 4.1") +
+  scale_y_continuous(labels = scales::comma_format()) +
   theme_art_nouveau() +
   theme(legend.position = "none")
 
 dot <-  sai_average %>%
   mutate(month = factor(month, levels = 1:12, labels = month_abbreviations)) %>%
-  ggplot(aes(x=month, y= month_average)) +
-  geom_point(size = 4, shape = 8, alpha = .75)+
+  ggplot(aes(x = month, y = month_average)) +
+  geom_point(size = 3) +
+  geom_point(size = 4, shape = 8, alpha = 0.75) +
+  geom_text(aes(label = round(month_average, 2)), nudge_y = 1.5) +  # Adjust nudge_y value for closer annotations
   scale_y_continuous(position = "right") +
-  labs(x = "Month", y = "Average Sold", title = "Average Items Sold by Month",
-       caption =  " figure e") +
-  theme_art_nouveau() 
+  labs(x = "Month", y = "", title = "Average Items Sold by Month", caption = "Figure 4.2") +
+  theme_art_nouveau() +
+  theme(axis.text.y = element_blank())  # Remove y-axis ticks
  
   
 
@@ -222,7 +233,21 @@ gridExtra::grid.arrange(bar, dot, ncol = 2)
 
 ```
 
+###### **figure 4.** *The bar graph displays the total sales volume by month. July stands out as the peak season, whereas November and December show lower inventory movement. U. However, the average number of items sold in a month is relatively low compared to the totals. This suggests the presence of numerous zeros, which are affecting the overall average.*
+
+```{r}
+#https://www.geeksforgeeks.org/visualization-of-a-correlation-matrix-using-ggplot2-in-r/
+# Check the data types of variables in 'sai'
+
+```
+
+###### **figure 5.** *The bar graph displays the total sales volume by month. July stands out as the peak season, whereas November and December show lower inventory movement. U. However, the average number of items sold in a month is relatively low compared to the totals. This suggests the presence of numerous zeros, which are affecting the overall average.*
+
 ### splitting the data
+
+Now on the thrilling part! dividing up the data so we can train and test a predictive model using statisical methods.
+
+I chose to split up the data by inventory type to avoid messing up the temporal order. Ideally I'd prefer to train on 2021 data and test on 2022 then make predictions for 2023
 
 ```{r}
 # create a list of all items to randomly select
@@ -264,11 +289,19 @@ is_test<-  sai %>%
 
 create a model based on the best selling item, inventory with more items sold are more predictable.
 
-## Model Selection
+## Model Feature Selection
 
-find the best model using stepwise selection find the 2 best methods for every size predictors reasons to use stepwise with caution - reason a - reason b - reason c
+-   find the best model using stepwise selection find the 2 best methods for every size predictors reasons to use stepwise with caution
+
+    -   irrelevant variables leads to unnecessary complexity in the resulting mode
 
 -   define generalized linear regression and why I chose this for the model
+
+### subselection
+
+-   This approach involves identifying a subset of the p predictors that we believe to be related to the response. We then fit a model using least squares on the reduced set of variables
+
+assumptions of a generalized linear model y is continous
 
 ```{r message=FALSE, warning=FALSE}
 
@@ -284,8 +317,33 @@ is_mod_summary_mx$model <- c('a','b','a','b','a','b','a','b','a', 'b', 'a') # fo
 
 ```
 
+for model six show the table of coefficient, std. error, t-statistic, p-value
+
 ```{r}
-# turn results into a pretty table
+is_mod_summary_mx %>% 
+ gt(rowname_col = "predictors") %>%
+  tab_header(title = md("model comparison")) %>% 
+  cols_align(align = "left") %>% 
+  data_color(
+    columns = cp,
+    palette = c("#15050B", "#F6D5E2","#D35C9E" ),
+    domain = c(0, 4000),
+    alpha = 0.8
+  ) %>% 
+    tab_options(
+    grand_summary_row.background.color = "#D35C9E",
+    heading.background.color = "#EFFBFC",
+    column_labels.background.color = "#EFFBFC",
+    stub.background.color = "#EFFBFC",
+    table.font.color = "#323232",
+    stub.border.style = "dashed",
+    stub.border.width = "1px",
+    table.width = "60%"
+  ) %>%
+  opt_all_caps()
+
+# update this too  look more like my other graphs
+#https://posit.co/blog/great-looking-tables-gt-0-2/# turn results into a pretty table
 # is_mod_summary_mx
 ```
 
@@ -293,25 +351,35 @@ is_mod_summary_mx$model <- c('a','b','a','b','a','b','a','b','a', 'b', 'a') # fo
 
 ```{r fig.height=4, fig.width=10}
 
-# make this chart prettier
-custom_colors <- c("#68576D", "#DF5875")
+# make tghis chart prettier
+gcolors <- c("#68576D", "#DF5875")
 
 is_mod_summary_mx %>%
   pivot_longer(c(adjr2, cp), names_to = "metric", values_to = "value") %>%
   ggplot(aes(x = predictors, y = value, color = model)) +
   geom_line(show.legend = FALSE) +
-  geom_point() +
+  geom_point(size = 3, alpha = .8) +
   facet_wrap(~metric, scales = "free") +
   scale_x_continuous(breaks = 1:6) +
-  scale_color_manual(values = custom_colors) +  # Set custom colors here
-  theme_art_nouveau()
+  scale_color_manual(values = gcolors) +
+  labs(x = "predictors", y = "metric", title = "Number of Predictors by ADJR2 and CP",
+       caption =  " figure e") +
+  theme_art_nouveau() 
+
+# how can i make the value label larger on this?
 ```
+
+I see that the more predictors the great the adjr2 and the lower the cp, which is be expected. there appears to be diminishing returns at 4 predictors.
+
+model a has more optimal score on this compared to model b
+
+why too many predictors are bad reason xyz
 
 \[interpret the graph\]
 
 explain why this is the best one what do each of these things tell me? - rsq -\> highest r squared, explains the variability in the model - adjr2 - \> highest - cp -\> smallest - rss -\> smallest
 
-having trouble choosing, i spent a lot of time making my variables so lets look at AIC several models what is AIC? Lower AIC values indicate a better-fit model, and a model with a delta-AIC (the difference between the two AIC values being compared) of more than -2 is considered significantly better than the model it is being compared to
+I want to take my models through one more level os scrunity. having trouble choosing, i spent a lot of time making my variables so lets look at AIC several models what is AIC? Lower AIC values indicate a better-fit model, and a model with a delta-AIC (the difference between the two AIC values being compared) of more than -2 is considered significantly better than the model it is being compared to
 
 find the coefficients and (Akaike Information Criterion) AIC Multiple linear regression compare the three best models
 
@@ -339,8 +407,27 @@ mod_compare <-  rbind(glance(lm_3),glance(lm_4),glance(lm_5))
 ```
 
 ```{r}
-# create a cool table
-# mod_compare
+mod_compare %>% 
+ gt(rowname_col = "df") %>%
+  tab_header(title = md("model comparison")) %>% 
+  cols_align(align = "left") %>% 
+  data_color(
+    columns = AIC,
+    palette = c("#15050B", "#F6D5E2","#D35C9E" ),
+    domain = c(	235603.3, 235605.8),
+    alpha = 0.8
+  ) %>% 
+    tab_options(
+    grand_summary_row.background.color = "#D35C9E",
+    heading.background.color = "#EFFBFC",
+    column_labels.background.color = "#EFFBFC",
+    stub.background.color = "#EFFBFC",
+    table.font.color = "#323232",
+    stub.border.style = "dashed",
+    stub.border.width = "1px",
+    table.width = "60%"
+  ) %>%
+  opt_all_caps()
 ```
 
 interpret the results
