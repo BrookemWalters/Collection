@@ -139,7 +139,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <a href="" title="pitch" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label="pitch"><i class="bi bi-person-fill"></i></a>
       <ul class="dropdown-menu" aria-labelledby="quarto-navigation-tool-dropdown-0">
           <li>
-            <a class="dropdown-item sidebar-tools-main-item" href="../../about_me.html">
+            <a class="dropdown-item sidebar-tools-main-item" href="../../index.html">
             about me
             </a>
           </li>
@@ -238,23 +238,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="project-overview" class="level1">
 <h1>Project Overview</h1>
 <p>Throughout this project, I showcase the practical application of predictive analytics by utilizing statistical methods. I focus on unraveling temporal sales patterns to anticipate future consumer demand. Ultimately, this project demonstrates how analytics fuels the decision-making processes with forecasts and strategic insights.</p>
-<p>While the primary aim of the project is demonstrating the foundations of statically modeling, it also serves as a platform for expanding other essential data science competencies. Leveraging R, I’ve not only engineered novel data sets, but also enhanced my knowledge in the areas of data wrangling and visualization design.</p>
-<p>Overall, this project showcases more than current competencies; rather, it represents my potential for continuous growth and adaptability in the ever-evolving field of data science and machine learning. It marks the acquisition of new skills developed over the course of the semester, complementing years spent cultivating my craft of compelling data storytelling.</p>
+<p>While the primary aim of the project is demonstrating the foundations of statistical modeling, it also serves as a platform for expanding other essential data science competencies. Leveraging R, I’ve not only engineered novel data sets, but also enhanced my knowledge in the areas of data wrangling and visualization design.</p>
+<p>Overall, this project showcases more than current competencies; rather, it represents my potential for continuous growth and adaptability in the ever-evolving field of data science and machine learning. It marks the acquisition of new skills developed over the course of the semester, complementing my years spent cultivating my craft of compelling data storytelling.</p>
 <p><strong>goal</strong>: forecast the inventory for the upcoming year</p>
 <p><strong>limitations</strong>: ideally, time series predictions benefit from multi-year trending data sets. However, the data for this project encompasses merely 54 weeks.</p>
-<p>Additionally, my understanding of the data is constrained. For this project, I made certain assumptions about the timeframe and inventory type. In practical scenarios, thorough consultation and collaboration are essential components of any predictive analytics project.</p>
-<p><img src="../..\images/AdobeStock_184864827.jpeg" class="img-fluid"></p>
-<p><br>
-<strong>this report contains:</strong></p>
+<p>Additionally, my understanding of the data is constrained. For this project, I made certain assumptions about the time frame and inventory type. In practical scenarios, thorough consultation and collaboration with domain experts are essential components of any predictive analytics project.</p>
+<p><img src="../..\images/AdobeStock_184864827.jpeg" class="img-fluid"> <strong>this report contains:</strong></p>
 <ul>
 <li><strong>Data Processing</strong>:
 <ul>
 <li>feature engineering</li>
-<li>data splitting into training and testing sets</li>
+<li>data splitting into training and testing sets &nbsp;</li>
 </ul></li>
 <li><strong>Model Development</strong>:
 <ul>
-<li>step-wise model selection methodology</li>
+<li>step-wise model selection methodology &nbsp;</li>
 </ul></li>
 <li><strong>Analytics and Evaluation</strong>:
 <ul>
@@ -266,43 +264,49 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </p>
 <section id="initial-insights" class="level2">
 <h2 class="anchored" data-anchor-id="initial-insights">Initial Insights:</h2>
-<p>The provided inventory data set contains 488 items sold over the course of 54 weeks (0-53), with a total of ~ 1.3 million units sold.</p>
+<p>The inventory data is comprised of 488 distinct items, sold over a span of 54 weeks (from week 0 to 53), with an impressive sum of approximately 1.3 million units transacted.</p>
+<p>To visualize and better understand the distribution of sales, I prepared a series of graphical representations to discern patterns, identify anomalies, and appreciate the overall behavior of our sales data over time, thereby setting the stage for the predictive analysis.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>hist <span class="ot">&lt;-</span> sai <span class="sc">%&gt;%</span> </span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(item_no) <span class="sc">%&gt;%</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total_sold =</span> <span class="fu">sum</span>(sold)) <span class="sc">%&gt;%</span> </span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> total_sold)) <span class="sc">+</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">2100</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">fill =</span> <span class="st">"#7D998F"</span>, </span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">alpha =</span> .<span class="dv">6</span>) <span class="sc">+</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">comma_format</span>()) <span class="sc">+</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Number of Items Sold"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>, </span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Number of Items Sold by Item Type"</span>, </span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span>  <span class="st">" figure 1.1"</span>)<span class="sc">+</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_art_nouveau</span>()</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>hist1 <span class="ot">&lt;-</span> sai <span class="sc">%&gt;%</span> </span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(week) <span class="sc">%&gt;%</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total_sold =</span> <span class="fu">sum</span>(sold)) <span class="sc">%&gt;%</span> </span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> total_sold)) <span class="sc">+</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span>  <span class="dv">2100</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">fill =</span> <span class="st">"#DF5875"</span>, </span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>                 <span class="at">alpha =</span> .<span class="dv">6</span>) <span class="sc">+</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>        <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">comma_format</span>()) <span class="sc">+</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>        <span class="fu">scale_y_continuous</span>(<span class="at">position =</span> <span class="st">"right"</span>) <span class="sc">+</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Number of Items Sold"</span>, </span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Number of Items Sold by Week"</span>,</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>        <span class="at">caption =</span>  <span class="st">" figure 1.2"</span>)<span class="sc">+</span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_art_nouveau</span>()</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co"># display the histograms side by side</span></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(hist, hist1, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import data</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>sai <span class="ot">&lt;-</span>  <span class="fu">read.csv</span>(<span class="st">"inventory.csv"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># import my custom theme :-)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"artNov_theme.R"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>hist <span class="ot">&lt;-</span> sai <span class="sc">%&gt;%</span> </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(item_no) <span class="sc">%&gt;%</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total_sold =</span> <span class="fu">sum</span>(sold)) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> total_sold)) <span class="sc">+</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">2100</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">fill =</span> <span class="st">"#7D998F"</span>, </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                 <span class="at">alpha =</span> .<span class="dv">6</span>) <span class="sc">+</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">comma_format</span>()) <span class="sc">+</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Number of Items Sold"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>, </span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Number of Items Sold by Item Type"</span>, </span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span>  <span class="st">" figure 1.1"</span>)<span class="sc">+</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_art_nouveau</span>()</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>hist1 <span class="ot">&lt;-</span> sai <span class="sc">%&gt;%</span> </span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(week) <span class="sc">%&gt;%</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total_sold =</span> <span class="fu">sum</span>(sold)) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> total_sold)) <span class="sc">+</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span>  <span class="dv">2100</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">fill =</span> <span class="st">"#68576D"</span>, </span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>                 <span class="at">alpha =</span> .<span class="dv">6</span>) <span class="sc">+</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>        <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">comma_format</span>()) <span class="sc">+</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>        <span class="fu">scale_y_continuous</span>(<span class="at">position =</span> <span class="st">"right"</span>) <span class="sc">+</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Number of Items Sold"</span>, </span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Number of Items Sold by Week"</span>,</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>        <span class="at">caption =</span>  <span class="st">" figure 1.2"</span>)<span class="sc">+</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_art_nouveau</span>()</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co"># display the histograms side by side</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(hist, hist1, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="pi_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="960"></p>
@@ -310,6 +314,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="figure-1.-the-histograms-demonstrate-the-distribution-of-the-dataset-by-variable.-the-green-histogram-demonstrates-the-frequency-of-each-item-sold-with-most-items-ranging-between-500-and-1300-in-total.-the-pink-histogram-conveys-the-temporal-dispersion-of-weekly-sales.-both-graphs-exhibit-a-right-skew-particularly-pronounced-in-the-green-histogram-implying-a-scarcity-of-high-sales-items-or-weeks." class="level6">
 <h6 class="anchored" data-anchor-id="figure-1.-the-histograms-demonstrate-the-distribution-of-the-dataset-by-variable.-the-green-histogram-demonstrates-the-frequency-of-each-item-sold-with-most-items-ranging-between-500-and-1300-in-total.-the-pink-histogram-conveys-the-temporal-dispersion-of-weekly-sales.-both-graphs-exhibit-a-right-skew-particularly-pronounced-in-the-green-histogram-implying-a-scarcity-of-high-sales-items-or-weeks."><strong>figure 1.</strong> <em>The histograms demonstrate the distribution of the dataset by variable. The green histogram demonstrates the frequency of each item sold, with most items ranging between 500 and 1300 in total. The pink histogram conveys the temporal dispersion of weekly sales. Both graphs exhibit a right skew, particularly pronounced in the green histogram, implying a scarcity of high-sales items or weeks.</em></h6>
+<p><br>
+<br>
+<br>
+<br></p>
 <div class="cell">
 <details>
 <summary>Code</summary>
@@ -336,129 +344,134 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="figure-2.-the-line-graph-shows-annual-sales-trends-in-the-unprocessed-data-set.-weekly-sales-fluctuate-within-a-range-of-10000-to-50000-items-with-the-majority-hovering-between-20k-and-30k-units-sold.-a-distinct-sales-peak-is-observed-in-week-20-while-week-46-registers-the-slowest-sales-activity.-this-trend-analysis-aids-in-identifying-key-sales-periods-and-provides-valuable-context-for-refining-our-predictive-models" class="level6">
 <h6 class="anchored" data-anchor-id="figure-2.-the-line-graph-shows-annual-sales-trends-in-the-unprocessed-data-set.-weekly-sales-fluctuate-within-a-range-of-10000-to-50000-items-with-the-majority-hovering-between-20k-and-30k-units-sold.-a-distinct-sales-peak-is-observed-in-week-20-while-week-46-registers-the-slowest-sales-activity.-this-trend-analysis-aids-in-identifying-key-sales-periods-and-provides-valuable-context-for-refining-our-predictive-models"><strong>figure 2.</strong> <em>The line graph shows annual sales trends in the unprocessed data set. Weekly sales fluctuate within a range of 10,000 to 50,000 items, with the majority hovering between ~20k and ~30k units sold. A distinct sales peak is observed in week 20, while week 46 registers the slowest sales activity. This trend analysis aids in identifying key sales periods and provides valuable context for refining our predictive models</em></h6>
+<p><br>
+<br>
+<br>
+<br></p>
 </section>
 </section>
-<section id="feature-engineering" class="level2">
-<h2 class="anchored" data-anchor-id="feature-engineering">Feature engineering</h2>
-<p>I crafted new variables to derive a better understanding of sales trends, with the hope of enhancing the predictive model’s performanc. These variables provide valuable insights into sales trends, seasonality, and best-selling items, which can be used to enhance the predictive model’s performance and gain a better understanding of the data’s dynamics. Ideally, meeting with domain experts would be part of this process, to ensure the variables represent reality.</p>
+<section id="data-processing" class="level2">
+<h2 class="anchored" data-anchor-id="data-processing">Data Processing</h2>
+<p>I feature engineered new variables to derive a better understanding of sales trends and enhance the predictive model’s performance. These variables provide valuable insights into sales trends, seasonality, and best-selling items, which can be used to enhance the predictive model’s performance and gain a better understanding of the data’s dynamics. Ideally, meeting with domain experts would be part of this process, to ensure the variables represent reality.</p>
 <section id="data-dictionary" class="level3">
 <h3 class="anchored" data-anchor-id="data-dictionary">data dictionary</h3>
 <ul>
 <li><strong>item_no</strong>: the unique identifier for each item</li>
 <li><strong>week</strong>: the week number. “sold”: number of items sold during a specific week</li>
 <li><strong>year_total</strong>:the total number of items sold for each item over the entire year</li>
-<li><strong>best_seller</strong>: A binary variable indicating whether the item is one of the top ten best-selling items based on volume</li>
 <li><strong>date</strong>: The specific date corresponding to a week</li>
 <li><strong>month</strong>: the month corresponding to a specific week</li>
 <li><strong>lag1</strong>: period for capturing seasonality or time-dependent patterns, item’s sold from the previous week</li>
 <li><strong>lag2</strong>: item’s sold from two-weeks prior</li>
-<li><strong>rolling_4wk_avg</strong>:rolling four-week average for each item, calculated as the total number of items sold over the past four weeks</li>
+<li><strong>rolling_4wk_avg</strong>: the total number of items sold over the past four weeksby item_no</li>
+<li><strong>best_seller</strong>: A binary variable indicating whether the item is one of the top ten best-selling items based on volume</li>
 </ul>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># total yearly sales for each item</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>inventory_sum <span class="ot">&lt;-</span> sai <span class="sc">%&gt;%</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(item_no) <span class="sc">%&gt;%</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">year_total =</span> <span class="fu">sum</span>(sold), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>sai <span class="ot">&lt;-</span> <span class="fu">left_join</span>(sai, inventory_sum, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"item_no"</span>))</span>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">#####</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># create the variables</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># total yearly sales for each item</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>inventory_sum <span class="ot">&lt;-</span> sai <span class="sc">%&gt;%</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(item_no) <span class="sc">%&gt;%</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">year_total =</span> <span class="fu">sum</span>(sold), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="do">###</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate the top 10% threshold</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>top_10_threshold <span class="ot">&lt;-</span> <span class="fu">quantile</span>(sai<span class="sc">$</span>year_total, <span class="fl">0.9</span>)</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># dummy variable for bestsellers 1= yes 0 = no</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>sai <span class="ot">&lt;-</span> sai <span class="sc">%&gt;%</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">best_seller =</span> <span class="fu">ifelse</span>(year_total <span class="sc">&gt;=</span> top_10_threshold, <span class="dv">1</span>, <span class="dv">0</span>))</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="do">## figure out month an year for data, assuming the data is from  2022</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co"># week 0: December 27, 2021 - January 2, 2022</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co"># week 52: December 19, 2022 - December 25, 2022</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co"># week 53: December 26, 2022 - January 1, 2023</span></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>sai<span class="sc">$</span>year <span class="ot">&lt;-</span> <span class="dv">2022</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>sai <span class="ot">&lt;-</span> <span class="fu">left_join</span>(sai, inventory_sum, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"item_no"</span>))</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="do">###</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate the top 10% threshold</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>top_10_threshold <span class="ot">&lt;-</span> <span class="fu">quantile</span>(sai<span class="sc">$</span>year_total, <span class="fl">0.9</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co"># dummy variable for bestsellers 1= yes 0 = no</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>sai <span class="ot">&lt;-</span> sai <span class="sc">%&gt;%</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">best_seller =</span> <span class="fu">ifelse</span>(year_total <span class="sc">&gt;=</span> top_10_threshold, <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="do">## figure out month an year for data, assuming the data is from  2022</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co"># week 0: December 27, 2021 - January 2, 2022</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co"># week 52: December 19, 2022 - December 25, 2022</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co"># week 53: December 26, 2022 - January 1, 2023</span></span>
 <span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>sai <span class="ot">&lt;-</span> sai <span class="sc">%&gt;%</span></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">calendar_week =</span> <span class="fu">ifelse</span>(week <span class="sc">==</span> <span class="dv">0</span>, <span class="dv">52</span>, <span class="fu">ifelse</span>(week <span class="sc">==</span> <span class="dv">53</span>, <span class="dv">1</span>, week)),</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>         <span class="at">calendar_year =</span> <span class="fu">ifelse</span>(week <span class="sc">==</span> <span class="dv">0</span>, year <span class="sc">-</span> <span class="dv">1</span>, <span class="fu">ifelse</span>(week <span class="sc">==</span> <span class="dv">53</span>, year <span class="sc">+</span> <span class="dv">1</span>, year)))</span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Now use calendar_year and calendar_week in the MMWRweek2Date function</span></span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>sai<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">MMWRweek2Date</span>(sai<span class="sc">$</span>calendar_year, sai<span class="sc">$</span>calendar_week)</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>sai<span class="sc">$</span>year <span class="ot">&lt;-</span> <span class="dv">2022</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>sai <span class="ot">&lt;-</span> sai <span class="sc">%&gt;%</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">calendar_week =</span> <span class="fu">ifelse</span>(week <span class="sc">==</span> <span class="dv">0</span>, <span class="dv">52</span>, <span class="fu">ifelse</span>(week <span class="sc">==</span> <span class="dv">53</span>, <span class="dv">1</span>, week)),</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>         <span class="at">calendar_year =</span> <span class="fu">ifelse</span>(week <span class="sc">==</span> <span class="dv">0</span>, year <span class="sc">-</span> <span class="dv">1</span>, <span class="fu">ifelse</span>(week <span class="sc">==</span> <span class="dv">53</span>, year <span class="sc">+</span> <span class="dv">1</span>, year)))</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Now use calendar_year and calendar_week in the MMWRweek2Date function</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>sai<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">MMWRweek2Date</span>(sai<span class="sc">$</span>calendar_year, sai<span class="sc">$</span>calendar_week)</span>
 <span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="co"># find the year the week ends in, so we can figure out months</span></span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>sai <span class="ot">&lt;-</span> sai <span class="sc">%&gt;%</span></span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">wk_ending_year =</span> <span class="fu">ifelse</span>(week <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">53</span>), year <span class="sc">+</span> <span class="dv">1</span>, year),</span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>         <span class="at">week =</span> <span class="fu">ifelse</span>(week <span class="sc">==</span> <span class="dv">53</span>, <span class="dv">1</span>, week))</span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="co"># find the year the week ends in, so we can figure out months</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>sai <span class="ot">&lt;-</span> sai <span class="sc">%&gt;%</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">wk_ending_year =</span> <span class="fu">ifelse</span>(week <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">53</span>), year <span class="sc">+</span> <span class="dv">1</span>, year),</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>         <span class="at">week =</span> <span class="fu">ifelse</span>(week <span class="sc">==</span> <span class="dv">53</span>, <span class="dv">1</span>, week))</span>
 <span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="co"># create teh data and extract the month</span></span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="co"># wanted month to be quantitative to reduce model complexity</span></span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>sai<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">MMWRweek2Date</span>(sai<span class="sc">$</span>wk_ending_year, sai<span class="sc">$</span>calendar_week)</span>
-<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>sai<span class="sc">$</span>month <span class="ot">&lt;-</span> <span class="fu">month</span>(sai<span class="sc">$</span>date, <span class="at">label =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>sai<span class="sc">$</span>month <span class="ot">&lt;-</span> <span class="fu">month</span>(sai<span class="sc">$</span>date)</span>
-<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a><span class="co"># create lag periods</span></span>
-<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a><span class="co"># https://www.youtube.com/watch?v=Kn3llTjYS5E</span></span>
-<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>sai <span class="ot">&lt;-</span> sai <span class="sc">%&gt;%</span></span>
-<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">lag1 =</span> <span class="fu">lag</span>(sold, <span class="dv">1</span>),</span>
-<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>         <span class="at">lag2 =</span> <span class="fu">lag</span>(sold, <span class="dv">2</span>))</span>
-<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a><span class="co"># https://www.rdocumentation.org/packages/zoo/versions/1.8-12/topics/rollmean</span></span>
-<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>sai <span class="ot">&lt;-</span> sai <span class="sc">%&gt;%</span></span>
-<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(item_no) <span class="sc">%&gt;%</span></span>
-<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rolling_4wk_avg =</span> zoo<span class="sc">::</span><span class="fu">rollmean</span>(sold, <span class="at">k =</span> <span class="dv">4</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">align =</span> <span class="st">"right"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
-<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(sai, <span class="st">"FEinventory.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>month_abbreviations <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Jan"</span>, <span class="st">"Feb"</span>, <span class="st">"Mar"</span>, <span class="st">"Apr"</span>, <span class="st">"May"</span>, <span class="st">"Jun"</span>, <span class="st">"Jul"</span>, <span class="st">"Aug"</span>, <span class="st">"Sep"</span>, <span class="st">"Oct"</span>, <span class="st">"Nov"</span>, <span class="st">"Dec"</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>sai_average <span class="ot">&lt;-</span>  sai <span class="sc">%&gt;%</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(wk_ending_year <span class="sc">==</span> <span class="dv">2022</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">month_average =</span> <span class="fu">mean</span>(sold))</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>bar <span class="ot">&lt;-</span> sai <span class="sc">%&gt;%</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(wk_ending_year <span class="sc">==</span> <span class="dv">2022</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">factor</span>(month, <span class="at">levels =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>, <span class="at">labels =</span> month_abbreviations)) <span class="sc">%&gt;%</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> month, <span class="at">y =</span> sold)) <span class="sc">+</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"sum"</span>, <span class="at">fill =</span> <span class="st">"#68576D"</span>, <span class="at">alpha =</span> <span class="fl">0.75</span>) <span class="sc">+</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Month"</span>, <span class="at">y =</span> <span class="st">"Total Sold"</span>, <span class="at">title =</span> <span class="st">"Total Sold by Month"</span>,</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span>  <span class="st">" figure 4.1"</span>) <span class="sc">+</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">comma_format</span>()) <span class="sc">+</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_art_nouveau</span>() <span class="sc">+</span></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>dot <span class="ot">&lt;-</span>  sai_average <span class="sc">%&gt;%</span></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">factor</span>(month, <span class="at">levels =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>, <span class="at">labels =</span> month_abbreviations)) <span class="sc">%&gt;%</span></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> month, <span class="at">y =</span> month_average)) <span class="sc">+</span></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">4</span>, <span class="at">shape =</span> <span class="dv">8</span>, <span class="at">alpha =</span> <span class="fl">0.75</span>) <span class="sc">+</span></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">round</span>(month_average, <span class="dv">2</span>)), <span class="at">nudge_y =</span> <span class="fl">1.5</span>) <span class="sc">+</span>  <span class="co"># Adjust nudge_y value for closer annotations</span></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">position =</span> <span class="st">"right"</span>) <span class="sc">+</span></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Month"</span>, <span class="at">y =</span> <span class="st">""</span>, <span class="at">title =</span> <span class="st">"Average Items Sold by Month"</span>, <span class="at">caption =</span> <span class="st">"Figure 4.2"</span>) <span class="sc">+</span></span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_art_nouveau</span>() <span class="sc">+</span></span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_blank</span>())  <span class="co"># Remove y-axis ticks</span></span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(bar, dot, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="co"># create teh data and extract the month</span></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a><span class="co"># wanted month to be quantitative to reduce model complexity</span></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>sai<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">MMWRweek2Date</span>(sai<span class="sc">$</span>wk_ending_year, sai<span class="sc">$</span>calendar_week)</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>sai<span class="sc">$</span>month <span class="ot">&lt;-</span> <span class="fu">month</span>(sai<span class="sc">$</span>date, <span class="at">label =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>sai<span class="sc">$</span>month <span class="ot">&lt;-</span> <span class="fu">month</span>(sai<span class="sc">$</span>date)</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a><span class="co"># create lag periods</span></span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a><span class="co"># https://www.youtube.com/watch?v=Kn3llTjYS5E</span></span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>sai <span class="ot">&lt;-</span> sai <span class="sc">%&gt;%</span></span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">lag1 =</span> <span class="fu">lag</span>(sold, <span class="dv">1</span>),</span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>         <span class="at">lag2 =</span> <span class="fu">lag</span>(sold, <span class="dv">2</span>))</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a><span class="co"># https://www.rdocumentation.org/packages/zoo/versions/1.8-12/topics/rollmean</span></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>sai <span class="ot">&lt;-</span> sai <span class="sc">%&gt;%</span></span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(item_no) <span class="sc">%&gt;%</span></span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rolling_4wk_avg =</span> zoo<span class="sc">::</span><span class="fu">rollmean</span>(sold, <span class="at">k =</span> <span class="dv">4</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">align =</span> <span class="st">"right"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(sai, <span class="st">"FEinventory.csv"</span>)</span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>month_abbreviations <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Jan"</span>, <span class="st">"Feb"</span>, <span class="st">"Mar"</span>, <span class="st">"Apr"</span>, <span class="st">"May"</span>, <span class="st">"Jun"</span>, <span class="st">"Jul"</span>, <span class="st">"Aug"</span>, <span class="st">"Sep"</span>, <span class="st">"Oct"</span>, <span class="st">"Nov"</span>, <span class="st">"Dec"</span>)</span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>sai_average <span class="ot">&lt;-</span>  sai <span class="sc">%&gt;%</span></span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(wk_ending_year <span class="sc">==</span> <span class="dv">2022</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">month_average =</span> <span class="fu">mean</span>(sold))</span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>bar <span class="ot">&lt;-</span> sai <span class="sc">%&gt;%</span></span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(wk_ending_year <span class="sc">==</span> <span class="dv">2022</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">factor</span>(month, <span class="at">levels =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>, <span class="at">labels =</span> month_abbreviations)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> month, <span class="at">y =</span> sold)) <span class="sc">+</span></span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"sum"</span>, <span class="at">fill =</span> <span class="st">"#68576D"</span>, <span class="at">alpha =</span> <span class="fl">0.75</span>) <span class="sc">+</span></span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Month"</span>, <span class="at">y =</span> <span class="st">"Total Sold"</span>, <span class="at">title =</span> <span class="st">"Total Sold by Month"</span>,</span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span>  <span class="st">" figure 4.1"</span>) <span class="sc">+</span></span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">comma_format</span>()) <span class="sc">+</span></span>
+<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_art_nouveau</span>() <span class="sc">+</span></span>
+<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a>dot <span class="ot">&lt;-</span>  sai_average <span class="sc">%&gt;%</span></span>
+<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">factor</span>(month, <span class="at">levels =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>, <span class="at">labels =</span> month_abbreviations)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> month, <span class="at">y =</span> month_average)) <span class="sc">+</span></span>
+<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">4</span>, <span class="at">shape =</span> <span class="dv">8</span>, <span class="at">alpha =</span> <span class="fl">0.75</span>) <span class="sc">+</span></span>
+<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">round</span>(month_average, <span class="dv">2</span>)), <span class="at">nudge_y =</span> <span class="fl">1.5</span>) <span class="sc">+</span>  <span class="co">#closer annotations</span></span>
+<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">position =</span> <span class="st">"right"</span>) <span class="sc">+</span></span>
+<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Month"</span>, <span class="at">y =</span> <span class="st">""</span>, <span class="at">title =</span> <span class="st">"Average Items Sold by Month"</span>, <span class="at">caption =</span> <span class="st">"Figure 4.2"</span>) <span class="sc">+</span></span>
+<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_art_nouveau</span>() <span class="sc">+</span></span>
+<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_blank</span>())  </span>
+<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(bar, dot, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="pi_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="960"></p>
+<p><img src="pi_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="960"></p>
 </div>
 </div>
 <section id="figure-4.-the-bar-graph-displays-the-total-sales-volume-by-month.-july-stands-out-as-the-peak-season-whereas-november-and-december-show-lower-inventory-movement.-u.-however-the-average-number-of-items-sold-in-a-month-is-relatively-low-compared-to-the-totals.-this-suggests-the-presence-of-numerous-zeros-which-are-affecting-the-overall-average." class="level6">
@@ -466,118 +479,183 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#https://www.geeksforgeeks.org/visualization-of-a-correlation-matrix-using-ggplot2-in-r/</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the data types of variables in 'sai'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># #https://www.geeksforgeeks.org/visualization-of-a-correlation-matrix-using-ggplot2-in-r/</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># theme_art_nov_minimal &lt;- function() {</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme(</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#     text = element_text(family = 'EB Garamond'),</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#     panel.grid = element_blank(),</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#     panel.border = element_blank(),</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     panel.background = element_rect(fill = "#FEE8E1", color = "#DF5875"),</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     panel.grid.major = element_line(color = "#DF5875", linetype = "dotted", linewidth = 0.5),</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#     panel.grid.minor = element_blank(),</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#     axis.line = element_line(color = "#DF5875", linewidth = 1),</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#     legend.position = "bottom"</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">#   )</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># sai %&gt;%</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">#   select(week, month, lag1, lag2, rolling_4wk_avg, best_seller, sold) %&gt;%</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggpairs(</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">#     upper = list(continuous = "cor"),</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co">#     lower = list(continuous = "points"),</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co">#     diag = list(continuous = "densityDiag")</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co">#   ) +</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_art_nov_minimal()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
-<section id="figure-5.-the-bar-graph-displays-the-total-sales-volume-by-month.-july-stands-out-as-the-peak-season-whereas-november-and-december-show-lower-inventory-movement.-u.-however-the-average-number-of-items-sold-in-a-month-is-relatively-low-compared-to-the-totals.-this-suggests-the-presence-of-numerous-zeros-which-are-affecting-the-overall-average." class="level6">
-<h6 class="anchored" data-anchor-id="figure-5.-the-bar-graph-displays-the-total-sales-volume-by-month.-july-stands-out-as-the-peak-season-whereas-november-and-december-show-lower-inventory-movement.-u.-however-the-average-number-of-items-sold-in-a-month-is-relatively-low-compared-to-the-totals.-this-suggests-the-presence-of-numerous-zeros-which-are-affecting-the-overall-average."><strong>figure 5.</strong> <em>The bar graph displays the total sales volume by month. July stands out as the peak season, whereas November and December show lower inventory movement. U. However, the average number of items sold in a month is relatively low compared to the totals. This suggests the presence of numerous zeros, which are affecting the overall average.</em></h6>
+<section id="figure-5.-the-corelation-matrix." class="level6">
+<h6 class="anchored" data-anchor-id="figure-5.-the-corelation-matrix."><strong>figure 5.</strong> <em>The corelation matrix.</em></h6>
+<p><br>
+<br>
+<br>
+<br></p>
 </section>
 </section>
 <section id="splitting-the-data" class="level3">
-<h3 class="anchored" data-anchor-id="splitting-the-data">splitting the data</h3>
-<p>Now on the thrilling part! dividing up the data so we can train and test a predictive model using statisical methods.</p>
-<p>I chose to split up the data by inventory type to avoid messing up the temporal order. Ideally I’d prefer to train on 2021 data and test on 2022 then make predictions for 2023</p>
+<h3 class="anchored" data-anchor-id="splitting-the-data">Splitting the Data</h3>
+<p>With the variables now set, it’s time to divide the data for the training and testing of the predictive model. Ideally, the previous year would serve as a training ground, providing a foundation for testing the model. However, due to the critical nature of maintaining the temporal order, I segmented the data by inventory type, 75% into training to test on the remaining 25%.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a list of all items to randomly select</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1985</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>items_sample_list <span class="ot">&lt;-</span>  <span class="fu">unique</span>(sai<span class="sc">$</span>item_no) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample</span>(<span class="dv">366</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 75% of the data</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># splitting the inventory by item type to keep the temporal order</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>is_train <span class="ot">&lt;-</span>  sai <span class="sc">%&gt;%</span> </span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(item_no <span class="sc">%in%</span> items_sample_list) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    item_no,</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    week,</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    month,</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    lag1,</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    lag2,</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    rolling_4wk_avg,</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    best_seller, </span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    sold) <span class="co">#not sure why i had to include the dplyr package</span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>is_test<span class="ot">&lt;-</span>  sai <span class="sc">%&gt;%</span> </span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>(item_no <span class="sc">%in%</span> items_sample_list)) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    item_no,</span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    week,</span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    month,</span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    lag1,</span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>    lag2,</span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>    rolling_4wk_avg,</span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>    best_seller, </span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>    sold) <span class="co">#not sure why i had to include the dplyr package</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a list of all items to randomly select</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1985</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>items_sample_list <span class="ot">&lt;-</span>  <span class="fu">unique</span>(sai<span class="sc">$</span>item_no) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample</span>(<span class="dv">366</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 75% of the data</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># splitting the inventory by item type to keep the temporal order</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>is_train <span class="ot">&lt;-</span>  sai <span class="sc">%&gt;%</span> </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(item_no <span class="sc">%in%</span> items_sample_list) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    item_no,</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    week,</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    month,</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    lag1,</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    lag2,</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    rolling_4wk_avg,</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    best_seller, </span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    sold) <span class="co">#not sure why i had to include the dplyr package</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>is_test<span class="ot">&lt;-</span>  sai <span class="sc">%&gt;%</span> </span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>(item_no <span class="sc">%in%</span> items_sample_list)) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    item_no,</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    week,</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    month,</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    lag1,</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    lag2,</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    rolling_4wk_avg,</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    best_seller, </span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    sold) <span class="co">#not sure why i had to include the dplyr package</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="do">## story telling purposes only</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a><span class="co"># https://r-graph-gallery.com/piechart-ggplot2.html</span></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>piecha <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>  <span class="at">split =</span> <span class="fu">c</span>(<span class="st">"train"</span>, <span class="st">"test"</span>),</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>  <span class="at">percentage =</span> <span class="fu">c</span>(<span class="fl">0.75</span>, <span class="fl">0.25</span>)</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>piecha <span class="ot">&lt;-</span> piecha <span class="sc">%&gt;%</span></span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(split)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cumulative_percentage =</span> <span class="fu">cumsum</span>(percentage) <span class="sc">-</span> percentage <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>         <span class="at">label =</span> <span class="fu">paste</span>(split, <span class="st">": "</span>, scales<span class="sc">::</span><span class="fu">percent</span>(percentage)))</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a><span class="co"># do you like fancy pie?</span></span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(piecha , <span class="fu">aes</span>(<span class="at">x=</span><span class="st">""</span>, <span class="at">y=</span>percentage, <span class="at">fill=</span>split, <span class="at">label =</span> label)) <span class="sc">+</span></span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">"identity"</span>, <span class="at">width=</span><span class="dv">2</span>, <span class="at">color=</span><span class="st">"white"</span>, <span class="at">alpha=</span><span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_polar</span>(<span class="st">"y"</span>, <span class="at">start=</span><span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"#68576D"</span>, <span class="st">"#DF5875"</span>), <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_art_nouveau</span>() <span class="sc">+</span></span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">y =</span> cumulative_percentage), <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">size =</span> <span class="dv">7</span>, <span class="at">face =</span> <span class="st">"bold"</span>) <span class="sc">+</span></span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Data Split for Modeling"</span>) <span class="sc">+</span></span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output-display">
+<p><img src="pi_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
-<p>create a model based on the best selling item, inventory with more items sold are more predictable.</p>
+</div>
+<p><br>
+<br>
+<br>
+<br></p>
 </section>
 </section>
 <section id="model-feature-selection" class="level2">
 <h2 class="anchored" data-anchor-id="model-feature-selection">Model Feature Selection</h2>
-<ul>
-<li><p>find the best model using stepwise selection find the 2 best methods for every size predictors reasons to use stepwise with caution</p>
-<ul>
-<li>irrelevant variables leads to unnecessary complexity in the resulting mode</li>
-</ul></li>
-<li><p>define generalized linear regression and why I chose this for the model</p></li>
-</ul>
-<section id="subselection" class="level3">
-<h3 class="anchored" data-anchor-id="subselection">subselection</h3>
-<ul>
-<li>This approach involves identifying a subset of the p predictors that we believe to be related to the response. We then fit a model using least squares on the reduced set of variables</li>
-</ul>
-<p>assumptions of a generalized linear model y is continous</p>
+<p>The next step of the project involves selecting the best model using stepwise selection. It’s an iterative process of adding and removing predictors based on their statistical significance. However, it should be used with caution. The inclusion of irrelevant variables can lead to unnecessary complexity in the resulting model and can inflate the variance of prediction errors.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># https://youtu.be/IScjygOnO0w</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># forward Stepwise Selection</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># nvmax = 8 specifies the maximum number of predictors to incorporate in the model.</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>is_mod <span class="ot">&lt;-</span> <span class="fu">regsubsets</span>(sold <span class="sc">~</span> week <span class="sc">+</span> month <span class="sc">+</span> lag1 <span class="sc">+</span> lag2 <span class="sc">+</span> rolling_4wk_avg <span class="sc">+</span> best_seller,</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">data =</span> is_test, <span class="at">nbest =</span> <span class="dv">2</span>, <span class="at">method =</span> <span class="st">"exhaustive"</span>)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>is_mod_summary_mx <span class="ot">&lt;-</span> <span class="fu">with</span>(<span class="fu">summary</span>(is_mod), <span class="fu">data.frame</span>(rsq,adjr2, cp, rss, outmat))</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>is_mod_summary_mx<span class="sc">$</span>predictors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">6</span>) <span class="co"># for graphing</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>is_mod_summary_mx<span class="sc">$</span>model <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'a'</span>,<span class="st">'b'</span>,<span class="st">'a'</span>,<span class="st">'b'</span>,<span class="st">'a'</span>,<span class="st">'b'</span>,<span class="st">'a'</span>,<span class="st">'b'</span>,<span class="st">'a'</span>, <span class="st">'b'</span>, <span class="st">'a'</span>) <span class="co"># for graphing</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># https://youtu.be/IScjygOnO0w</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># forward Stepwise Selection</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># nvmax = 8 specifies the maximum number of predictors to incorporate in the model.</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>is_mod <span class="ot">&lt;-</span> <span class="fu">regsubsets</span>(sold <span class="sc">~</span> week <span class="sc">+</span> month <span class="sc">+</span> lag1 <span class="sc">+</span> lag2 <span class="sc">+</span> rolling_4wk_avg <span class="sc">+</span> best_seller,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">data =</span> is_test, <span class="at">nbest =</span> <span class="dv">2</span>, <span class="at">method =</span> <span class="st">"exhaustive"</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>is_mod_summary_mx <span class="ot">&lt;-</span> <span class="fu">with</span>(<span class="fu">summary</span>(is_mod), <span class="fu">data.frame</span>(rsq,adjr2, cp, rss, outmat))</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>is_mod_summary_mx<span class="sc">$</span>predictors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">6</span>) <span class="co"># for graphing</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>is_mod_summary_mx<span class="sc">$</span>model <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'a'</span>,<span class="st">'b'</span>,<span class="st">'a'</span>,<span class="st">'b'</span>,<span class="st">'a'</span>,<span class="st">'b'</span>,<span class="st">'a'</span>,<span class="st">'b'</span>,<span class="st">'a'</span>, <span class="st">'b'</span>, <span class="st">'a'</span>) <span class="co"># for graphing</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>for model six show the table of coefficient, std. error, t-statistic, p-value</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>is_mod_summary_mx <span class="sc">%&gt;%</span> </span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">gt</span>(<span class="at">rowname_col =</span> <span class="st">"predictors"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="fu">md</span>(<span class="st">"model comparison"</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_align</span>(<span class="at">align =</span> <span class="st">"left"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data_color</span>(</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> cp,</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">"#15050B"</span>, <span class="st">"#F6D5E2"</span>,<span class="st">"#D35C9E"</span> ),</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">domain =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">4000</span>),</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.8</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tab_options</span>(</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">grand_summary_row.background.color =</span> <span class="st">"#D35C9E"</span>,</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">heading.background.color =</span> <span class="st">"#EFFBFC"</span>,</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">column_labels.background.color =</span> <span class="st">"#EFFBFC"</span>,</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">stub.background.color =</span> <span class="st">"#EFFBFC"</span>,</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.font.color =</span> <span class="st">"#323232"</span>,</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">stub.border.style =</span> <span class="st">"dashed"</span>,</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">stub.border.width =</span> <span class="st">"1px"</span>,</span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.width =</span> <span class="st">"60%"</span></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">opt_all_caps</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># is_mod_summary_mx %&gt;% </span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  gt(rowname_col = "predictors") %&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   tab_header(title = md("model comparison")) %&gt;% </span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   cols_align(align = "left") %&gt;% </span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#   data_color(</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#     columns = cp,</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     palette = c("#15050B", "#F6D5E2","#D35C9E" ),</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     domain = c(0, 4000),</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#     alpha = 0.8</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   ) %&gt;% </span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#     tab_options(</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">#     grand_summary_row.background.color = "#D35C9E",</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">#     heading.background.color = "#EFFBFC",</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">#     column_labels.background.color = "#EFFBFC",</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">#     stub.background.color = "#EFFBFC",</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">#     table.font.color = "#323232",</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">#     stub.border.style = "dashed",</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co">#     stub.border.width = "1px",</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co">#     table.width = "60%"</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="co">#   ) %&gt;%</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co">#   opt_all_caps()</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="co"># update this too  look more like my other graphs</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="co">#https://posit.co/blog/great-looking-tables-gt-0-2/# turn results into a pretty table</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="co"># is_mod_summary_mx</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>is_mod_summary_mx <span class="sc">%&gt;%</span> </span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rsq =</span> <span class="fu">round</span>(rsq, <span class="dv">1</span>), </span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>         <span class="at">adjr2 =</span> <span class="fu">round</span>(adjr2, <span class="dv">1</span>), </span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>         <span class="at">cp =</span> scales<span class="sc">::</span><span class="fu">comma</span>(<span class="fu">round</span>(cp, <span class="dv">1</span>)),</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>         <span class="at">rss =</span> scales<span class="sc">::</span><span class="fu">comma</span>(rss)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">`</span><span class="at">4WK ROLLING AVG</span><span class="st">`</span> <span class="ot">=</span> rolling_4wk_avg, <span class="st">`</span><span class="at">BEST SELLER</span><span class="st">`</span> <span class="ot">=</span> best_seller) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(predictors, model, <span class="fu">everything</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>(<span class="at">rowname_col =</span> <span class="st">"predictors"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="fu">md</span>(<span class="st">"model comparison"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tab_options</span>(</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">grand_summary_row.background.color =</span> <span class="st">"#D35C9E"</span>,</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">heading.background.color =</span> <span class="st">"#EFFBFC"</span>,</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">column_labels.background.color =</span> <span class="st">"#EFFBFC"</span>,</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">stub.background.color =</span> <span class="st">"#EFFBFC"</span>,</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.font.color =</span> <span class="st">"#323232"</span>,</span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">stub.border.style =</span> <span class="st">"dashed"</span>,</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">stub.border.width =</span> <span class="st">"1px"</span>,</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.width =</span> <span class="st">"60%"</span></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">opt_all_caps</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Some values were outside the color scale and will be treated as NA</code></pre>
-</div>
 <div class="cell-output-display">
 
 <div id="hwwogwbpzq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
@@ -1028,192 +1106,188 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     
     <tr class="gt_col_headings">
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id=""></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="rsq">rsq</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="adjr2">adjr2</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="cp">cp</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="rss">rss</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="week">week</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="month">month</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="lag1">lag1</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="lag2">lag2</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="rolling_4wk_avg">rolling_4wk_avg</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="best_seller">best_seller</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="model">model</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="rsq">rsq</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="adjr2">adjr2</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="cp">cp</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="rss">rss</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="week">week</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="month">month</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="lag1">lag1</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="lag2">lag2</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="4WK ROLLING AVG">4WK ROLLING AVG</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="BEST SELLER">BEST SELLER</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr><th id="stub_1_1" scope="row" class="gt_row gt_left gt_stub">1</th>
-<td headers="stub_1_1 rsq" class="gt_row gt_left">0.35517493</td>
-<td headers="stub_1_1 adjr2" class="gt_row gt_left">0.35507126</td>
-<td headers="stub_1_1 cp" class="gt_row gt_left" style="background-color: rgba(219,115,170,0.8); color: #FFFFFF;">3641.238692</td>
-<td headers="stub_1_1 rss" class="gt_row gt_left">347410480</td>
-<td headers="stub_1_1 week" class="gt_row gt_left"> </td>
-<td headers="stub_1_1 month" class="gt_row gt_left"> </td>
-<td headers="stub_1_1 lag1" class="gt_row gt_left"> </td>
-<td headers="stub_1_1 lag2" class="gt_row gt_left"> </td>
-<td headers="stub_1_1 rolling_4wk_avg" class="gt_row gt_left">*</td>
-<td headers="stub_1_1 best_seller" class="gt_row gt_left"> </td>
-<td headers="stub_1_1 model" class="gt_row gt_left">a</td></tr>
-    <tr><th id="stub_1_2" scope="row" class="gt_row gt_left gt_stub">1</th>
-<td headers="stub_1_2 rsq" class="gt_row gt_left">0.07253195</td>
-<td headers="stub_1_2 adjr2" class="gt_row gt_left">0.07238283</td>
-<td headers="stub_1_2 cp" class="gt_row gt_left" style="background-color: rgba(128,128,128,0.8); color: #FFFFFF;">7962.790093</td>
-<td headers="stub_1_2 rss" class="gt_row gt_left">499689200</td>
-<td headers="stub_1_2 week" class="gt_row gt_left"> </td>
-<td headers="stub_1_2 month" class="gt_row gt_left"> </td>
-<td headers="stub_1_2 lag1" class="gt_row gt_left"> </td>
-<td headers="stub_1_2 lag2" class="gt_row gt_left"> </td>
-<td headers="stub_1_2 rolling_4wk_avg" class="gt_row gt_left"> </td>
-<td headers="stub_1_2 best_seller" class="gt_row gt_left">*</td>
-<td headers="stub_1_2 model" class="gt_row gt_left">b</td></tr>
-    <tr><th id="stub_1_3" scope="row" class="gt_row gt_left gt_stub">2</th>
-<td headers="stub_1_3 rsq" class="gt_row gt_left">0.47178311</td>
-<td headers="stub_1_3 adjr2" class="gt_row gt_left">0.47161324</td>
-<td headers="stub_1_3 cp" class="gt_row gt_left" style="background-color: rgba(228,197,209,0.8); color: #000000;">1860.324363</td>
-<td headers="stub_1_3 rss" class="gt_row gt_left">284585840</td>
-<td headers="stub_1_3 week" class="gt_row gt_left"> </td>
-<td headers="stub_1_3 month" class="gt_row gt_left"> </td>
-<td headers="stub_1_3 lag1" class="gt_row gt_left"> </td>
-<td headers="stub_1_3 lag2" class="gt_row gt_left">*</td>
-<td headers="stub_1_3 rolling_4wk_avg" class="gt_row gt_left">*</td>
-<td headers="stub_1_3 best_seller" class="gt_row gt_left"> </td>
-<td headers="stub_1_3 model" class="gt_row gt_left">a</td></tr>
-    <tr><th id="stub_1_4" scope="row" class="gt_row gt_left gt_stub">2</th>
-<td headers="stub_1_4 rsq" class="gt_row gt_left">0.40971495</td>
-<td headers="stub_1_4 adjr2" class="gt_row gt_left">0.40952512</td>
-<td headers="stub_1_4 cp" class="gt_row gt_left" style="background-color: rgba(234,166,198,0.8); color: #000000;">2809.333361</td>
-<td headers="stub_1_4 rss" class="gt_row gt_left">318026117</td>
-<td headers="stub_1_4 week" class="gt_row gt_left"> </td>
-<td headers="stub_1_4 month" class="gt_row gt_left"> </td>
-<td headers="stub_1_4 lag1" class="gt_row gt_left">*</td>
-<td headers="stub_1_4 lag2" class="gt_row gt_left"> </td>
-<td headers="stub_1_4 rolling_4wk_avg" class="gt_row gt_left">*</td>
-<td headers="stub_1_4 best_seller" class="gt_row gt_left"> </td>
-<td headers="stub_1_4 model" class="gt_row gt_left">b</td></tr>
-    <tr><th id="stub_1_5" scope="row" class="gt_row gt_left gt_stub">3</th>
-<td headers="stub_1_5 rsq" class="gt_row gt_left">0.59311658</td>
-<td headers="stub_1_5 adjr2" class="gt_row gt_left">0.59292027</td>
-<td headers="stub_1_5 cp" class="gt_row gt_left" style="background-color: rgba(22,6,12,0.8); color: #FFFFFF;">7.161336</td>
-<td headers="stub_1_5 rss" class="gt_row gt_left">219215369</td>
-<td headers="stub_1_5 week" class="gt_row gt_left"> </td>
-<td headers="stub_1_5 month" class="gt_row gt_left"> </td>
-<td headers="stub_1_5 lag1" class="gt_row gt_left">*</td>
-<td headers="stub_1_5 lag2" class="gt_row gt_left">*</td>
-<td headers="stub_1_5 rolling_4wk_avg" class="gt_row gt_left">*</td>
-<td headers="stub_1_5 best_seller" class="gt_row gt_left"> </td>
-<td headers="stub_1_5 model" class="gt_row gt_left">a</td></tr>
-    <tr><th id="stub_1_6" scope="row" class="gt_row gt_left gt_stub">3</th>
-<td headers="stub_1_6 rsq" class="gt_row gt_left">0.47179023</td>
-<td headers="stub_1_6 adjr2" class="gt_row gt_left">0.47153538</td>
-<td headers="stub_1_6 cp" class="gt_row gt_left" style="background-color: rgba(228,197,209,0.8); color: #000000;">1862.215571</td>
-<td headers="stub_1_6 rss" class="gt_row gt_left">284582007</td>
-<td headers="stub_1_6 week" class="gt_row gt_left"> </td>
-<td headers="stub_1_6 month" class="gt_row gt_left">*</td>
-<td headers="stub_1_6 lag1" class="gt_row gt_left"> </td>
-<td headers="stub_1_6 lag2" class="gt_row gt_left">*</td>
-<td headers="stub_1_6 rolling_4wk_avg" class="gt_row gt_left">*</td>
-<td headers="stub_1_6 best_seller" class="gt_row gt_left"> </td>
-<td headers="stub_1_6 model" class="gt_row gt_left">b</td></tr>
-    <tr><th id="stub_1_7" scope="row" class="gt_row gt_left gt_stub">4</th>
-<td headers="stub_1_7 rsq" class="gt_row gt_left">0.59312292</td>
-<td headers="stub_1_7 adjr2" class="gt_row gt_left">0.59286113</td>
-<td headers="stub_1_7 cp" class="gt_row gt_left" style="background-color: rgba(22,6,12,0.8); color: #FFFFFF;">9.064396</td>
-<td headers="stub_1_7 rss" class="gt_row gt_left">219211953</td>
-<td headers="stub_1_7 week" class="gt_row gt_left"> </td>
-<td headers="stub_1_7 month" class="gt_row gt_left">*</td>
-<td headers="stub_1_7 lag1" class="gt_row gt_left">*</td>
-<td headers="stub_1_7 lag2" class="gt_row gt_left">*</td>
-<td headers="stub_1_7 rolling_4wk_avg" class="gt_row gt_left">*</td>
-<td headers="stub_1_7 best_seller" class="gt_row gt_left"> </td>
-<td headers="stub_1_7 model" class="gt_row gt_left">a</td></tr>
-    <tr><th id="stub_1_8" scope="row" class="gt_row gt_left gt_stub">4</th>
-<td headers="stub_1_8 rsq" class="gt_row gt_left">0.59311764</td>
-<td headers="stub_1_8 adjr2" class="gt_row gt_left">0.59285586</td>
-<td headers="stub_1_8 cp" class="gt_row gt_left" style="background-color: rgba(22,6,12,0.8); color: #FFFFFF;">9.145038</td>
-<td headers="stub_1_8 rss" class="gt_row gt_left">219214795</td>
-<td headers="stub_1_8 week" class="gt_row gt_left"> </td>
-<td headers="stub_1_8 month" class="gt_row gt_left"> </td>
-<td headers="stub_1_8 lag1" class="gt_row gt_left">*</td>
-<td headers="stub_1_8 lag2" class="gt_row gt_left">*</td>
-<td headers="stub_1_8 rolling_4wk_avg" class="gt_row gt_left">*</td>
-<td headers="stub_1_8 best_seller" class="gt_row gt_left">*</td>
-<td headers="stub_1_8 model" class="gt_row gt_left">b</td></tr>
-    <tr><th id="stub_1_9" scope="row" class="gt_row gt_left gt_stub">5</th>
-<td headers="stub_1_9 rsq" class="gt_row gt_left">0.59351846</td>
-<td headers="stub_1_9 adjr2" class="gt_row gt_left">0.59319149</td>
-<td headers="stub_1_9 cp" class="gt_row gt_left" style="background-color: rgba(21,6,12,0.8); color: #FFFFFF;">5.016718</td>
-<td headers="stub_1_9 rss" class="gt_row gt_left">218998851</td>
-<td headers="stub_1_9 week" class="gt_row gt_left">*</td>
-<td headers="stub_1_9 month" class="gt_row gt_left">*</td>
-<td headers="stub_1_9 lag1" class="gt_row gt_left">*</td>
-<td headers="stub_1_9 lag2" class="gt_row gt_left">*</td>
-<td headers="stub_1_9 rolling_4wk_avg" class="gt_row gt_left">*</td>
-<td headers="stub_1_9 best_seller" class="gt_row gt_left"> </td>
-<td headers="stub_1_9 model" class="gt_row gt_left">a</td></tr>
-    <tr><th id="stub_1_10" scope="row" class="gt_row gt_left gt_stub">5</th>
-<td headers="stub_1_10 rsq" class="gt_row gt_left">0.59312400</td>
-<td headers="stub_1_10 adjr2" class="gt_row gt_left">0.59279672</td>
-<td headers="stub_1_10 cp" class="gt_row gt_left" style="background-color: rgba(22,7,13,0.8); color: #FFFFFF;">11.047895</td>
-<td headers="stub_1_10 rss" class="gt_row gt_left">219211372</td>
-<td headers="stub_1_10 week" class="gt_row gt_left"> </td>
-<td headers="stub_1_10 month" class="gt_row gt_left">*</td>
-<td headers="stub_1_10 lag1" class="gt_row gt_left">*</td>
-<td headers="stub_1_10 lag2" class="gt_row gt_left">*</td>
-<td headers="stub_1_10 rolling_4wk_avg" class="gt_row gt_left">*</td>
-<td headers="stub_1_10 best_seller" class="gt_row gt_left">*</td>
-<td headers="stub_1_10 model" class="gt_row gt_left">b</td></tr>
-    <tr><th id="stub_1_11" scope="row" class="gt_row gt_left gt_stub">6</th>
-<td headers="stub_1_11 rsq" class="gt_row gt_left">0.59351955</td>
-<td headers="stub_1_11 adjr2" class="gt_row gt_left">0.59312713</td>
-<td headers="stub_1_11 cp" class="gt_row gt_left" style="background-color: rgba(22,6,12,0.8); color: #FFFFFF;">7.000000</td>
-<td headers="stub_1_11 rss" class="gt_row gt_left">218998262</td>
-<td headers="stub_1_11 week" class="gt_row gt_left">*</td>
-<td headers="stub_1_11 month" class="gt_row gt_left">*</td>
-<td headers="stub_1_11 lag1" class="gt_row gt_left">*</td>
-<td headers="stub_1_11 lag2" class="gt_row gt_left">*</td>
-<td headers="stub_1_11 rolling_4wk_avg" class="gt_row gt_left">*</td>
-<td headers="stub_1_11 best_seller" class="gt_row gt_left">*</td>
-<td headers="stub_1_11 model" class="gt_row gt_left">a</td></tr>
+    <tr><th id="stub_1_1" scope="row" class="gt_row gt_right gt_stub">1</th>
+<td headers="stub_1_1 model" class="gt_row gt_left">a</td>
+<td headers="stub_1_1 rsq" class="gt_row gt_right">0.4</td>
+<td headers="stub_1_1 adjr2" class="gt_row gt_right">0.4</td>
+<td headers="stub_1_1 cp" class="gt_row gt_right">3,641.2</td>
+<td headers="stub_1_1 rss" class="gt_row gt_right">347,410,480</td>
+<td headers="stub_1_1 week" class="gt_row gt_right"> </td>
+<td headers="stub_1_1 month" class="gt_row gt_right"> </td>
+<td headers="stub_1_1 lag1" class="gt_row gt_right"> </td>
+<td headers="stub_1_1 lag2" class="gt_row gt_right"> </td>
+<td headers="stub_1_1 4WK ROLLING AVG" class="gt_row gt_right">*</td>
+<td headers="stub_1_1 BEST SELLER" class="gt_row gt_right"> </td></tr>
+    <tr><th id="stub_1_2" scope="row" class="gt_row gt_right gt_stub">1</th>
+<td headers="stub_1_2 model" class="gt_row gt_left">b</td>
+<td headers="stub_1_2 rsq" class="gt_row gt_right">0.1</td>
+<td headers="stub_1_2 adjr2" class="gt_row gt_right">0.1</td>
+<td headers="stub_1_2 cp" class="gt_row gt_right">7,962.8</td>
+<td headers="stub_1_2 rss" class="gt_row gt_right">499,689,200</td>
+<td headers="stub_1_2 week" class="gt_row gt_right"> </td>
+<td headers="stub_1_2 month" class="gt_row gt_right"> </td>
+<td headers="stub_1_2 lag1" class="gt_row gt_right"> </td>
+<td headers="stub_1_2 lag2" class="gt_row gt_right"> </td>
+<td headers="stub_1_2 4WK ROLLING AVG" class="gt_row gt_right"> </td>
+<td headers="stub_1_2 BEST SELLER" class="gt_row gt_right">*</td></tr>
+    <tr><th id="stub_1_3" scope="row" class="gt_row gt_right gt_stub">2</th>
+<td headers="stub_1_3 model" class="gt_row gt_left">a</td>
+<td headers="stub_1_3 rsq" class="gt_row gt_right">0.5</td>
+<td headers="stub_1_3 adjr2" class="gt_row gt_right">0.5</td>
+<td headers="stub_1_3 cp" class="gt_row gt_right">1,860.3</td>
+<td headers="stub_1_3 rss" class="gt_row gt_right">284,585,840</td>
+<td headers="stub_1_3 week" class="gt_row gt_right"> </td>
+<td headers="stub_1_3 month" class="gt_row gt_right"> </td>
+<td headers="stub_1_3 lag1" class="gt_row gt_right"> </td>
+<td headers="stub_1_3 lag2" class="gt_row gt_right">*</td>
+<td headers="stub_1_3 4WK ROLLING AVG" class="gt_row gt_right">*</td>
+<td headers="stub_1_3 BEST SELLER" class="gt_row gt_right"> </td></tr>
+    <tr><th id="stub_1_4" scope="row" class="gt_row gt_right gt_stub">2</th>
+<td headers="stub_1_4 model" class="gt_row gt_left">b</td>
+<td headers="stub_1_4 rsq" class="gt_row gt_right">0.4</td>
+<td headers="stub_1_4 adjr2" class="gt_row gt_right">0.4</td>
+<td headers="stub_1_4 cp" class="gt_row gt_right">2,809.3</td>
+<td headers="stub_1_4 rss" class="gt_row gt_right">318,026,117</td>
+<td headers="stub_1_4 week" class="gt_row gt_right"> </td>
+<td headers="stub_1_4 month" class="gt_row gt_right"> </td>
+<td headers="stub_1_4 lag1" class="gt_row gt_right">*</td>
+<td headers="stub_1_4 lag2" class="gt_row gt_right"> </td>
+<td headers="stub_1_4 4WK ROLLING AVG" class="gt_row gt_right">*</td>
+<td headers="stub_1_4 BEST SELLER" class="gt_row gt_right"> </td></tr>
+    <tr><th id="stub_1_5" scope="row" class="gt_row gt_right gt_stub">3</th>
+<td headers="stub_1_5 model" class="gt_row gt_left">a</td>
+<td headers="stub_1_5 rsq" class="gt_row gt_right">0.6</td>
+<td headers="stub_1_5 adjr2" class="gt_row gt_right">0.6</td>
+<td headers="stub_1_5 cp" class="gt_row gt_right">7.2</td>
+<td headers="stub_1_5 rss" class="gt_row gt_right">219,215,369</td>
+<td headers="stub_1_5 week" class="gt_row gt_right"> </td>
+<td headers="stub_1_5 month" class="gt_row gt_right"> </td>
+<td headers="stub_1_5 lag1" class="gt_row gt_right">*</td>
+<td headers="stub_1_5 lag2" class="gt_row gt_right">*</td>
+<td headers="stub_1_5 4WK ROLLING AVG" class="gt_row gt_right">*</td>
+<td headers="stub_1_5 BEST SELLER" class="gt_row gt_right"> </td></tr>
+    <tr><th id="stub_1_6" scope="row" class="gt_row gt_right gt_stub">3</th>
+<td headers="stub_1_6 model" class="gt_row gt_left">b</td>
+<td headers="stub_1_6 rsq" class="gt_row gt_right">0.5</td>
+<td headers="stub_1_6 adjr2" class="gt_row gt_right">0.5</td>
+<td headers="stub_1_6 cp" class="gt_row gt_right">1,862.2</td>
+<td headers="stub_1_6 rss" class="gt_row gt_right">284,582,007</td>
+<td headers="stub_1_6 week" class="gt_row gt_right"> </td>
+<td headers="stub_1_6 month" class="gt_row gt_right">*</td>
+<td headers="stub_1_6 lag1" class="gt_row gt_right"> </td>
+<td headers="stub_1_6 lag2" class="gt_row gt_right">*</td>
+<td headers="stub_1_6 4WK ROLLING AVG" class="gt_row gt_right">*</td>
+<td headers="stub_1_6 BEST SELLER" class="gt_row gt_right"> </td></tr>
+    <tr><th id="stub_1_7" scope="row" class="gt_row gt_right gt_stub">4</th>
+<td headers="stub_1_7 model" class="gt_row gt_left">a</td>
+<td headers="stub_1_7 rsq" class="gt_row gt_right">0.6</td>
+<td headers="stub_1_7 adjr2" class="gt_row gt_right">0.6</td>
+<td headers="stub_1_7 cp" class="gt_row gt_right">9.1</td>
+<td headers="stub_1_7 rss" class="gt_row gt_right">219,211,953</td>
+<td headers="stub_1_7 week" class="gt_row gt_right"> </td>
+<td headers="stub_1_7 month" class="gt_row gt_right">*</td>
+<td headers="stub_1_7 lag1" class="gt_row gt_right">*</td>
+<td headers="stub_1_7 lag2" class="gt_row gt_right">*</td>
+<td headers="stub_1_7 4WK ROLLING AVG" class="gt_row gt_right">*</td>
+<td headers="stub_1_7 BEST SELLER" class="gt_row gt_right"> </td></tr>
+    <tr><th id="stub_1_8" scope="row" class="gt_row gt_right gt_stub">4</th>
+<td headers="stub_1_8 model" class="gt_row gt_left">b</td>
+<td headers="stub_1_8 rsq" class="gt_row gt_right">0.6</td>
+<td headers="stub_1_8 adjr2" class="gt_row gt_right">0.6</td>
+<td headers="stub_1_8 cp" class="gt_row gt_right">9.1</td>
+<td headers="stub_1_8 rss" class="gt_row gt_right">219,214,795</td>
+<td headers="stub_1_8 week" class="gt_row gt_right"> </td>
+<td headers="stub_1_8 month" class="gt_row gt_right"> </td>
+<td headers="stub_1_8 lag1" class="gt_row gt_right">*</td>
+<td headers="stub_1_8 lag2" class="gt_row gt_right">*</td>
+<td headers="stub_1_8 4WK ROLLING AVG" class="gt_row gt_right">*</td>
+<td headers="stub_1_8 BEST SELLER" class="gt_row gt_right">*</td></tr>
+    <tr><th id="stub_1_9" scope="row" class="gt_row gt_right gt_stub">5</th>
+<td headers="stub_1_9 model" class="gt_row gt_left">a</td>
+<td headers="stub_1_9 rsq" class="gt_row gt_right">0.6</td>
+<td headers="stub_1_9 adjr2" class="gt_row gt_right">0.6</td>
+<td headers="stub_1_9 cp" class="gt_row gt_right">5.0</td>
+<td headers="stub_1_9 rss" class="gt_row gt_right">218,998,851</td>
+<td headers="stub_1_9 week" class="gt_row gt_right">*</td>
+<td headers="stub_1_9 month" class="gt_row gt_right">*</td>
+<td headers="stub_1_9 lag1" class="gt_row gt_right">*</td>
+<td headers="stub_1_9 lag2" class="gt_row gt_right">*</td>
+<td headers="stub_1_9 4WK ROLLING AVG" class="gt_row gt_right">*</td>
+<td headers="stub_1_9 BEST SELLER" class="gt_row gt_right"> </td></tr>
+    <tr><th id="stub_1_10" scope="row" class="gt_row gt_right gt_stub">5</th>
+<td headers="stub_1_10 model" class="gt_row gt_left">b</td>
+<td headers="stub_1_10 rsq" class="gt_row gt_right">0.6</td>
+<td headers="stub_1_10 adjr2" class="gt_row gt_right">0.6</td>
+<td headers="stub_1_10 cp" class="gt_row gt_right">11.0</td>
+<td headers="stub_1_10 rss" class="gt_row gt_right">219,211,372</td>
+<td headers="stub_1_10 week" class="gt_row gt_right"> </td>
+<td headers="stub_1_10 month" class="gt_row gt_right">*</td>
+<td headers="stub_1_10 lag1" class="gt_row gt_right">*</td>
+<td headers="stub_1_10 lag2" class="gt_row gt_right">*</td>
+<td headers="stub_1_10 4WK ROLLING AVG" class="gt_row gt_right">*</td>
+<td headers="stub_1_10 BEST SELLER" class="gt_row gt_right">*</td></tr>
+    <tr><th id="stub_1_11" scope="row" class="gt_row gt_right gt_stub">6</th>
+<td headers="stub_1_11 model" class="gt_row gt_left">a</td>
+<td headers="stub_1_11 rsq" class="gt_row gt_right">0.6</td>
+<td headers="stub_1_11 adjr2" class="gt_row gt_right">0.6</td>
+<td headers="stub_1_11 cp" class="gt_row gt_right">7.0</td>
+<td headers="stub_1_11 rss" class="gt_row gt_right">218,998,262</td>
+<td headers="stub_1_11 week" class="gt_row gt_right">*</td>
+<td headers="stub_1_11 month" class="gt_row gt_right">*</td>
+<td headers="stub_1_11 lag1" class="gt_row gt_right">*</td>
+<td headers="stub_1_11 lag2" class="gt_row gt_right">*</td>
+<td headers="stub_1_11 4WK ROLLING AVG" class="gt_row gt_right">*</td>
+<td headers="stub_1_11 BEST SELLER" class="gt_row gt_right">*</td></tr>
   </tbody>
   
   
 </table>
 </div>
 </div>
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># update this too  look more like my other graphs</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#https://posit.co/blog/great-looking-tables-gt-0-2/# turn results into a pretty table</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># is_mod_summary_mx</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
+<section id="table-1.-the-stepwise-selection-went-through-an-exhaustive-process-to-chose-the-best-2-models-by-number-of-predictors" class="level6">
+<h6 class="anchored" data-anchor-id="table-1.-the-stepwise-selection-went-through-an-exhaustive-process-to-chose-the-best-2-models-by-number-of-predictors"><strong>table 1. the stepwise selection went through an exhaustive process to chose the best 2 models by number of predictors</strong></h6>
 </section>
 <section id="model-evaluation" class="level3">
 <h3 class="anchored" data-anchor-id="model-evaluation">model evaluation</h3>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make tghis chart prettier</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>gcolors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"#68576D"</span>, <span class="st">"#DF5875"</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>is_mod_summary_mx <span class="sc">%&gt;%</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">c</span>(adjr2, cp), <span class="at">names_to =</span> <span class="st">"metric"</span>, <span class="at">values_to =</span> <span class="st">"value"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> predictors, <span class="at">y =</span> value, <span class="at">color =</span> model)) <span class="sc">+</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> .<span class="dv">8</span>) <span class="sc">+</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>metric, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>) <span class="sc">+</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> gcolors) <span class="sc">+</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"predictors"</span>, <span class="at">y =</span> <span class="st">"metric"</span>, <span class="at">title =</span> <span class="st">"Number of Predictors by ADJR2 and CP"</span>,</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span>  <span class="st">" figure e"</span>) <span class="sc">+</span></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_art_nouveau</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make tghis chart prettier</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>gcolors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"#68576D"</span>, <span class="st">"#DF5875"</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>is_mod_summary_mx <span class="sc">%&gt;%</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">c</span>(adjr2, cp), <span class="at">names_to =</span> <span class="st">"metric"</span>, <span class="at">values_to =</span> <span class="st">"value"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> predictors, <span class="at">y =</span> value, <span class="at">color =</span> model)) <span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> .<span class="dv">8</span>) <span class="sc">+</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>metric, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>) <span class="sc">+</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> gcolors) <span class="sc">+</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"predictors"</span>, <span class="at">y =</span> <span class="st">"metric"</span>, <span class="at">title =</span> <span class="st">"Number of Predictors by ADJR2 and CP"</span>,</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span>  <span class="st">" figure e"</span>) <span class="sc">+</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_art_nouveau</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="pi_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="960"></p>
+<p><img src="pi_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="960"></p>
 </div>
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># how can i make the value label larger on this?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># how can i make the value label larger on this?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>I see that the more predictors the great the adjr2 and the lower the cp, which is be expected. there appears to be diminishing returns at 4 predictors.</p>
@@ -1226,51 +1300,51 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#https://emilhvitfeldt.github.io/ISLR-tidymodels-labs/03-linear-regression.html</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># tidy model way</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a> specs <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"regression"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"lm"</span>)</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>lm_3 <span class="ot">&lt;-</span> specs <span class="sc">%&gt;%</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(sold<span class="sc">~</span> lag1 <span class="sc">+</span> lag2 <span class="sc">+</span> rolling_4wk_avg , <span class="at">data =</span> is_train)</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>lm_4 <span class="ot">&lt;-</span> specs <span class="sc">%&gt;%</span></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(sold<span class="sc">~</span> month <span class="sc">+</span> lag1 <span class="sc">+</span> lag2 <span class="sc">+</span> rolling_4wk_avg , <span class="at">data =</span> is_train)</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>lm_5 <span class="ot">&lt;-</span> specs <span class="sc">%&gt;%</span></span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(sold<span class="sc">~</span> month <span class="sc">+</span> week <span class="sc">+</span> lag1 <span class="sc">+</span> lag2 <span class="sc">+</span> rolling_4wk_avg , <span class="at">data =</span> is_train)</span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>mod_compare <span class="ot">&lt;-</span>  <span class="fu">rbind</span>(<span class="fu">glance</span>(lm_3),<span class="fu">glance</span>(lm_4),<span class="fu">glance</span>(lm_5))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#https://emilhvitfeldt.github.io/ISLR-tidymodels-labs/03-linear-regression.html</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># tidy model way</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a> specs <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"regression"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"lm"</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>lm_3 <span class="ot">&lt;-</span> specs <span class="sc">%&gt;%</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(sold<span class="sc">~</span> lag1 <span class="sc">+</span> lag2 <span class="sc">+</span> rolling_4wk_avg , <span class="at">data =</span> is_train)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>lm_4 <span class="ot">&lt;-</span> specs <span class="sc">%&gt;%</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(sold<span class="sc">~</span> month <span class="sc">+</span> lag1 <span class="sc">+</span> lag2 <span class="sc">+</span> rolling_4wk_avg , <span class="at">data =</span> is_train)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>lm_5 <span class="ot">&lt;-</span> specs <span class="sc">%&gt;%</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(sold<span class="sc">~</span> month <span class="sc">+</span> week <span class="sc">+</span> lag1 <span class="sc">+</span> lag2 <span class="sc">+</span> rolling_4wk_avg , <span class="at">data =</span> is_train)</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>mod_compare <span class="ot">&lt;-</span>  <span class="fu">rbind</span>(<span class="fu">glance</span>(lm_3),<span class="fu">glance</span>(lm_4),<span class="fu">glance</span>(lm_5))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>mod_compare <span class="sc">%&gt;%</span> </span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">gt</span>(<span class="at">rowname_col =</span> <span class="st">"df"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="fu">md</span>(<span class="st">"model comparison"</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_align</span>(<span class="at">align =</span> <span class="st">"left"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data_color</span>(</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> AIC,</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">"#15050B"</span>, <span class="st">"#F6D5E2"</span>,<span class="st">"#D35C9E"</span> ),</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">domain =</span> <span class="fu">c</span>( <span class="fl">235603.3</span>, <span class="fl">235605.8</span>),</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.8</span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tab_options</span>(</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">grand_summary_row.background.color =</span> <span class="st">"#D35C9E"</span>,</span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">heading.background.color =</span> <span class="st">"#EFFBFC"</span>,</span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">column_labels.background.color =</span> <span class="st">"#EFFBFC"</span>,</span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">stub.background.color =</span> <span class="st">"#EFFBFC"</span>,</span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.font.color =</span> <span class="st">"#323232"</span>,</span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">stub.border.style =</span> <span class="st">"dashed"</span>,</span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">stub.border.width =</span> <span class="st">"1px"</span>,</span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.width =</span> <span class="st">"60%"</span></span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">opt_all_caps</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>mod_compare <span class="sc">%&gt;%</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">gt</span>(<span class="at">rowname_col =</span> <span class="st">"df"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="fu">md</span>(<span class="st">"model comparison"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_align</span>(<span class="at">align =</span> <span class="st">"left"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data_color</span>(</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> AIC,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">"#15050B"</span>, <span class="st">"#F6D5E2"</span>,<span class="st">"#D35C9E"</span> ),</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">domain =</span> <span class="fu">c</span>( <span class="fl">235603.3</span>, <span class="fl">235605.8</span>),</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.8</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tab_options</span>(</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">grand_summary_row.background.color =</span> <span class="st">"#D35C9E"</span>,</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">heading.background.color =</span> <span class="st">"#EFFBFC"</span>,</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">column_labels.background.color =</span> <span class="st">"#EFFBFC"</span>,</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">stub.background.color =</span> <span class="st">"#EFFBFC"</span>,</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.font.color =</span> <span class="st">"#323232"</span>,</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">stub.border.style =</span> <span class="st">"dashed"</span>,</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">stub.border.width =</span> <span class="st">"1px"</span>,</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.width =</span> <span class="st">"60%"</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">opt_all_caps</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 
@@ -1783,39 +1857,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>train_precict <span class="ot">&lt;-</span> <span class="fu">bind_cols</span>(</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(lm_3, <span class="at">new_data =</span> is_train, <span class="at">type =</span> <span class="st">"conf_int"</span>),</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  is_train</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(item_no, week, sold, .pred_lower, .pred_upper)</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># graph the results</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>train_precict <span class="ot">&lt;-</span> <span class="fu">bind_cols</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(lm_3, <span class="at">new_data =</span> is_train, <span class="at">type =</span> <span class="st">"conf_int"</span>),</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  is_train</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(item_no, week, sold, .pred_lower, .pred_upper)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># graph the results</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <p>compare the train model against the test</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>lm_3 <span class="ot">&lt;-</span> specs <span class="sc">%&gt;%</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(sold<span class="sc">~</span> lag1 <span class="sc">+</span> lag2 <span class="sc">+</span> rolling_4wk_avg , <span class="at">data =</span> is_train)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>lm_3t <span class="ot">&lt;-</span> specs <span class="sc">%&gt;%</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(sold<span class="sc">~</span> lag1 <span class="sc">+</span> lag2 <span class="sc">+</span> rolling_4wk_avg , <span class="at">data =</span> is_test)</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>tt_compare <span class="ot">&lt;-</span>  <span class="fu">rbind</span>(<span class="fu">glance</span>(lm_3),<span class="fu">glance</span>(lm_3t))</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>tt_compare<span class="sc">$</span>mod <span class="ot">&lt;-</span>  <span class="fu">c</span>(<span class="st">"train"</span>, <span class="st">"test"</span>)</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co"># create a visualization</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>lm_3 <span class="ot">&lt;-</span> specs <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(sold<span class="sc">~</span> lag1 <span class="sc">+</span> lag2 <span class="sc">+</span> rolling_4wk_avg , <span class="at">data =</span> is_train)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>lm_3t <span class="ot">&lt;-</span> specs <span class="sc">%&gt;%</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(sold<span class="sc">~</span> lag1 <span class="sc">+</span> lag2 <span class="sc">+</span> rolling_4wk_avg , <span class="at">data =</span> is_test)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>tt_compare <span class="ot">&lt;-</span>  <span class="fu">rbind</span>(<span class="fu">glance</span>(lm_3),<span class="fu">glance</span>(lm_3t))</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>tt_compare<span class="sc">$</span>mod <span class="ot">&lt;-</span>  <span class="fu">c</span>(<span class="st">"train"</span>, <span class="st">"test"</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co"># create a visualization</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>actual_predicted <span class="ot">&lt;-</span> <span class="fu">bind_cols</span>(</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(lm_3t, <span class="at">new_data =</span> is_train, <span class="at">type =</span> <span class="st">"conf_int"</span>),</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  is_train</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(item_no, week, sold, .pred_lower, .pred_upper)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>actual_predicted <span class="ot">&lt;-</span> <span class="fu">bind_cols</span>(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">predict</span>(lm_3t, <span class="at">new_data =</span> is_train, <span class="at">type =</span> <span class="st">"conf_int"</span>),</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  is_train</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(item_no, week, sold, .pred_lower, .pred_upper)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>

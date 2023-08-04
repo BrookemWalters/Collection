@@ -17,19 +17,14 @@ if (!require("pacman")) {
 #Import Libraries
 
 # Use p_load() to install (if necessary) and load  packages
-pacman::p_load(tidyverse,
-               tidymodels,
-               leaps,
-               corrplot,
-               MMWRweek,
-               broom,
-               gt,
+pacman::p_load(tidyverse, # for data cleaning and preparing
+               tidymodels, # for modeling
+               leaps, # for creating lags
+               MMWRweek,# date time groups
+               broom, # model something
+               gt, # making tables
+               GGally, # for comparing variables
                poissonreg) # parsnips for poisson
-
-# import data
-sai <-  read.csv("inventory.csv")
-# import my custom theme :-)
-source("artNov_theme.R")
 
 ```
 
@@ -39,26 +34,23 @@ DRAFT DRAFT LESS OUTLINE MORE WRITING
 
 Throughout this project, I showcase the practical application of predictive analytics by utilizing statistical methods. I focus on unraveling temporal sales patterns to anticipate future consumer demand. Ultimately, this project demonstrates how analytics fuels the decision-making processes with forecasts and strategic insights.
 
-While the primary aim of the project is demonstrating the foundations of statically modeling, it also serves as a platform for expanding other essential data science competencies. Leveraging R, I've not only engineered novel data sets, but also enhanced my knowledge in the areas of data wrangling and visualization design.
+While the primary aim of the project is demonstrating the foundations of statistical modeling, it also serves as a platform for expanding other essential data science competencies. Leveraging R, I've not only engineered novel data sets, but also enhanced my knowledge in the areas of data wrangling and visualization design.
 
-Overall, this project showcases more than current competencies; rather, it represents my potential for continuous growth and adaptability in the ever-evolving field of data science and machine learning. It marks the acquisition of new skills developed over the course of the semester, complementing years spent cultivating my craft of compelling data storytelling.
+Overall, this project showcases more than current competencies; rather, it represents my potential for continuous growth and adaptability in the ever-evolving field of data science and machine learning. It marks the acquisition of new skills developed over the course of the semester, complementing my years spent cultivating my craft of compelling data storytelling.
 
 **goal**: forecast the inventory for the upcoming year
 
 **limitations**: ideally, time series predictions benefit from multi-year trending data sets. However, the data for this project encompasses merely 54 weeks.
 
-Additionally, my understanding of the data is constrained. For this project, I made certain assumptions about the timeframe and inventory type. In practical scenarios, thorough consultation and collaboration are essential components of any predictive analytics project.
+Additionally, my understanding of the data is constrained. For this project, I made certain assumptions about the time frame and inventory type. In practical scenarios, thorough consultation and collaboration with domain experts are essential components of any predictive analytics project.
 
-![](/images/AdobeStock_184864827.jpeg)
-
-| 
-| **this report contains:**
+![](/images/AdobeStock_184864827.jpeg) **this report contains:**
 
 -   **Data Processing**:
     -   feature engineering
-    -   data splitting into training and testing sets
+    -   data splitting into training and testing sets  
 -   **Model Development**:
-    -   step-wise model selection methodology
+    -   step-wise model selection methodology  
 -   **Analytics and Evaluation**:
     -   exploratory and descriptive analytics
     -   interpretation and evaluation of model outcomes
@@ -67,9 +59,17 @@ Additionally, my understanding of the data is constrained. For this project, I m
 
 ## Initial Insights:
 
-The provided inventory data set contains 488 items sold over the course of 54 weeks (0-53), with a total of \~ 1.3 million units sold.
+The inventory data is comprised of 488 distinct items, sold over a span of 54 weeks (from week 0 to 53), with an impressive sum of approximately 1.3 million units transacted.
 
-```{r fig.height=4, fig.width=10}
+To visualize and better understand the distribution of sales, I prepared a series of graphical representations to discern patterns, identify anomalies, and appreciate the overall behavior of our sales data over time, thereby setting the stage for the predictive analysis.
+
+```{r fig.height=4, fig.width=10, message=FALSE, warning=FALSE}
+
+# import data
+sai <-  read.csv("inventory.csv")
+# import my custom theme :-)
+source("artNov_theme.R")
+
 hist <- sai %>% 
   group_by(item_no) %>%
   summarise(total_sold = sum(sold)) %>% 
@@ -91,7 +91,7 @@ hist1 <- sai %>%
   summarise(total_sold = sum(sold)) %>% 
  
 ggplot(aes(x = total_sold)) +
-  geom_histogram(binwidth =  2100, color = "black", fill = "#DF5875", 
+  geom_histogram(binwidth =  2100, color = "black", fill = "#68576D", 
                  alpha = .6) +
         scale_x_continuous(labels = scales::comma_format()) +
         scale_y_continuous(position = "right") +
@@ -106,6 +106,11 @@ gridExtra::grid.arrange(hist, hist1, ncol = 2)
 ```
 
 ###### **figure 1.** *The histograms demonstrate the distribution of the dataset by variable. The green histogram demonstrates the frequency of each item sold, with most items ranging between 500 and 1300 in total. The pink histogram conveys the temporal dispersion of weekly sales. Both graphs exhibit a right skew, particularly pronounced in the green histogram, implying a scarcity of high-sales items or weeks.*
+
+\
+\
+\
+<br>
 
 ```{r fig.height=4, fig.width=10, warning=FALSE}
 line1 <- sai %>%
@@ -127,23 +132,31 @@ line1
 
 ###### **figure 2.** *The line graph shows annual sales trends in the unprocessed data set. Weekly sales fluctuate within a range of 10,000 to 50,000 items, with the majority hovering between \~20k and \~30k units sold. A distinct sales peak is observed in week 20, while week 46 registers the slowest sales activity. This trend analysis aids in identifying key sales periods and provides valuable context for refining our predictive models*
 
-## Feature engineering
+\
+\
+\
+<br>
 
-I crafted new variables to derive a better understanding of sales trends, with the hope of enhancing the predictive model's performanc. These variables provide valuable insights into sales trends, seasonality, and best-selling items, which can be used to enhance the predictive model's performance and gain a better understanding of the data's dynamics. Ideally, meeting with domain experts would be part of this process, to ensure the variables represent reality.
+## Data Processing
+
+I feature engineered new variables to derive a better understanding of sales trends and enhance the predictive model's performance. These variables provide valuable insights into sales trends, seasonality, and best-selling items, which can be used to enhance the predictive model's performance and gain a better understanding of the data's dynamics. Ideally, meeting with domain experts would be part of this process, to ensure the variables represent reality.
 
 ### data dictionary
 
 -   **item_no**: the unique identifier for each item
 -   **week**: the week number. "sold": number of items sold during a specific week
 -   **year_total**:the total number of items sold for each item over the entire year
--   **best_seller**: A binary variable indicating whether the item is one of the top ten best-selling items based on volume
 -   **date**: The specific date corresponding to a week
 -   **month**: the month corresponding to a specific week
 -   **lag1**: period for capturing seasonality or time-dependent patterns, item's sold from the previous week
 -   **lag2**: item's sold from two-weeks prior
--   **rolling_4wk_avg**:rolling four-week average for each item, calculated as the total number of items sold over the past four weeks
+-   **rolling_4wk_avg**: the total number of items sold over the past four weeksby item_no
+-   **best_seller**: A binary variable indicating whether the item is one of the top ten best-selling items based on volume
 
-```{r}
+```{r fig.height=4, fig.width=10}
+
+#####
+# create the variables
 # total yearly sales for each item
 inventory_sum <- sai %>%
   group_by(item_no) %>%
@@ -204,9 +217,9 @@ sai <- sai %>%
   ungroup()
 
 write.csv(sai, "FEinventory.csv")
-```
 
-```{r fig.height=4, fig.width=10}
+
+
 
 month_abbreviations <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
 
@@ -233,11 +246,11 @@ dot <-  sai_average %>%
   ggplot(aes(x = month, y = month_average)) +
   geom_point(size = 3) +
   geom_point(size = 4, shape = 8, alpha = 0.75) +
-  geom_text(aes(label = round(month_average, 2)), nudge_y = 1.5) +  # Adjust nudge_y value for closer annotations
+  geom_text(aes(label = round(month_average, 2)), nudge_y = 1.5) +  #closer annotations
   scale_y_continuous(position = "right") +
   labs(x = "Month", y = "", title = "Average Items Sold by Month", caption = "Figure 4.2") +
   theme_art_nouveau() +
-  theme(axis.text.y = element_blank())  # Remove y-axis ticks
+  theme(axis.text.y = element_blank())  
  
   
 
@@ -247,21 +260,45 @@ gridExtra::grid.arrange(bar, dot, ncol = 2)
 
 ###### **figure 4.** *The bar graph displays the total sales volume by month. July stands out as the peak season, whereas November and December show lower inventory movement. U. However, the average number of items sold in a month is relatively low compared to the totals. This suggests the presence of numerous zeros, which are affecting the overall average.*
 
-```{r}
-#https://www.geeksforgeeks.org/visualization-of-a-correlation-matrix-using-ggplot2-in-r/
-# Check the data types of variables in 'sai'
-
+```{r warning=FALSE}
+# #https://www.geeksforgeeks.org/visualization-of-a-correlation-matrix-using-ggplot2-in-r/
+# theme_art_nov_minimal <- function() {
+#   theme(
+#     text = element_text(family = 'EB Garamond'),
+#     panel.grid = element_blank(),
+#     panel.border = element_blank(),
+#     panel.background = element_rect(fill = "#FEE8E1", color = "#DF5875"),
+#     panel.grid.major = element_line(color = "#DF5875", linetype = "dotted", linewidth = 0.5),
+#     panel.grid.minor = element_blank(),
+#     axis.line = element_line(color = "#DF5875", linewidth = 1),
+#     legend.position = "bottom"
+#   )
+# }
+# 
+# 
+# sai %>%
+#   select(week, month, lag1, lag2, rolling_4wk_avg, best_seller, sold) %>%
+#   ggpairs(
+#     upper = list(continuous = "cor"),
+#     lower = list(continuous = "points"),
+#     diag = list(continuous = "densityDiag")
+#   ) +
+#   theme_art_nov_minimal()
 ```
 
-###### **figure 5.** *The bar graph displays the total sales volume by month. July stands out as the peak season, whereas November and December show lower inventory movement. U. However, the average number of items sold in a month is relatively low compared to the totals. This suggests the presence of numerous zeros, which are affecting the overall average.*
+###### **figure 5.** *The corelation matrix.*
 
-### splitting the data
+\
+\
+\
+<br> 
 
-Now on the thrilling part! dividing up the data so we can train and test a predictive model using statisical methods.
 
-I chose to split up the data by inventory type to avoid messing up the temporal order. Ideally I'd prefer to train on 2021 data and test on 2022 then make predictions for 2023
+### Splitting the Data 
 
-```{r}
+With the variables now set, it's time to divide the data for the training and testing of the predictive model. Ideally, the previous year would serve as a training ground, providing a foundation for testing the model. However, due to the critical nature of maintaining the temporal order, I segmented the data by inventory type, 75% into training to test on the remaining 25%.
+
+```{r warning=FALSE}
 # create a list of all items to randomly select
 set.seed(1985)
 items_sample_list <-  unique(sai$item_no) %>% 
@@ -297,23 +334,39 @@ is_test<-  sai %>%
     sold) #not sure why i had to include the dplyr package
 
 
-```
+## story telling purposes only
+# https://r-graph-gallery.com/piechart-ggplot2.html
+piecha <- data.frame(
+  split = c("train", "test"),
+  percentage = c(0.75, 0.25)
+)
 
-create a model based on the best selling item, inventory with more items sold are more predictable.
+piecha <- piecha %>%
+  arrange(desc(split)) %>%
+  mutate(cumulative_percentage = cumsum(percentage) - percentage / 2,
+         label = paste(split, ": ", scales::percent(percentage)))
+
+# do you like fancy pie?
+ggplot(piecha , aes(x="", y=percentage, fill=split, label = label)) +
+  geom_bar(stat="identity", width=2, color="white", alpha=0.6) +
+  coord_polar("y", start=0) +
+  scale_fill_manual(values=c("#68576D", "#DF5875"), guide = "none") +
+  theme_art_nouveau() +
+  geom_text(aes(y = cumulative_percentage), color = "white", size = 7, face = "bold") +
+  theme(axis.title = element_blank(),
+        axis.text = element_blank()) +
+  ggtitle("Data Split for Modeling") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+\
+\
+\
+<br>
+
+
 
 ## Model Feature Selection
-
--   find the best model using stepwise selection find the 2 best methods for every size predictors reasons to use stepwise with caution
-
-    -   irrelevant variables leads to unnecessary complexity in the resulting mode
-
--   define generalized linear regression and why I chose this for the model
-
-### subselection
-
--   This approach involves identifying a subset of the p predictors that we believe to be related to the response. We then fit a model using least squares on the reduced set of variables
-
-assumptions of a generalized linear model y is continous
+The next step of the project involves selecting the best model using stepwise selection. It's an iterative process of adding and removing predictors based on their statistical significance. However, it should be used with caution. The inclusion of irrelevant variables can lead to unnecessary complexity in the resulting model and can inflate the variance of prediction errors.
 
 ```{r message=FALSE, warning=FALSE}
 
@@ -332,16 +385,41 @@ is_mod_summary_mx$model <- c('a','b','a','b','a','b','a','b','a', 'b', 'a') # fo
 for model six show the table of coefficient, std. error, t-statistic, p-value
 
 ```{r}
+# is_mod_summary_mx %>% 
+#  gt(rowname_col = "predictors") %>%
+#   tab_header(title = md("model comparison")) %>% 
+#   cols_align(align = "left") %>% 
+#   data_color(
+#     columns = cp,
+#     palette = c("#15050B", "#F6D5E2","#D35C9E" ),
+#     domain = c(0, 4000),
+#     alpha = 0.8
+#   ) %>% 
+#     tab_options(
+#     grand_summary_row.background.color = "#D35C9E",
+#     heading.background.color = "#EFFBFC",
+#     column_labels.background.color = "#EFFBFC",
+#     stub.background.color = "#EFFBFC",
+#     table.font.color = "#323232",
+#     stub.border.style = "dashed",
+#     stub.border.width = "1px",
+#     table.width = "60%"
+#   ) %>%
+#   opt_all_caps()
+
+# update this too  look more like my other graphs
+#https://posit.co/blog/great-looking-tables-gt-0-2/# turn results into a pretty table
+# is_mod_summary_mx
+
 is_mod_summary_mx %>% 
- gt(rowname_col = "predictors") %>%
+  mutate(rsq = round(rsq, 1), 
+         adjr2 = round(adjr2, 1), 
+         cp = scales::comma(round(cp, 1)),
+         rss = scales::comma(rss)) %>%
+  rename(`4WK ROLLING AVG` = rolling_4wk_avg, `BEST SELLER` = best_seller) %>% 
+  select(predictors, model, everything()) %>%
+  gt(rowname_col = "predictors") %>%
   tab_header(title = md("model comparison")) %>% 
-  cols_align(align = "left") %>% 
-  data_color(
-    columns = cp,
-    palette = c("#15050B", "#F6D5E2","#D35C9E" ),
-    domain = c(0, 4000),
-    alpha = 0.8
-  ) %>% 
     tab_options(
     grand_summary_row.background.color = "#D35C9E",
     heading.background.color = "#EFFBFC",
@@ -354,10 +432,9 @@ is_mod_summary_mx %>%
   ) %>%
   opt_all_caps()
 
-# update this too  look more like my other graphs
-#https://posit.co/blog/great-looking-tables-gt-0-2/# turn results into a pretty table
-# is_mod_summary_mx
 ```
+
+###### **table 1. the stepwise selection went through an exhaustive process to chose the best 2 models by number of predictors**
 
 ### model evaluation
 
