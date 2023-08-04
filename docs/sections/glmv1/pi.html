@@ -237,10 +237,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>DRAFT DRAFT LESS OUTLINE MORE WRITING</p>
 <section id="project-overview" class="level1">
 <h1>Project Overview</h1>
-<p>Throughout this project, I showcase the practical application of predictive analytics by utilizing statistical methods. I focus on unraveling temporal sales patterns to anticipate future consumer demand. Ultimately, this project demonstrates how analytics fuels the decision-making processes with forecasts and strategic insights.</p>
-<p>While the primary aim of the project is demonstrating the foundations of statistical modeling, it also serves as a platform for expanding other essential data science competencies. Leveraging R, I’ve not only engineered novel data sets, but also enhanced my knowledge in the areas of data wrangling and visualization design.</p>
-<p>Overall, this project showcases more than current competencies; rather, it represents my potential for continuous growth and adaptability in the ever-evolving field of data science and machine learning. It marks the acquisition of new skills developed over the course of the semester, complementing my years spent cultivating my craft of compelling data storytelling.</p>
-<p>[insert image final ] <strong>goal</strong>: forecast the inventory for the upcoming year</p>
+<p>“Welcome to my Stats 631 final project!</p>
+<p>This digital portfolio is not only a testament to my proficiency in applied statistical methods, but also an embodiment of my capacity for continuous growth and adaptability in the dynamic field of data science and machine learning. It marks the acquisition of new skills developed throughout the 2023 summer semester, complementing my years in the workforce, cultivating my craft of descriptive analytic communication (<strong>aka data storytelling</strong>)</p>
+<p>At its heart, this project is a canvas on where I present one case study for predictive statistical modeling. Leveraging the R programming language, I conducted model selection and broadened my expertise in data wrangling, visualization, and design aesthetics.</p>
+<p>More specifically, this document guides you through a time series inventory prediction— the art of anticipating future consumer demand. Ultimately, it demonstrates how data empowers the decision-making process through forecasting and strategic insights. And remember,</p>
+<p><img src="../..\images/quotes_george-box_models-wrong-some-useful_tribal-simplicity.png" class="img-fluid" width="500"></p>
+<p><strong>goal</strong>: forecast the inventory for the upcoming year</p>
 <p><strong>limitations</strong>: ideally, time series predictions benefit from multi-year trending data sets. However, the data for this project encompasses merely 54 weeks.</p>
 <p>Additionally, my understanding of the data is constrained. For this project, I made certain assumptions about the time frame and inventory type. In practical scenarios, thorough consultation and collaboration with domain experts are essential components of any predictive analytics project.</p>
 <p><img src="../..\images/AdobeStock_184864827.jpeg" class="img-fluid"> <strong>this report contains:</strong></p>
@@ -312,8 +314,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="pi_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="960"></p>
 </div>
 </div>
-<section id="figure-1.-the-histograms-demonstrate-the-distribution-of-the-dataset-by-variable.-the-green-histogram-demonstrates-the-frequency-of-each-item-sold-with-most-items-ranging-between-500-and-1300-in-total.-the-pink-histogram-conveys-the-temporal-dispersion-of-weekly-sales.-both-graphs-exhibit-a-right-skew-particularly-pronounced-in-the-green-histogram-implying-a-scarcity-of-high-sales-items-or-weeks." class="level6">
-<h6 class="anchored" data-anchor-id="figure-1.-the-histograms-demonstrate-the-distribution-of-the-dataset-by-variable.-the-green-histogram-demonstrates-the-frequency-of-each-item-sold-with-most-items-ranging-between-500-and-1300-in-total.-the-pink-histogram-conveys-the-temporal-dispersion-of-weekly-sales.-both-graphs-exhibit-a-right-skew-particularly-pronounced-in-the-green-histogram-implying-a-scarcity-of-high-sales-items-or-weeks."><strong>figure 1.</strong> <em>The histograms demonstrate the distribution of the dataset by variable. The green histogram demonstrates the frequency of each item sold, with most items ranging between 500 and 1300 in total. The pink histogram conveys the temporal dispersion of weekly sales. Both graphs exhibit a right skew, particularly pronounced in the green histogram, implying a scarcity of high-sales items or weeks.</em></h6>
+<section id="figure-1.-the-histograms-demonstrate-the-distribution-of-the-dataset-by-variable.-the-green-histogram-demonstrates-the-frequency-of-each-item-sold-with-most-items-ranging-between-500-and-1300-in-total.-the-purple-histogram-conveys-the-temporal-dispersion-of-weekly-sales.-both-graphs-exhibit-a-right-skew-particularly-pronounced-in-the-green-histogram-implying-a-scarcity-of-high-sales-items-or-weeks." class="level6">
+<h6 class="anchored" data-anchor-id="figure-1.-the-histograms-demonstrate-the-distribution-of-the-dataset-by-variable.-the-green-histogram-demonstrates-the-frequency-of-each-item-sold-with-most-items-ranging-between-500-and-1300-in-total.-the-purple-histogram-conveys-the-temporal-dispersion-of-weekly-sales.-both-graphs-exhibit-a-right-skew-particularly-pronounced-in-the-green-histogram-implying-a-scarcity-of-high-sales-items-or-weeks."><strong>figure 1.</strong> <em>The histograms demonstrate the distribution of the dataset by variable. The green histogram demonstrates the frequency of each item sold, with most items ranging between 500 and 1300 in total. The purple histogram conveys the temporal dispersion of weekly sales. Both graphs exhibit a right skew, particularly pronounced in the green histogram, implying a scarcity of high-sales items or weeks.</em></h6>
 <p><br>
 <br>
 <br>
@@ -448,7 +450,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(wk_ending_year <span class="sc">==</span> <span class="dv">2022</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">factor</span>(month, <span class="at">levels =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>, <span class="at">labels =</span> month_abbreviations)) <span class="sc">%&gt;%</span></span>
 <span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> month, <span class="at">y =</span> sold)) <span class="sc">+</span></span>
-<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"sum"</span>, <span class="at">fill =</span> <span class="st">"#68576D"</span>, <span class="at">alpha =</span> <span class="fl">0.75</span>) <span class="sc">+</span></span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"sum"</span>, <span class="at">fill =</span> <span class="st">"#DF5875"</span>, <span class="at">alpha =</span> <span class="fl">0.75</span>) <span class="sc">+</span></span>
 <span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Month"</span>, <span class="at">y =</span> <span class="st">"Total Sold"</span>, <span class="at">title =</span> <span class="st">"Total Sold by Month"</span>,</span>
 <span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span>  <span class="st">" figure 3.1"</span>) <span class="sc">+</span></span>
 <span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">comma_format</span>()) <span class="sc">+</span></span>
@@ -474,8 +476,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="pi_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="960"></p>
 </div>
 </div>
-<section id="figure-3.-the-bar-graph-displays-the-total-sales-volume-by-month.-july-stands-out-as-the-peak-season-whereas-november-and-december-show-lower-inventory-movement.-u.-however-the-average-number-of-items-sold-in-a-month-is-relatively-low-compared-to-the-totals.-this-suggests-the-presence-of-numerous-zeros-which-are-affecting-the-overall-average." class="level6">
-<h6 class="anchored" data-anchor-id="figure-3.-the-bar-graph-displays-the-total-sales-volume-by-month.-july-stands-out-as-the-peak-season-whereas-november-and-december-show-lower-inventory-movement.-u.-however-the-average-number-of-items-sold-in-a-month-is-relatively-low-compared-to-the-totals.-this-suggests-the-presence-of-numerous-zeros-which-are-affecting-the-overall-average."><strong>figure 3.</strong> <em>The bar graph displays the total sales volume by month. July stands out as the peak season, whereas November and December show lower inventory movement. U. However, the average number of items sold in a month is relatively low compared to the totals. This suggests the presence of numerous zeros, which are affecting the overall average.</em></h6>
+<section id="figure-3.-the-bar-graph-displays-the-total-sales-volume-by-month.-july-stands-out-as-the-peak-season-whereas-november-and-december-show-lower-inventory-movement.-however-the-average-number-of-items-sold-in-a-month-is-relatively-low-compared-to-the-totals.-this-suggests-the-presence-of-numerous-zeros-which-are-affecting-the-overall-average." class="level6">
+<h6 class="anchored" data-anchor-id="figure-3.-the-bar-graph-displays-the-total-sales-volume-by-month.-july-stands-out-as-the-peak-season-whereas-november-and-december-show-lower-inventory-movement.-however-the-average-number-of-items-sold-in-a-month-is-relatively-low-compared-to-the-totals.-this-suggests-the-presence-of-numerous-zeros-which-are-affecting-the-overall-average."><strong>figure 3.</strong> <em>The bar graph displays the total sales volume by month. July stands out as the peak season, whereas November and December show lower inventory movement. However, the average number of items sold in a month is relatively low compared to the totals. This suggests the presence of numerous zeros, which are affecting the overall average.</em></h6>
 <div class="cell">
 <details>
 <summary>Code</summary>
@@ -613,7 +615,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="model-feature-selection" class="level2">
 <h2 class="anchored" data-anchor-id="model-feature-selection">Model Feature Selection</h2>
-<p>The next step of the project involves selecting the best model using stepwise selection. It’s an iterative process of adding and removing predictors based on their statistical significance. However, it should be used with caution. The inclusion of irrelevant variables can lead to unnecessary complexity in the resulting model and can inflate the variance of prediction errors.</p>
+<p>The next step of the project involves selecting the best model using stepwise selection. It’s the iterative process of adding and removing predictors based on their statistical significance. However, it should be used with caution. The inclusion of irrelevant variables can lead to unnecessary complexity in the resulting model and can inflate the variance of prediction errors.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
@@ -657,7 +659,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_align</span>(<span class="at">align =</span> <span class="st">"center"</span>, <span class="at">columns =</span> rss) <span class="sc">%&gt;%</span></span>
 <span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">opt_all_caps</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">opt_table_font</span>(</span>
-<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">font =</span> <span class="fu">google_font</span>(<span class="at">name =</span> <span class="st">"EB Garamond"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">font =</span> <span class="fu">google_font</span>(<span class="at">name =</span> <span class="st">"EB Garamond"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_source_note</span>(<span class="at">source_note =</span> <span class="fu">md</span>(<span class="st">"Table 1"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 
@@ -1262,7 +1265,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td headers="stub_1_11 4WK ROLLING AVG" class="gt_row gt_right">*</td>
 <td headers="stub_1_11 BEST SELLER" class="gt_row gt_right">*</td></tr>
   </tbody>
-  
+  <tfoot class="gt_sourcenotes">
+    <tr>
+      <td class="gt_sourcenote" colspan="12">Table 1</td>
+    </tr>
+  </tfoot>
   
 </table>
 </div>
@@ -1272,8 +1279,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a> <span class="co"># caption = table 1 </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<section id="table-1.-the-stepwise-selection-went-through-an-exhaustive-process-to-chose-the-best-2-models-by-number-of-predictors-explain-xyx" class="level6">
-<h6 class="anchored" data-anchor-id="table-1.-the-stepwise-selection-went-through-an-exhaustive-process-to-chose-the-best-2-models-by-number-of-predictors-explain-xyx"><strong>table 1. the stepwise selection went through an exhaustive process to chose the best 2 models by number of predictors, explain xyx</strong></h6>
+<section id="table-1.-the-stepwise-selection-went-through-an-exhaustive-process-to-chose-the-best-2-models-by-number-of-predictors-the-table-above-shows-the-comparison-summary-of-the-best-models.-each-row-represents-a-model-configuration-specified-by-the-model-type-a-or-b-and-the-predictor-variables-used-week-month-lag1-lag2-4-week-rolling-average-best-seller.-the-table-displays-several-goodness-of-fit-statistics-for-each-model-including-the-coefficient-of-determination-r-square-the-adjusted-r-square-the-mallows-cp-and-the-residual-sum-of-squares-rss.-an-asterisk-in-the-predictors-columns-indicates-that-the-predictor-was-included-in-the-model." class="level6">
+<h6 class="anchored" data-anchor-id="table-1.-the-stepwise-selection-went-through-an-exhaustive-process-to-chose-the-best-2-models-by-number-of-predictors-the-table-above-shows-the-comparison-summary-of-the-best-models.-each-row-represents-a-model-configuration-specified-by-the-model-type-a-or-b-and-the-predictor-variables-used-week-month-lag1-lag2-4-week-rolling-average-best-seller.-the-table-displays-several-goodness-of-fit-statistics-for-each-model-including-the-coefficient-of-determination-r-square-the-adjusted-r-square-the-mallows-cp-and-the-residual-sum-of-squares-rss.-an-asterisk-in-the-predictors-columns-indicates-that-the-predictor-was-included-in-the-model.">**table 1. the stepwise selection went through an exhaustive process to chose the best 2 models by number of predictors, the table above shows the comparison summary of the best models. Each row represents a model configuration, specified by the model type (a or b) and the predictor variables used (week, month, lag1, lag2, 4-week rolling average, best seller). The table displays several goodness-of-fit statistics for each model, including the coefficient of determination (R-square), the adjusted R-square, the Mallows’ Cp, and the residual sum of squares (RSS). An asterisk (*) in the predictors’ columns indicates that the predictor was included in the model.”**</h6>
+<p><strong>interpretations</strong>:</p>
+<p>RSQ, ADJR2, CP, RSS; these are measures for evaluating and comparing the goodness of fit.These metrics should not be used blindly but together in the context with other measures and domain knowledge.</p>
+</section>
+<section id="rsq-r-squared-proportion-of-explained-variance" class="level3">
+<h3 class="anchored" data-anchor-id="rsq-r-squared-proportion-of-explained-variance"><strong>RSQ (R-squared)</strong> proportion of explained variance:</h3>
+<p>When R-squared is high, it indicates that the model can explain a lot of the variability in the outcome, which means the prediction error is small. However, a low R-squared indicates that the model doesn’t explain much of the variability in the outcome, implying larger residuals.</p>
+<p>Based on the model summary, models 3a, 4a, 4b, 5a, 5b, and 6a all have the highest R-squared values of 0.6, indicating that these models explain a significant portion of the variance in the outcome variable.</p>
+</section>
+<section id="adjr2-adjusted-r-squared-tradeoff-between-model-complexity-and-goodness-of-fit" class="level3">
+<h3 class="anchored" data-anchor-id="adjr2-adjusted-r-squared-tradeoff-between-model-complexity-and-goodness-of-fit"><strong>ADJR2 (Adjusted R-squared)</strong> tradeoff between model complexity and goodness of fit:</h3>
+<p>The adjusted R-squared is a modified version of R-squared that adjusts for the number of predictors in the model. Unlike R-squared, it incorporates the model’s degrees of freedom. The adjusted R-squared value only increases if the new variable improves the model more than expected by chance, and it decreases when a predictor improves the model less than expected by chance. Thus, a lower adjusted R-squared can often be due to large residuals, especially when the model is overly complex (i.e., includes too many predictors).</p>
+<p>As per the model summary, models 3a, 4a, 4b, 5a, 5b, and 6a all have the highest adjusted R-squared values of 0.6, showing that these models balance model complexity and goodness-of-fit reasonably well.</p>
+</section>
+<section id="cp-mallows-cp-bias-or-the-prediction-error" class="level3">
+<h3 class="anchored" data-anchor-id="cp-mallows-cp-bias-or-the-prediction-error"><strong>Cp (Mallows’ Cp)</strong> bias or the prediction error:</h3>
+<p>the model will not fit the data very well if the predictions are way off which leads to large residuals</p>
+<p>Based on the model summary, model 5a has the lowest Cp. A Cp value close to the total number of predictors suggests that the model is well-fitted. Lower values indicate a better model fit. What it does is it estimates the magnitude of bias, in this case, prediction error, present in predicted values when important features are missing. So, we’re measuring large residuals.</p>
+<p>### <strong>RSS (Residual Sum of Squares)</strong> total prediction error: When the RSS is high, it means the predictions are far off from the actual values, which results in large residuals.</p>
+<p>Model 6a has the lowest RSS value of 218,998,262. This indicates that among all the models, model 6a’s predictions are closest to the actual values, leading to smaller residuals.</p>
 </section>
 <section id="model-evaluation" class="level3">
 <h3 class="anchored" data-anchor-id="model-evaluation">Model Evaluation</h3>
@@ -1304,7 +1330,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 </div>
 <section id="figure-6.-explain-this-graph" class="level6">
-<h6 class="anchored" data-anchor-id="figure-6.-explain-this-graph"><strong>Figure 6. explain this graph </strong></h6>
+<h6 class="anchored" data-anchor-id="figure-6.-explain-this-graph"><strong>Figure 6. explain this graph</strong></h6>
 <p>I see that the more predictors the great the adjr2 and the lower the cp, which is be expected. there appears to be diminishing returns at 4 predictors.</p>
 <p>model a has more optimal score on this compared to model b</p>
 <p>why too many predictors are bad reason xyz</p>
@@ -1898,7 +1924,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 <section id="table-2.-explain-this-table" class="level6">
-<h6 class="anchored" data-anchor-id="table-2.-explain-this-table"><strong>table 2. explain this table </strong></h6>
+<h6 class="anchored" data-anchor-id="table-2.-explain-this-table"><strong>table 2. explain this table</strong></h6>
 <p>interpret the results</p>
 <div class="cell">
 <details>
@@ -1914,7 +1940,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 <section id="figure-7.-explain-this-graph" class="level6">
-<h6 class="anchored" data-anchor-id="figure-7.-explain-this-graph"><strong>Figure 7. explain this graph </strong></h6>
+<h6 class="anchored" data-anchor-id="figure-7.-explain-this-graph"><strong>Figure 7. explain this graph</strong></h6>
 <p>compare the train model against the test</p>
 <div class="cell">
 <details>
@@ -1943,7 +1969,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 <section id="figure-8.-explain-this-graph" class="level6">
-<h6 class="anchored" data-anchor-id="figure-8.-explain-this-graph"><strong>Figure 8. explain this graph </strong></h6>
+<h6 class="anchored" data-anchor-id="figure-8.-explain-this-graph"><strong>Figure 8. explain this graph</strong></h6>
 </section>
 </section>
 <section id="conclusion" class="level3">
