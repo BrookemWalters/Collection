@@ -21,7 +21,7 @@ pacman::p_load(tidyverse, # for data cleaning and preparing
                tidymodels, # for modeling
                leaps, # for creating lags
                MMWRweek,# date time groups
-               broom, # model something
+               broom, # tidy() feature
                gt, # making tables
                GGally, # for comparing variables
                poissonreg) # parsnips for poisson
@@ -38,6 +38,7 @@ While the primary aim of the project is demonstrating the foundations of statist
 
 Overall, this project showcases more than current competencies; rather, it represents my potential for continuous growth and adaptability in the ever-evolving field of data science and machine learning. It marks the acquisition of new skills developed over the course of the semester, complementing my years spent cultivating my craft of compelling data storytelling.
 
+[insert image final ]
 **goal**: forecast the inventory for the upcoming year
 
 **limitations**: ideally, time series predictions benefit from multi-year trending data sets. However, the data for this project encompasses merely 54 weeks.
@@ -236,7 +237,7 @@ bar <- sai %>%
   ggplot(aes(x = month, y = sold)) +
   geom_bar(stat = "sum", fill = "#68576D", alpha = 0.75) +
   labs(x = "Month", y = "Total Sold", title = "Total Sold by Month",
-       caption =  " figure 4.1") +
+       caption =  " figure 3.1") +
   scale_y_continuous(labels = scales::comma_format()) +
   theme_art_nouveau() +
   theme(legend.position = "none")
@@ -248,7 +249,7 @@ dot <-  sai_average %>%
   geom_point(size = 4, shape = 8, alpha = 0.75) +
   geom_text(aes(label = round(month_average, 2)), nudge_y = 1.5) +  #closer annotations
   scale_y_continuous(position = "right") +
-  labs(x = "Month", y = "", title = "Average Items Sold by Month", caption = "Figure 4.2") +
+  labs(x = "Month", y = "", title = "Average Items Sold by Month", caption = "figure 3.2") +
   theme_art_nouveau() +
   theme(axis.text.y = element_blank())  
  
@@ -258,7 +259,7 @@ gridExtra::grid.arrange(bar, dot, ncol = 2)
 
 ```
 
-###### **figure 4.** *The bar graph displays the total sales volume by month. July stands out as the peak season, whereas November and December show lower inventory movement. U. However, the average number of items sold in a month is relatively low compared to the totals. This suggests the presence of numerous zeros, which are affecting the overall average.*
+###### **figure 3.** *The bar graph displays the total sales volume by month. July stands out as the peak season, whereas November and December show lower inventory movement. U. However, the average number of items sold in a month is relatively low compared to the totals. This suggests the presence of numerous zeros, which are affecting the overall average.*
 
 ```{r warning=FALSE}
 # #https://www.geeksforgeeks.org/visualization-of-a-correlation-matrix-using-ggplot2-in-r/
@@ -286,7 +287,7 @@ gridExtra::grid.arrange(bar, dot, ncol = 2)
 #   theme_art_nov_minimal()
 ```
 
-###### **figure 5.** *The corelation matrix.*
+###### **figure 4.** *The corelation matrix.*
 
 \
 \
@@ -355,7 +356,8 @@ ggplot(piecha , aes(x="", y=percentage, fill=split, label = label)) +
   geom_text(aes(y = cumulative_percentage), color = "white", size = 7, face = "bold") +
   theme(axis.title = element_blank(),
         axis.text = element_blank()) +
-  ggtitle("Data Split for Modeling") +
+  labs(title = "The Data Split",
+              caption = "figure 5")
   theme(plot.title = element_text(hjust = 0.5))
 ```
 \
@@ -380,33 +382,6 @@ is_mod_summary_mx <- with(summary(is_mod), data.frame(rsq,adjr2, cp, rss, outmat
 is_mod_summary_mx$predictors <- c(1,1,2,2,3,3,4,4,5,5,6) # for graphing
 is_mod_summary_mx$model <- c('a','b','a','b','a','b','a','b','a', 'b', 'a') # for graphing
 
-```
-
-for model six show the table of coefficient, std. error, t-statistic, p-value
-
-```{r}
-# is_mod_summary_mx %>% 
-#  gt(rowname_col = "predictors") %>%
-#   tab_header(title = md("model comparison")) %>% 
-#   cols_align(align = "left") %>% 
-#   data_color(
-#     columns = cp,
-#     palette = c("#15050B", "#F6D5E2","#D35C9E" ),
-#     domain = c(0, 4000),
-#     alpha = 0.8
-#   ) %>% 
-#     tab_options(
-#     grand_summary_row.background.color = "#D35C9E",
-#     heading.background.color = "#EFFBFC",
-#     column_labels.background.color = "#EFFBFC",
-#     stub.background.color = "#EFFBFC",
-#     table.font.color = "#323232",
-#     stub.border.style = "dashed",
-#     stub.border.width = "1px",
-#     table.width = "60%"
-#   ) %>%
-#   opt_all_caps()
-
 # update this too  look more like my other graphs
 #https://posit.co/blog/great-looking-tables-gt-0-2/# turn results into a pretty table
 # is_mod_summary_mx
@@ -419,7 +394,7 @@ is_mod_summary_mx %>%
   rename(`4WK ROLLING AVG` = rolling_4wk_avg, `BEST SELLER` = best_seller) %>% 
   select(predictors, model, everything()) %>%
   gt(rowname_col = "predictors") %>%
-  tab_header(title = md("model comparison")) %>% 
+  tab_header(title = md("Model Comparison")) %>% 
     tab_options(
     grand_summary_row.background.color = "#D35C9E",
     heading.background.color = "#EFFBFC",
@@ -428,15 +403,22 @@ is_mod_summary_mx %>%
     table.font.color = "#323232",
     stub.border.style = "dashed",
     stub.border.width = "1px",
-    table.width = "60%"
-  ) %>%
-  opt_all_caps()
-
+    table.width = "60%") %>%
+    tab_spanner(
+    label = "predictors ",
+    columns = c(week, month, lag1, lag2, `4WK ROLLING AVG`, `BEST SELLER`)) %>%
+ 
+  cols_align(align = "center", columns = cp) %>% 
+  cols_align(align = "center", columns = rss) %>%
+  opt_all_caps() %>% 
+  opt_table_font(
+    font = google_font(name = "EB Garamond"))
+ # caption = table 1 
 ```
 
-###### **table 1. the stepwise selection went through an exhaustive process to chose the best 2 models by number of predictors**
+###### **table 1. the stepwise selection went through an exhaustive process to chose the best 2 models by number of predictors, explain xyx**
 
-### model evaluation
+### Model Evaluation
 
 ```{r fig.height=4, fig.width=10}
 
@@ -446,17 +428,22 @@ gcolors <- c("#68576D", "#DF5875")
 is_mod_summary_mx %>%
   pivot_longer(c(adjr2, cp), names_to = "metric", values_to = "value") %>%
   ggplot(aes(x = predictors, y = value, color = model)) +
-  geom_line(show.legend = FALSE) +
-  geom_point(size = 3, alpha = .8) +
+  geom_line(show.legend = FALSE, size = 1, alpha = .5 ) +
+    geom_point(size = 4, alpha = 0.5)+
   facet_wrap(~metric, scales = "free") +
   scale_x_continuous(breaks = 1:6) +
   scale_color_manual(values = gcolors) +
   labs(x = "predictors", y = "metric", title = "Number of Predictors by ADJR2 and CP",
-       caption =  " figure e") +
+       caption =  " figure 6") +
   theme_art_nouveau() 
+
+
+
 
 # how can i make the value label larger on this?
 ```
+###### **Figure 6. explain this graph **
+
 
 I see that the more predictors the great the adjr2 and the lower the cp, which is be expected. there appears to be diminishing returns at 4 predictors.
 
@@ -490,22 +477,16 @@ lm_4 <- specs %>%
 lm_5 <- specs %>%
   fit(sold~ month + week + lag1 + lag2 + rolling_4wk_avg , data = is_train)
 
-
 mod_compare <-  rbind(glance(lm_3),glance(lm_4),glance(lm_5))
-
 ```
 
 ```{r}
+
+#
 mod_compare %>% 
  gt(rowname_col = "df") %>%
   tab_header(title = md("model comparison")) %>% 
   cols_align(align = "left") %>% 
-  data_color(
-    columns = AIC,
-    palette = c("#15050B", "#F6D5E2","#D35C9E" ),
-    domain = c(	235603.3, 235605.8),
-    alpha = 0.8
-  ) %>% 
     tab_options(
     grand_summary_row.background.color = "#D35C9E",
     heading.background.color = "#EFFBFC",
@@ -516,8 +497,47 @@ mod_compare %>%
     stub.border.width = "1px",
     table.width = "60%"
   ) %>%
-  opt_all_caps()
+  opt_all_caps() 
+
+ # caption = table 2
+
+# 
+# is_mod_summary_mx %>% 
+#   mutate(rsq = round(rsq, 1), 
+#          adjr2 = round(adjr2, 1), 
+#          cp = scales::comma(round(cp, 1)),
+#          rss = scales::comma(rss)) %>%
+#   rename(`4WK ROLLING AVG` = rolling_4wk_avg, `BEST SELLER` = best_seller) %>% 
+#   select(predictors, model, everything()) %>%
+#   gt(rowname_col = "predictors") %>%
+#   tab_header(title = md("Model Comparison")) %>% 
+#     tab_options(
+#     grand_summary_row.background.color = "#D35C9E",
+#     heading.background.color = "#EFFBFC",
+#     column_labels.background.color = "#EFFBFC",
+#     stub.background.color = "#EFFBFC",
+#     table.font.color = "#323232",
+#     stub.border.style = "dashed",
+#     stub.border.width = "1px",
+#     table.width = "60%") %>%
+#     tab_spanner(
+#     label = "predictors ",
+#     columns = c(week, month, lag1, lag2, `4WK ROLLING AVG`, `BEST SELLER`)) %>%
+#  
+#   cols_align(align = "center", columns = cp) %>% 
+#   cols_align(align = "center", columns = rss) %>%
+#   opt_all_caps() %>% 
+#   opt_table_font(
+#     font = google_font(name = "EB Garamond"))
+# 
+
+
+
+
+
+
 ```
+###### **table 2. explain this table **
 
 interpret the results
 
@@ -530,7 +550,7 @@ train_precict <- bind_cols(
 
 # graph the results
 ```
-
+###### **Figure 7. explain this graph **
 compare the train model against the test
 
 ```{r}
@@ -554,4 +574,8 @@ actual_predicted <- bind_cols(
   select(item_no, week, sold, .pred_lower, .pred_upper)
 ```
 
-### graph results
+###### **Figure 8. explain this graph **
+
+### Conclusion
+
+
