@@ -17,7 +17,7 @@ library(paletteer)
 ```
 
 ```{r}
-assess <-  read.csv("~/gvsu/summer 23/stat 631/portfolio/Website/sections/reflections/knowledge/assessment.csv")
+assess <-  read.csv("~/gvsu/summer 23/stat 631/Collection/sections/reflections/knowledge/assessment.csv")
 assess_data <- assess %>% 
   rename(
     `Chapter Title` = Chapter.Title,

@@ -432,27 +432,25 @@ is_mod_summary_mx %>%
 ```
 
 ###### **table 1.** *the stepwise selection determines the best 2 models based on several goodness-of-fit statistics. Table 1. is the comparison summary of the top two performing models for the number of predictors. Each row represents a model configuration, specified by the model type (a or b) and the predictor variables (week, month, lag1, lag2, 4-week rolling average, best seller). The table displays the coefficient of determination (R-square), the adjusted R-square, the Mallows' Cp, and the residual sum of squares (RSS). An asterisk* (\*)*in the predictors' columns indicates the predictor was included in the model."*
+
 \
 <br>
 
-**interpretations**:
-RSQ, ADJR2, CP, RSS; these are measures for evaluating and comparing the goodness of fit. These metrics should not be used blindly but together in the context with other measures and domain knowledge.
+**interpretations**: RSQ, ADJR2, CP, RSS; these are measures for evaluating and comparing the goodness of fit. These metrics should not be used blindly but together in the context with other measures and domain knowledge.
 
 ### **RSQ (R-squared)** proportion of explained variance:
-Higher R-squared values explains the variability in the outcome. Based on table 2., models 3a, 4a, 4b, 5a, 5b, and 6a all have the highest R-squared values of 0.6, indicating that these models explain a significant portion of the variance in the outcome variable.
-\
+
+Higher R-squared values explains the variability in the outcome. Based on table 2., models 3a, 4a, 4b, 5a, 5b, and 6a all have the highest R-squared values of 0.6, indicating that these models explain a significant portion of the variance in the outcome variable.\
 
 ### **ADJR2 (Adjusted R-squared)** tradeoff between model complexity and goodness of fit:
-The adjusted R-squared is a modified version of R-squared, it incorporates the model's degrees of freedom. The ADJR2 value only increases if the new variable improves the model more than expected by chance, Table 2. shows that models 3a, 4a, 4b, 5a, 5b, and 6a all have the highest adjusted R-squared values of 0.6, showing that these models balance model complexity and goodness-of-fit reasonably well.
-\
-### **Cp (Mallows' Cp)** bias or the prediction error:
-the model will not fit the data very well if the predictions are way off which leads to large residuals. Table 2. shows  model 5a has the lowest Cp. A Cp value close to the total number of predictors suggests that the model is well-fitted. Lower values indicate a better model fit.
+
+The adjusted R-squared is a modified version of R-squared, it incorporates the model's degrees of freedom. The ADJR2 value only increases if the new variable improves the model more than expected by chance, Table 2. shows that models 3a, 4a, 4b, 5a, 5b, and 6a all have the highest adjusted R-squared values of 0.6, showing that these models balance model complexity and goodness-of-fit reasonably well.\
+\### **Cp (Mallows' Cp)** bias or the prediction error: the model will not fit the data very well if the predictions are way off which leads to large residuals. Table 2. shows model 5a has the lowest Cp. A Cp value close to the total number of predictors suggests that the model is well-fitted. Lower values indicate a better model fit.
 
 \
-### **RSS (Residual Sum of Squares)** total prediction error: When the RSS is high, it means the predictions are far off from the actual values, which results in large residuals.
+\### **RSS (Residual Sum of Squares)** total prediction error: When the RSS is high, it means the predictions are far off from the actual values, which results in large residuals.
 
-Model 6a has the lowest RSS value of 218,998,262. This indicates that among all the models, model 6a's predictions are closest to the actual values, leading to smaller residuals.
-\
+Model 6a has the lowest RSS value of 218,998,262. This indicates that among all the models, model 6a's predictions are closest to the actual values, leading to smaller residuals.\
 
 ### Model Evaluation
 
@@ -477,13 +475,14 @@ is_mod_summary_mx %>%
   )
 #https://www.youtube.com/watch?v=-BR4WElPIXg
 ```
-###### **Figure 6.** *plots the relationship between the number of predictors, adjusted R-squared (ADJR2), and Mallows' Cp (Cp) for models in table 2. As expected,  an increase in the ADJR2 and a decrease in the CP value with an increasing number of predictors, highlighting an improved model fit. However, the benefits appear to taper off after the inclusion of four predictors. This potentially indicates the onset of overfitting beyond this point, suggesting that a model with four predictors could strike a balance between complexity and predictive power.*
+
+###### **Figure 6.** *plots the relationship between the number of predictors, adjusted R-squared (ADJR2), and Mallows' Cp (Cp) for models in table 2. As expected, an increase in the ADJR2 and a decrease in the CP value with an increasing number of predictors, highlighting an improved model fit. However, the benefits appear to taper off after the inclusion of four predictors. This potentially indicates the onset of overfitting beyond this point, suggesting that a model with four predictors could strike a balance between complexity and predictive power.*
 
 ## Maximum likelihood and AIC (Akaike Information Criterion)
+
 To avoid overfitting, I want to take my models through one more level of scrutiny before selecting the best predictors. The AIC, n
 
 The Lower AIC values indicate a better-fit model, and a model with a delta-AIC (the difference between the two AIC values being compared) of more than -2 is considered significantly better than the model it is being compared to.
-
 
 ```{r}
 #https://emilhvitfeldt.github.io/ISLR-tidymodels-labs/03-linear-regression.html
