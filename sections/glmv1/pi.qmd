@@ -32,41 +32,54 @@ DRAFT DRAFT LESS OUTLINE MORE WRITING
 
 # Project Overview
 
-"Welcome to my Stats 631 final project!
+"Welcome to my Stats 631[^1] final project!
 
-This digital portfolio is not only a testament to my proficiency in applied statistical methods, but also an embodiment of my capacity for continuous growth and  adaptability in the dynamic field of data science and machine learning. It marks the acquisition of new skills developed throughout the 2023 summer semester, complementing my years in the workforce, cultivating my craft of descriptive analytic communication (**aka data storytelling**)
+[^1]:
+    ## **STA 631 - STATISTICAL MODELING AND REGRESSION**
 
-At its heart, this project is a canvas on where I present one case study for predictive statistical modeling. Leveraging the R programming language, I conducted model selection and broadened my expertise in data wrangling, visualization, and design aesthetics.
+    Traditional and modern computationally intensive statistical modeling techniques. Basics of probability theory, including conditional probability, Bayes' Theorem, and univariate probability models. Regression modeling and prediction including simple linear, multiple, logistic, Poisson, and nonlinear and nonparametric regression. Methods for model selection and shrinkage. Emphasis is on application and interpretation using statistical software. Offered fall semester. Prerequisite: Admission into the data science professional science master's program. https://www.gvsu.edu/catalog/course/sta-631.htm
 
-More specifically, this document guides you through a time series inventory prediction--- the art of anticipating future consumer demand. Ultimately, it demonstrates how data empowers the decision-making process through forecasting and strategic insights.
-And remember,
+This digital portfolio stands as a testament to my proficiency in applied statistical methods and showcases my capacity for ongoing growth and adaptability in the ever-evolving domains of data science and machine learning. During the summer semester of 2023, I not only broadened my statistical knowledge but also cultivated my craft of data storytelling.
 
-![](/images/quotes_george-box_models-wrong-some-useful_tribal-simplicity.png){width="500"}
+At its heart, this project is one hypothetical case study for predictive statistical modeling. Leveraging the R programming language, I conducted model selection and broadened my expertise in data wrangling, visualization, and design aesthetics.
+
+More specifically, this document guides you through a time series inventory prediction--- the art of anticipating future consumer demand. Ultimately, it demonstrates how data empowers the decision-making process through forecasting and strategic insights. And remember,
+
+![](/images/quotes_george-box_models-wrong-some-useful_tribal-simplicity.png){width="500"}\
+\
+\
+<br>
+
+## Summary
 
 **goal**: forecast the inventory for the upcoming year
 
-**limitations**: ideally, time series predictions benefit from multi-year trending data sets. However, the data for this project encompasses merely 54 weeks.
+**limitations**: the data set contains only spans 54 weeks, which is less than ideal for time series predictions that typically benefit from multi-year trends.
 
-Additionally, my understanding of the data is constrained. For this project, I made certain assumptions about the time frame and inventory type. In practical scenarios, thorough consultation and collaboration with domain experts are essential components of any predictive analytics project.
+Additionally, my understanding of the data is limited. For this project, I made certain assumptions about the time frame and inventory type. In practical scenarios, collaboration with domain experts are essential components of any predictive analytics project.
 
-![](/images/AdobeStock_184864827.jpeg) **this report contains:**
+\
+\
+<br>
 
--   **Data Processing**:
+**this report contains:**
+
+-   [**Data Processing**](https://brookemwalters.github.io/Collection/sections/glmv1/pi.html#data-processing)
     -   feature engineering
     -   data splitting into training and testing sets  
--   **Model Development**:
+-   [**Model Development**](https://brookemwalters.github.io/Collection/sections/glmv1/pi.html#model-development)
     -   step-wise model selection methodology  
--   **Analytics and Evaluation**:
+-   [**Analytics and Evaluation**](https://brookemwalters.github.io/Collection/sections/glmv1/pi.html#analytical-and-evaluation)
     -   exploratory and descriptive analytics
     -   interpretation and evaluation of model outcomes
 
-\
+![](/images/AdobeStock_184864827.jpeg)
 
 ## Initial Insights:
 
 The inventory data is comprised of 488 distinct items, sold over a span of 54 weeks (from week 0 to 53), with an impressive sum of approximately 1.3 million units transacted.
 
-To visualize and better understand the distribution of sales, I prepared a series of graphical representations to discern patterns, identify anomalies, and appreciate the overall behavior of our sales data over time, thereby setting the stage for the predictive analysis.
+To visualize and better understand the distribution of sales, I prepared a series of graphical representations to discern patterns, identify anomalies, and appreciate the overall behavior of the inventory data over time, thereby setting the stage for the predictive analysis.
 
 ```{r fig.height=4, fig.width=10, message=FALSE, warning=FALSE}
 
@@ -110,7 +123,7 @@ ggplot(aes(x = total_sold)) +
 gridExtra::grid.arrange(hist, hist1, ncol = 2)
 ```
 
-###### **figure 1.** *The histograms demonstrate the distribution of the dataset by variable. The green histogram demonstrates the frequency of each item sold, with most items ranging between 500 and 1300 in total. The purple histogram conveys the temporal dispersion of weekly sales. Both graphs exhibit a right skew, particularly pronounced in the green histogram, implying a scarcity of high-sales items or weeks.*
+###### **figure 1.** *The histograms demonstrate the distribution of the dataset by variable. Figure 1.1 demonstrates the frequency of each item sold, with most items ranging between 500 and 1,300 in total. The figure 1.2 conveys the temporal dispersion of weekly sales. Both graphs exhibit a right skew, particularly pronounced in the figure 1.1, implying a scarcity of high-sales items or weeks.*
 
 \
 \
@@ -135,7 +148,7 @@ line1 <- sai %>%
 line1
 ```
 
-###### **figure 2.** *The line graph shows annual sales trends in the unprocessed data set. Weekly sales fluctuate within a range of 10,000 to 50,000 items, with the majority hovering between \~20k and \~30k units sold. A distinct sales peak is observed in week 20, while week 46 registers the slowest sales activity. This trend analysis aids in identifying key sales periods and provides valuable context for refining our predictive models*
+###### **figure 2.** *shows annual sales trends on a weekly cadence. Weekly sales fluctuate within a range of 10,000 to 50,000 items, with the majority hovering between \~20k and \~30k units sold. A sales peak is observed in week 20, while week 46 registers the slowest sales activity. This trend analysis aids in identifying key sales periods and provides context for the predictive analysis.*
 
 \
 \
@@ -144,19 +157,23 @@ line1
 
 ## Data Processing
 
-I feature engineered new variables to derive a better understanding of sales trends and enhance the predictive model's performance. These variables provide valuable insights into sales trends, seasonality, and best-selling items, which can be used to enhance the predictive model's performance and gain a better understanding of the data's dynamics. Ideally, meeting with domain experts would be part of this process, to ensure the variables represent reality.
+For improved sales trend insights and predictive model performance, I created new features. These variables reveal sales dynamics, exposing potential seasonal pattern influences. Ideally, this process includes consultation with domain experts to ensure variable viability.
 
 ### data dictionary
 
--   **item_no**: the unique identifier for each item
--   **week**: the week number. "sold": number of items sold during a specific week
--   **year_total**:the total number of items sold for each item over the entire year
--   **date**: The specific date corresponding to a week
--   **month**: the month corresponding to a specific week
--   **lag1**: period for capturing seasonality or time-dependent patterns, item's sold from the previous week
--   **lag2**: item's sold from two-weeks prior
--   **rolling_4wk_avg**: the total number of items sold over the past four weeksby item_no
--   **best_seller**: A binary variable indicating whether the item is one of the top ten best-selling items based on volume
+-   **Original**
+    -   **item_no**: the unique identifier for each item
+    -   **week**: the week number. "sold": number of items sold during a specific week
+    -   **sold**: count of items_no sold in a period\
+         
+-   **Feature Engineered**
+    -   **year_total**: the total number of items sold for each item over the entire year
+    -   **date**: The specific date corresponding to a week
+    -   **month**: the month corresponding to a specific week
+    -   **lag1**: period for capturing seasonality or time-dependent patterns, item's sold from the previous week
+    -   **lag2**: item's sold from two-weeks prior
+    -   **rolling_4wk_avg**: the total number of items sold over the past four weeks by item_no
+    -   **best_seller**: A binary variable indicating whether the item is one of the top ten best-selling items based on volume
 
 ```{r fig.height=4, fig.width=10}
 
@@ -265,33 +282,26 @@ gridExtra::grid.arrange(bar, dot, ncol = 2)
 
 ###### **figure 3.** *The bar graph displays the total sales volume by month. July stands out as the peak season, whereas November and December show lower inventory movement. However, the average number of items sold in a month is relatively low compared to the totals. This suggests the presence of numerous zeros, which are affecting the overall average.*
 
-```{r warning=FALSE}
-# #https://www.geeksforgeeks.org/visualization-of-a-correlation-matrix-using-ggplot2-in-r/
-# theme_art_nov_minimal <- function() {
-#   theme(
-#     text = element_text(family = 'EB Garamond'),
-#     panel.grid = element_blank(),
-#     panel.border = element_blank(),
-#     panel.background = element_rect(fill = "#FEE8E1", color = "#DF5875"),
-#     panel.grid.major = element_line(color = "#DF5875", linetype = "dotted", linewidth = 0.5),
-#     panel.grid.minor = element_blank(),
-#     axis.line = element_line(color = "#DF5875", linewidth = 1),
-#     legend.position = "bottom"
-#   )
-# }
-# 
-# 
-# sai %>%
-#   select(week, month, lag1, lag2, rolling_4wk_avg, best_seller, sold) %>%
-#   ggpairs(
-#     upper = list(continuous = "cor"),
-#     lower = list(continuous = "points"),
-#     diag = list(continuous = "densityDiag")
-#   ) +
-#   theme_art_nov_minimal()
+\
+\
+\
+<br>
+
+```{r  fig.height=4, fig.width=10, message=FALSE, warning=FALSE}
+#https://www.geeksforgeeks.org/visualization-of-a-correlation-matrix-using-ggplot2-in-r/
+
+sai %>%
+  select(week, month, lag1, lag2, rolling_4wk_avg, best_seller, sold) %>%
+  ggpairs(
+    upper = list(continuous = wrap("cor", size = 5)),
+    lower = list(continuous = "points"),
+    diag = list(continuous = "densityDiag")
+  ) +
+  theme_art_nouveau()
+
 ```
 
-###### **figure 4.** *The corelation matrix.*
+###### **figure 4.** *The correlation matrix reveals linear relationships between sets of variables. The data shows an expected high correlation between 'Month' and 'Week' (0.899), moderate correlation between the 'Rolling 4-week Average' and 'Lag1' (0.589), and a relatively low correlation between 'Lag2' and 'Lag1' (0.147). The absence of perfect correlation between predictors is essential for avoiding multicollinearity, a common challenge in multiple linear regression that could confound result interpretation*
 
 \
 \
@@ -300,7 +310,7 @@ gridExtra::grid.arrange(bar, dot, ncol = 2)
 
 ### Splitting the Data
 
-With the variables now set, it's time to divide the data for the training and testing of the predictive model. Ideally, the previous year would serve as a training ground, providing a foundation for testing the model. However, due to the critical nature of maintaining the temporal order, I segmented the data by inventory type, 75% into training to test on the remaining 25%.
+With the variables now set, it's time to divide the data for training and testing of the predictive model. Ideally, the previous year would serve as a training ground, providing a foundation for testing the model. However, due the necessity of maintaining the temporal order, I segmented the data by inventory type, 75% into training to test on the remaining 25%.
 
 ```{r message=FALSE, warning=FALSE}
 # create a list of all items to randomly select
@@ -360,7 +370,7 @@ ggplot(piecha , aes(x="", y=percentage, fill=split, label = label)) +
   theme(axis.title = element_blank(),
         axis.text = element_blank()) +
   labs(title = "The Data Split",
-              caption = "figure 5")
+              caption = "figure 5") +
   theme(plot.title = element_text(hjust = 0.5))
 ```
 
@@ -369,7 +379,9 @@ ggplot(piecha , aes(x="", y=percentage, fill=split, label = label)) +
 \
 <br>
 
-## Model Feature Selection
+## **Model Development**
+
+### Feature Selection
 
 The next step of the project involves selecting the best model using stepwise selection. It's the iterative process of adding and removing predictors based on their statistical significance. However, it should be used with caution. The inclusion of irrelevant variables can lead to unnecessary complexity in the resulting model and can inflate the variance of prediction errors.
 
@@ -416,48 +428,36 @@ is_mod_summary_mx %>%
   opt_all_caps() %>% 
   opt_table_font(
     font = google_font(name = "EB Garamond")) %>% 
-  tab_source_note(source_note = md("Table 1"))
- # caption = table 1 
+  tab_source_note(source_note = md("table 1"))
 ```
 
-###### **table 1. the stepwise selection went through an exhaustive process to chose the best 2 models by number of predictors, the table above shows the comparison summary of the best models. Each row represents a model configuration, specified by the model type (a or b) and the predictor variables used (week, month, lag1, lag2, 4-week rolling average, best seller). The table displays several goodness-of-fit statistics for each model, including the coefficient of determination (R-square), the adjusted R-square, the Mallows' Cp, and the residual sum of squares (RSS). An asterisk (*) in the predictors' columns indicates that the predictor was included in the model."**
+###### **table 1.** *the stepwise selection determines the best 2 models based on several goodness-of-fit statistics. Table 1. is the comparison summary of the top two performing models for the number of predictors. Each row represents a model configuration, specified by the model type (a or b) and the predictor variables (week, month, lag1, lag2, 4-week rolling average, best seller). The table displays the coefficient of determination (R-square), the adjusted R-square, the Mallows' Cp, and the residual sum of squares (RSS). An asterisk* (\*)*in the predictors' columns indicates the predictor was included in the model."*
+\
+<br>
 
-
-**interpretations**: 
-
-
-RSQ,	ADJR2,	CP,	RSS; these are measures for evaluating and comparing the goodness of fit.These metrics should not be used blindly but together in the context with other measures and domain knowledge.
-
+**interpretations**:
+RSQ, ADJR2, CP, RSS; these are measures for evaluating and comparing the goodness of fit. These metrics should not be used blindly but together in the context with other measures and domain knowledge.
 
 ### **RSQ (R-squared)** proportion of explained variance:
-When R-squared is high, it indicates that the model can explain a lot of the variability in the outcome, which means the prediction error is small. However, a low R-squared indicates that the model doesn't explain much of the variability in the outcome, implying larger residuals.
-
-Based on the model summary, models 3a, 4a, 4b, 5a, 5b, and 6a all have the highest R-squared values of 0.6, indicating that these models explain a significant portion of the variance in the outcome variable.
+Higher R-squared values explains the variability in the outcome. Based on table 2., models 3a, 4a, 4b, 5a, 5b, and 6a all have the highest R-squared values of 0.6, indicating that these models explain a significant portion of the variance in the outcome variable.
+\
 
 ### **ADJR2 (Adjusted R-squared)** tradeoff between model complexity and goodness of fit:
-The adjusted R-squared is a modified version of R-squared that adjusts for the number of predictors in the model. Unlike R-squared, it incorporates the model's degrees of freedom. The adjusted R-squared value only increases if the new variable improves the model more than expected by chance, and it decreases when a predictor improves the model less than expected by chance. Thus, a lower adjusted R-squared can often be due to large residuals, especially when the model is overly complex (i.e., includes too many predictors).
-
-As per the model summary, models 3a, 4a, 4b, 5a, 5b, and 6a all have the highest adjusted R-squared values of 0.6, showing that these models balance model complexity and goodness-of-fit reasonably well.
-
-
+The adjusted R-squared is a modified version of R-squared, it incorporates the model's degrees of freedom. The ADJR2 value only increases if the new variable improves the model more than expected by chance, Table 2. shows that models 3a, 4a, 4b, 5a, 5b, and 6a all have the highest adjusted R-squared values of 0.6, showing that these models balance model complexity and goodness-of-fit reasonably well.
+\
 ### **Cp (Mallows' Cp)** bias or the prediction error:
-the model will not fit the data very well if the predictions are way off which leads to large residuals
+the model will not fit the data very well if the predictions are way off which leads to large residuals. Table 2. shows  model 5a has the lowest Cp. A Cp value close to the total number of predictors suggests that the model is well-fitted. Lower values indicate a better model fit.
 
-Based on the  model summary, model 5a has the lowest  Cp. A Cp value close to the total number of predictors suggests that the model is well-fitted. Lower values indicate a better model fit. What it does is it estimates the magnitude of bias, in this case, prediction error, present in predicted values when important features are missing. So, we're measuring large residuals.
-
-
- ### **RSS (Residual Sum of Squares)** total prediction error:
- When the RSS is high, it means the predictions are far off from the actual values, which results in large residuals.
+\
+### **RSS (Residual Sum of Squares)** total prediction error: When the RSS is high, it means the predictions are far off from the actual values, which results in large residuals.
 
 Model 6a has the lowest RSS value of 218,998,262. This indicates that among all the models, model 6a's predictions are closest to the actual values, leading to smaller residuals.
-
-
+\
 
 ### Model Evaluation
 
 ```{r fig.height=4, fig.width=10}
 
-# make tghis chart prettier
 gcolors <- c("#68576D", "#DF5875")
 
 is_mod_summary_mx %>%
@@ -468,31 +468,22 @@ is_mod_summary_mx %>%
   facet_wrap(~metric, scales = "free") +
   scale_x_continuous(breaks = 1:6) +
   scale_color_manual(values = gcolors) +
-  labs(x = "predictors", y = "metric", title = "Number of Predictors by ADJR2 and CP",
+  labs(x = "predictors", y = "metric", title = " Models by Number of Predictors, ADJR2 and CP",
        caption =  " figure 6") +
-  theme_art_nouveau() 
-
-
-
-
-# how can i make the value label larger on this?
+  theme_art_nouveau() +
+  theme(
+    strip.text = element_text(size = 20, face = "bold"), 
+    axis.title = element_text(size = 20, face = "bold")   
+  )
+#https://www.youtube.com/watch?v=-BR4WElPIXg
 ```
+###### **Figure 6.** *plots the relationship between the number of predictors, adjusted R-squared (ADJR2), and Mallows' Cp (Cp) for models in table 2. As expected,  an increase in the ADJR2 and a decrease in the CP value with an increasing number of predictors, highlighting an improved model fit. However, the benefits appear to taper off after the inclusion of four predictors. This potentially indicates the onset of overfitting beyond this point, suggesting that a model with four predictors could strike a balance between complexity and predictive power.*
 
-###### **Figure 6. explain this graph** 
+## Maximum likelihood and AIC (Akaike Information Criterion)
+To avoid overfitting, I want to take my models through one more level of scrutiny before selecting the best predictors. The AIC, n
 
-I see that the more predictors the great the adjr2 and the lower the cp, which is be expected. there appears to be diminishing returns at 4 predictors.
+The Lower AIC values indicate a better-fit model, and a model with a delta-AIC (the difference between the two AIC values being compared) of more than -2 is considered significantly better than the model it is being compared to.
 
-model a has more optimal score on this compared to model b
-
-why too many predictors are bad reason xyz
-
-\[interpret the graph\]
-
-explain why this is the best one what do each of these things tell me? - rsq -\> highest r squared, explains the variability in the model - adjr2 - \> highest - cp -\> smallest - rss -\> smallest
-
-I want to take my models through one more level os scrunity. having trouble choosing, i spent a lot of time making my variables so lets look at AIC several models what is AIC? Lower AIC values indicate a better-fit model, and a model with a delta-AIC (the difference between the two AIC values being compared) of more than -2 is considered significantly better than the model it is being compared to
-
-find the coefficients and (Akaike Information Criterion) AIC Multiple linear regression compare the three best models
 
 ```{r}
 #https://emilhvitfeldt.github.io/ISLR-tidymodels-labs/03-linear-regression.html
@@ -573,9 +564,11 @@ mod_compare %>%
 
 ```
 
-###### **table 2. explain this table** 
+###### **table 2. explain this table**
 
 interpret the results
+
+## **Analytics and Evaluation**
 
 ```{r}
 train_precict <- bind_cols(
@@ -587,7 +580,7 @@ train_precict <- bind_cols(
 # graph the results
 ```
 
-###### **Figure 7. explain this graph** 
+###### **Figure 7. explain this graph**
 
 compare the train model against the test
 
@@ -612,6 +605,6 @@ actual_predicted <- bind_cols(
   select(item_no, week, sold, .pred_lower, .pred_upper)
 ```
 
-###### **Figure 8. explain this graph** 
+###### **Figure 8. explain this graph**
 
 ### Conclusion

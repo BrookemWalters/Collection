@@ -17,6 +17,7 @@ theme_art_nouveau <- function(){
       axis.text = element_text(color = "black", size = 16),
       axis.title = element_text(color = "black", size = 18, face = "bold"),
       plot.title = element_text(color = "black", size = 30, face = "bold"),
+      plot.caption = element_text(color = "black", size = 20),
       panel.grid = element_blank(),
       panel.border = element_blank(),
       panel.background = element_rect(fill = "#FEE8E1", color = "#DF5875"),
@@ -27,7 +28,7 @@ theme_art_nouveau <- function(){
       legend.key = element_blank(),
       legend.title = element_text(color = "#DF5875", size = 12, face = "bold"),
       legend.text = element_text(color = "#DF5875", size = 10),
-      # strip.background = element_rect(fill = "#FEE8E1", color = "#DF5875"),
-      # strip.text = element_text(color = "#DF5875", size = 12, family = "EB Garamond", face = "bold") 
+      strip.background = element_rect(fill = "#FEE8E1", color = "#DF5875"),
+      strip.text = element_text(color = "#DF5875", size = 12, family = "EB Garamond", face = "bold")
     )
 }
