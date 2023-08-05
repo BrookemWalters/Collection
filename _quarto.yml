@@ -10,9 +10,6 @@ website:
   open-graph: true
 
 
-  repo-url: https://github.com/BrookemWalters/Collection
-  repo-actions: [edit, issue]
-
   page-footer:
     right: "This page is built with ☕ and [Quarto](https://quarto.org/)."
     background: "#FEFAF2"

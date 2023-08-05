@@ -3,6 +3,7 @@ title: ""
 format: 
   html:
     code-fold: true
+    toc: true
 ---
 
 ![](/images/logos/logo_white.png)
@@ -37,7 +38,7 @@ DRAFT DRAFT LESS OUTLINE MORE WRITING
 [^1]:
     ## **STA 631 - STATISTICAL MODELING AND REGRESSION**
 
-    Traditional and modern computationally intensive statistical modeling techniques. Basics of probability theory, including conditional probability, Bayes' Theorem, and univariate probability models. Regression modeling and prediction including simple linear, multiple, logistic, Poisson, and nonlinear and nonparametric regression. Methods for model selection and shrinkage. Emphasis is on application and interpretation using statistical software. Offered fall semester. Prerequisite: Admission into the data science professional science master's program. https://www.gvsu.edu/catalog/course/sta-631.htm
+    Traditional and modern computationally intensive statistical modeling techniques. Basics of probability theory, including conditional probability, Bayes' Theorem, and univariate probability models. Regression modeling and prediction including simple linear, multiple, logistic, Poisson, and nonlinear and nonparametric regression. Methods for model selection and shrinkage. Emphasis is on application and interpretation using statistical software. \~[GVSU Course Catalog](https://www.gvsu.edu/catalog/course/sta-631.htm)
 
 This digital portfolio stands as a testament to my proficiency in applied statistical methods and showcases my capacity for ongoing growth and adaptability in the ever-evolving domains of data science and machine learning. During the summer semester of 2023, I not only broadened my statistical knowledge but also cultivated my craft of data storytelling.
 
@@ -69,17 +70,17 @@ Additionally, my understanding of the data is limited. For this project, I made 
     -   data splitting into training and testing sets  
 -   [**Model Development**](https://brookemwalters.github.io/Collection/sections/glmv1/pi.html#model-development)
     -   step-wise model selection methodology  
--   [**Analytics and Evaluation**](https://brookemwalters.github.io/Collection/sections/glmv1/pi.html#analytical-and-evaluation)
+-   [**Model Evaluation**](https://brookemwalters.github.io/Collection/sections/glmv1/pi.html#model-evaluation)
     -   exploratory and descriptive analytics
     -   interpretation and evaluation of model outcomes
 
 ![](/images/AdobeStock_184864827.jpeg)
 
-## Initial Insights:
+# Initial Insights:
 
 The inventory data is comprised of 488 distinct items, sold over a span of 54 weeks (from week 0 to 53), with an impressive sum of approximately 1.3 million units transacted.
 
-To visualize and better understand the distribution of sales, I prepared a series of graphical representations to discern patterns, identify anomalies, and appreciate the overall behavior of the inventory data over time, thereby setting the stage for the predictive analysis.
+Below, I've created series of graphical representations to discern patterns, identify anomalies, and appreciate the overall behavior of the inventory data over time, establishing a baseline familiarity for the predictive analysis.
 
 ```{r fig.height=4, fig.width=10, message=FALSE, warning=FALSE}
 
@@ -123,7 +124,7 @@ ggplot(aes(x = total_sold)) +
 gridExtra::grid.arrange(hist, hist1, ncol = 2)
 ```
 
-###### **figure 1.** *The histograms demonstrate the distribution of the dataset by variable. Figure 1.1 demonstrates the frequency of each item sold, with most items ranging between 500 and 1,300 in total. The figure 1.2 conveys the temporal dispersion of weekly sales. Both graphs exhibit a right skew, particularly pronounced in the figure 1.1, implying a scarcity of high-sales items or weeks.*
+###### **figure 1.** *The histograms demonstrate the distribution of the dataset by variable. Figure 1.1 demonstrates the frequency of each item sold, with most items ranging between 500 and 1,300 in total. Figure 1.2 conveys the temporal dispersion of weekly sales. Both graphs exhibit a right skew, particularly pronounced in figure 1.1, implying a scarcity of high-sales items or weeks.*
 
 \
 \
@@ -148,32 +149,32 @@ line1 <- sai %>%
 line1
 ```
 
-###### **figure 2.** *shows annual sales trends on a weekly cadence. Weekly sales fluctuate within a range of 10,000 to 50,000 items, with the majority hovering between \~20k and \~30k units sold. A sales peak is observed in week 20, while week 46 registers the slowest sales activity. This trend analysis aids in identifying key sales periods and provides context for the predictive analysis.*
+###### **figure 2.** *shows annual sales trends on a weekly cadence. Weekly sales fluctuate within a range of 10k to 50k items, with the majority hovering between \~20k and \~30k units sold. A sales peak is observed in week 20, while week 46 registers the slowest sales activity.*
 
 \
 \
 \
 <br>
 
-## Data Processing
+# Data Processing
 
-For improved sales trend insights and predictive model performance, I created new features. These variables reveal sales dynamics, exposing potential seasonal pattern influences. Ideally, this process includes consultation with domain experts to ensure variable viability.
+The new features (see data dictionary), reveal sales dynamics, exposing potential seasonal pattern influences. Ideally, this process includes consultation with domain experts to ensure predictor viability and relevance.
 
 ### data dictionary
 
 -   **Original**
     -   **item_no**: the unique identifier for each item
-    -   **week**: the week number. "sold": number of items sold during a specific week
-    -   **sold**: count of items_no sold in a period\
-         
+    -   **sold**: count of items_no sold
+    -   **week**: the week number.
+        -   I asumme the following dates for the data: - *starting* *week 0*: December 27, 2021 - January 2, 2022 - *ending* *week 53*: December 26, 2022 - January 1, 2023
 -   **Feature Engineered**
     -   **year_total**: the total number of items sold for each item over the entire year
-    -   **date**: The specific date corresponding to a week
-    -   **month**: the month corresponding to a specific week
+    -   **date**: The specific date corresponding to the first day of the week
+    -   **month**: the month corresponding to the first day of the week
     -   **lag1**: period for capturing seasonality or time-dependent patterns, item's sold from the previous week
     -   **lag2**: item's sold from two-weeks prior
-    -   **rolling_4wk_avg**: the total number of items sold over the past four weeks by item_no
-    -   **best_seller**: A binary variable indicating whether the item is one of the top ten best-selling items based on volume
+    -   **rolling_4wk_avg**: the average number of items sold over the past four weeks by item_no
+    -   **best_seller**: a binary variable indicating whether the item is one of the top ten best-selling items based on volume
 
 ```{r fig.height=4, fig.width=10}
 
@@ -287,7 +288,9 @@ gridExtra::grid.arrange(bar, dot, ncol = 2)
 \
 <br>
 
-```{r  fig.height=4, fig.width=10, message=FALSE, warning=FALSE}
+**Exploring Relationships Between Sales Indicators: A Correlation Matrix**
+
+```{r message=FALSE, warning=FALSE}
 #https://www.geeksforgeeks.org/visualization-of-a-correlation-matrix-using-ggplot2-in-r/
 
 sai %>%
@@ -298,10 +301,9 @@ sai %>%
     diag = list(continuous = "densityDiag")
   ) +
   theme_art_nouveau()
-
 ```
 
-###### **figure 4.** *The correlation matrix reveals linear relationships between sets of variables. The data shows an expected high correlation between 'Month' and 'Week' (0.899), moderate correlation between the 'Rolling 4-week Average' and 'Lag1' (0.589), and a relatively low correlation between 'Lag2' and 'Lag1' (0.147). The absence of perfect correlation between predictors is essential for avoiding multicollinearity, a common challenge in multiple linear regression that could confound result interpretation*
+###### **figure 4.** *The correlation matrix reveals linear relationships between sets of variables. The data shows an expected high correlation between 'Month' and 'Week' (0.899), moderate correlation between the 'Rolling 4-week Average' and 'Lag1' (0.589), and a relatively low correlation between 'Lag2' and 'Lag1' (0.147). The absence of strong correlation between predictors is essential for avoiding multicollinearity, a factor that reduces model accuracy.*
 
 \
 \
@@ -379,11 +381,11 @@ ggplot(piecha , aes(x="", y=percentage, fill=split, label = label)) +
 \
 <br>
 
-## **Model Development**
+# **Model Development**
 
-### Feature Selection
+## Feature Selection
 
-The next step of the project involves selecting the best model using stepwise selection. It's the iterative process of adding and removing predictors based on their statistical significance. However, it should be used with caution. The inclusion of irrelevant variables can lead to unnecessary complexity in the resulting model and can inflate the variance of prediction errors.
+Now it's time to determine which factors will lead to the best model using stepwise selection. It's the iterative process of adding and removing predictors based on their statistical significance. The inclusion of irrelevant variables can lead to unnecessary complexity in the resulting model and can inflate the variance of prediction errors.
 
 ```{r message=FALSE, warning=FALSE}
 
@@ -409,8 +411,9 @@ is_mod_summary_mx %>%
   rename(`4WK ROLLING AVG` = rolling_4wk_avg, `BEST SELLER` = best_seller) %>% 
   select(predictors, model, everything()) %>%
   gt(rowname_col = "predictors") %>%
-  tab_header(title = md("Model Comparison")) %>% 
-    tab_options(
+  tab_header(title = md("Model Comparison, part one")) %>% 
+  cols_align(align = "center") %>%   
+  tab_options(
     grand_summary_row.background.color = "#D35C9E",
     heading.background.color = "#EFFBFC",
     column_labels.background.color = "#EFFBFC",
@@ -418,44 +421,107 @@ is_mod_summary_mx %>%
     table.font.color = "#323232",
     stub.border.style = "dashed",
     stub.border.width = "1px",
-    table.width = "60%") %>%
+    table.width = "100%") %>%
     tab_spanner(
     label = "predictors ",
     columns = c(week, month, lag1, lag2, `4WK ROLLING AVG`, `BEST SELLER`)) %>%
- 
-  cols_align(align = "center", columns = cp) %>% 
-  cols_align(align = "center", columns = rss) %>%
   opt_all_caps() %>% 
   opt_table_font(
     font = google_font(name = "EB Garamond")) %>% 
+    tab_style(
+    style = cell_text(size = "24px"), 
+    locations = cells_body()) %>%
   tab_source_note(source_note = md("table 1"))
 ```
 
-###### **table 1.** *the stepwise selection determines the best 2 models based on several goodness-of-fit statistics. Table 1. is the comparison summary of the top two performing models for the number of predictors. Each row represents a model configuration, specified by the model type (a or b) and the predictor variables (week, month, lag1, lag2, 4-week rolling average, best seller). The table displays the coefficient of determination (R-square), the adjusted R-square, the Mallows' Cp, and the residual sum of squares (RSS). An asterisk* (\*)*in the predictors' columns indicates the predictor was included in the model."*
+###### **table 1.** *provides a summary of "best" models determined by several goodness-of-fit statistics. Each row represents a model configuration, specified by the model type (a or b) and the predictor variables (week, month, lag1, lag2, 4-week rolling average, best seller). The table displays R-square, the adjusted R-square, Mallows' Cp, and the residual sum of squares (RSS). An asterisk* (\*)*in the predictors' columns indicates the predictor was included in the model."*
+
+**interpretations**: **RSQ**, **ADJR2**, **CP**, **RSS** are measures for evaluating and comparing the goodness of fit or how well the model fits the inventory data. These metrics should not be used blindly but together in the context with other measures and domain knowledge.
+
+::: columns
+::: {.column width="100%" style="text-align: center;"}
+## Understanding Model Performance
+:::
+:::
 
 \
-<br>
 
-**interpretations**: RSQ, ADJR2, CP, RSS; these are measures for evaluating and comparing the goodness of fit. These metrics should not be used blindly but together in the context with other measures and domain knowledge.
+::: columns
+::: {.column width="40%"}
+![](/images/gof/rsq.png){fig-align="center" width="250"}
+:::
 
-### **RSQ (R-squared)** proportion of explained variance:
+::: {.column width="3%"}
+:::
 
-Higher R-squared values explains the variability in the outcome. Based on table 2., models 3a, 4a, 4b, 5a, 5b, and 6a all have the highest R-squared values of 0.6, indicating that these models explain a significant portion of the variance in the outcome variable.\
+::: {.column width="40%"}
+::: {style="text-align: center;"}
+```         
+```
+:::
 
-### **ADJR2 (Adjusted R-squared)** tradeoff between model complexity and goodness of fit:
+**R-squared** values explain the variability in the outcome. Based on table 2., models 3a, 4a, 4b, 5a, 5b, and 6a all have the highest R-squared values of 0.6, indicating that these models explain a significant portion (60%) of the variance in the outcome variable.
+:::
+:::
 
-The adjusted R-squared is a modified version of R-squared, it incorporates the model's degrees of freedom. The ADJR2 value only increases if the new variable improves the model more than expected by chance, Table 2. shows that models 3a, 4a, 4b, 5a, 5b, and 6a all have the highest adjusted R-squared values of 0.6, showing that these models balance model complexity and goodness-of-fit reasonably well.\
-\### **Cp (Mallows' Cp)** bias or the prediction error: the model will not fit the data very well if the predictions are way off which leads to large residuals. Table 2. shows model 5a has the lowest Cp. A Cp value close to the total number of predictors suggests that the model is well-fitted. Lower values indicate a better model fit.
+::: columns
+::: {.column width="40%"}
+![](/images/gof/adrsq.png){fig-align="center" width="250"}
+:::
 
-\
-\### **RSS (Residual Sum of Squares)** total prediction error: When the RSS is high, it means the predictions are far off from the actual values, which results in large residuals.
+::: {.column width="3%"}
+:::
 
-Model 6a has the lowest RSS value of 218,998,262. This indicates that among all the models, model 6a's predictions are closest to the actual values, leading to smaller residuals.\
+::: {.column width="40%"}
+::: {style="text-align: center;"}
+```         
+```
+:::
 
-### Model Evaluation
+The **adjusted R-squared** is a modified version of R-squared, it incorporates the model's degrees of freedom. The ADJR2 value only increases if the new variable improves the model more than expected by chance, Table 2. shows that models 3a, 4a, 4b, 5a, 5b, and 6a all have the highest adjusted R-squared values of 0.6, showing that these models balance model complexity and goodness-of-fit reasonably well
+:::
+:::
+
+::: columns
+::: {.column width="40%"}
+![](/images/gof/cp.png){fig-align="center" width="250"}
+:::
+
+::: {.column width="3%"}
+:::
+
+::: {.column width="40%"}
+::: {style="text-align: center;"}
+```         
+```
+:::
+
+The model will not fit the data very well if the predictions are way off which leads to large residuals. Table 2. shows model 5a has the lowest **Cp**. A Cp value close to the total number of predictors suggests that the model is well-fitted. Lower values indicate a better model fit.
+:::
+:::
+
+::: columns
+::: {.column width="40%"}
+![](/images/gof/rss.png){fig-align="center" width="250"}
+:::
+
+::: {.column width="3%"}
+:::
+
+::: {.column width="40%"}
+::: {style="text-align: center;"}
+```         
+```
+:::
+
+When the **RSS** is high, it means the predictions are far off from the actual values, which results in large residuals. Model 6a has the lowest RSS value of 218,998,262. This indicates that among all the models, model 6a's predictions are closest to the actual values, leading to smaller residuals.
+:::
+:::
+
+# Model Evaluation
 
 ```{r fig.height=4, fig.width=10}
-
+#https://www.youtube.com/watch?v=-BR4WElPIXg
 gcolors <- c("#68576D", "#DF5875")
 
 is_mod_summary_mx %>%
@@ -473,108 +539,80 @@ is_mod_summary_mx %>%
     strip.text = element_text(size = 20, face = "bold"), 
     axis.title = element_text(size = 20, face = "bold")   
   )
-#https://www.youtube.com/watch?v=-BR4WElPIXg
+
 ```
 
-###### **Figure 6.** *plots the relationship between the number of predictors, adjusted R-squared (ADJR2), and Mallows' Cp (Cp) for models in table 2. As expected, an increase in the ADJR2 and a decrease in the CP value with an increasing number of predictors, highlighting an improved model fit. However, the benefits appear to taper off after the inclusion of four predictors. This potentially indicates the onset of overfitting beyond this point, suggesting that a model with four predictors could strike a balance between complexity and predictive power.*
+###### **Figure 6.** *plots the relationship between the number of predictors, ADJR2, and Cp. As expected, an the number of predictors increase the ADJR2 increases and the Cp decreases. However, the benefits appear to taper off after the inclusion of four predictors. This potentially indicates the onset of overfitting beyond this point, suggesting that a model with four predictors could strike a balance between complexity and predictive power.*
 
-## Maximum likelihood and AIC (Akaike Information Criterion)
+### Maximum Likelihood 
 
-To avoid overfitting, I want to take my models through one more level of scrutiny before selecting the best predictors. The AIC, n
-
-The Lower AIC values indicate a better-fit model, and a model with a delta-AIC (the difference between the two AIC values being compared) of more than -2 is considered significantly better than the model it is being compared to.
-
+**Model Selection** Given that the response variable "*sold*" is count data and skews right, I will also deploy a generalized linear model (GLM) with a Poisson distribution. 
+To avoid over fitting, I want to take my models through one more level of scrutiny before selecting the best predictors, and extrapolate additional 
 ```{r}
 #https://emilhvitfeldt.github.io/ISLR-tidymodels-labs/03-linear-regression.html
 
 # tidy model way
+# the rep
 
- specs <- linear_reg() %>%
-  set_mode("regression") %>%
-  set_engine("lm")
+# model 3a
+lm_3 <- glm(sold ~ lag1 + lag2 + rolling_4wk_avg,
+            data = is_train,
+            family = poisson)
 
-lm_3 <- specs %>%
-  fit(sold~ lag1 + lag2 + rolling_4wk_avg , data = is_train)
+# model 4a
+lm_4 <- glm(sold ~ month + lag1 + lag2 + rolling_4wk_avg,
+            data = is_train,
+            family = poisson)
 
-lm_4 <- specs %>%
-  fit(sold~ month + lag1 + lag2 + rolling_4wk_avg , data = is_train)
+# model 5a
+lm_5 <- glm(sold ~ month + week + lag1 + lag2 + rolling_4wk_avg,
+            data = is_train,
+            family = poisson)
 
-lm_5 <- specs %>%
-  fit(sold~ month + week + lag1 + lag2 + rolling_4wk_avg , data = is_train)
+# Combine the results into a data frame
+mod_compare <- rbind(broom::glance(lm_3), broom::glance(lm_4), broom::glance(lm_5))
+model_names <- c("3a", "4a", "5a")
+mod_compare$model_name <- model_names
 
-mod_compare <-  rbind(glance(lm_3),glance(lm_4),glance(lm_5))
-```
+# table 2
 
-```{r}
-
-#
-mod_compare %>% 
- gt(rowname_col = "df") %>%
-  tab_header(title = md("model comparison")) %>% 
-  cols_align(align = "left") %>% 
-    tab_options(
+mod_compare %>%
+  select(-null.deviance, -nobs, - df.null) %>%
+  rename(`df residual` = df.residual) %>%
+ gt(rowname_col = "model_name") %>%
+  tab_header(title = md("Model Comparison, part two")) %>%
+  cols_align(align = "center") %>%
+  fmt_number(columns = everything(), decimals = 1) %>%
+  tab_options(
     grand_summary_row.background.color = "#D35C9E",
     heading.background.color = "#EFFBFC",
     column_labels.background.color = "#EFFBFC",
     stub.background.color = "#EFFBFC",
     table.font.color = "#323232",
     stub.border.style = "dashed",
-    stub.border.width = "1px",
-    table.width = "60%"
-  ) %>%
-  opt_all_caps() 
+    stub.border.width = "1px") %>%
+  opt_all_caps() %>%
+    opt_table_font(
+    font = google_font(name = "EB Garamond")) %>%
+    tab_style(
+    style = cell_text(size = "20px"),
+    locations = cells_body()) %>%
+  tab_source_note(source_note = md("table 2"))
 
- # caption = table 2
-
-# 
-# is_mod_summary_mx %>% 
-#   mutate(rsq = round(rsq, 1), 
-#          adjr2 = round(adjr2, 1), 
-#          cp = scales::comma(round(cp, 1)),
-#          rss = scales::comma(rss)) %>%
-#   rename(`4WK ROLLING AVG` = rolling_4wk_avg, `BEST SELLER` = best_seller) %>% 
-#   select(predictors, model, everything()) %>%
-#   gt(rowname_col = "predictors") %>%
-#   tab_header(title = md("Model Comparison")) %>% 
-#     tab_options(
-#     grand_summary_row.background.color = "#D35C9E",
-#     heading.background.color = "#EFFBFC",
-#     column_labels.background.color = "#EFFBFC",
-#     stub.background.color = "#EFFBFC",
-#     table.font.color = "#323232",
-#     stub.border.style = "dashed",
-#     stub.border.width = "1px",
-#     table.width = "60%") %>%
-#     tab_spanner(
-#     label = "predictors ",
-#     columns = c(week, month, lag1, lag2, `4WK ROLLING AVG`, `BEST SELLER`)) %>%
-#  
-#   cols_align(align = "center", columns = cp) %>% 
-#   cols_align(align = "center", columns = rss) %>%
-#   opt_all_caps() %>% 
-#   opt_table_font(
-#     font = google_font(name = "EB Garamond"))
-# 
-
-
-
-
-
-
+ 
 ```
 
-###### **table 2. explain this table**
+###### **table 2.** *reveals that the LOGLIK (log-likelihood) values are very close between the three models, suggesting that all three models fit the data similarly well. Additionally the AIC values are very close supporting the trend seen in the LOGLIK, with model 3a showing the lowest overall  others.*
 
-interpret the results
 
 ## **Analytics and Evaluation**
 
 ```{r}
-train_precict <- bind_cols(
-  predict(lm_3, new_data = is_train, type = "conf_int"),
-  is_train
-) %>%
-  select(item_no, week, sold, .pred_lower, .pred_upper)
+# train_precict <- bind_cols(
+#   predict(lm_3, new_data = is_train, type = "conf_int"),
+#   is_train
+# ) %>%
+#   select(item_no, week, sold, .pred_lower, .pred_upper)
 
 # graph the results
 ```
@@ -584,24 +622,24 @@ train_precict <- bind_cols(
 compare the train model against the test
 
 ```{r}
-lm_3 <- specs %>%
-  fit(sold~ lag1 + lag2 + rolling_4wk_avg , data = is_train)
-
-lm_3t <- specs %>%
-  fit(sold~ lag1 + lag2 + rolling_4wk_avg , data = is_test)
-
-tt_compare <-  rbind(glance(lm_3),glance(lm_3t))
-tt_compare$mod <-  c("train", "test")
+# lm_3 <- specs %>%
+#   fit(sold~ lag1 + lag2 + rolling_4wk_avg , data = is_train)
+# 
+# lm_3t <- specs %>%
+#   fit(sold~ lag1 + lag2 + rolling_4wk_avg , data = is_test)
+# 
+# tt_compare <-  rbind(glance(lm_3),glance(lm_3t))
+# tt_compare$mod <-  c("train", "test")
 
 # create a visualization
 ```
 
 ```{r}
-actual_predicted <- bind_cols(
-  predict(lm_3t, new_data = is_train, type = "conf_int"),
-  is_train
-) %>%
-  select(item_no, week, sold, .pred_lower, .pred_upper)
+# actual_predicted <- bind_cols(
+#   predict(lm_3t, new_data = is_train, type = "conf_int"),
+#   is_train
+# ) %>%
+#   select(item_no, week, sold, .pred_lower, .pred_upper)
 ```
 
 ###### **Figure 8. explain this graph**
