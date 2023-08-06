@@ -60,7 +60,6 @@ More specifically, this document guides you through a time series inventory pred
 Additionally, my understanding of the data is limited. For this project, I made certain assumptions about the time frame and inventory type. In practical scenarios, collaboration with domain experts are essential components of any predictive analytics project.
 
 \
-\
 <br>
 
 **this report contains:**
@@ -124,7 +123,7 @@ ggplot(aes(x = total_sold)) +
 gridExtra::grid.arrange(hist, hist1, ncol = 2)
 ```
 
-###### **figure 1.** *The histograms demonstrate the distribution of the dataset by variable. Figure 1.1 demonstrates the frequency of each item sold, with most items ranging between 500 and 1,300 in total. Figure 1.2 conveys the temporal dispersion of weekly sales. Both graphs exhibit a right skew, particularly pronounced in figure 1.1, implying a scarcity of high-sales items or weeks.*
+###### **figure 1.** *The histograms demonstrate the distribution of the dataset by variable. Figure 1.1 demonstrates the frequency of each item sold, with most items ranging between 500 and 1,300 in total. Figure 1.2 conveys the temporal dispersion of weekly sales. Both graphs exhibit a right skew, particularly pronounced in figure 1.1, implying a scarcity of high-sales items or weeks. It appears to have a poisson distribution.*
 
 \
 \
@@ -166,7 +165,9 @@ The new features (see data dictionary), reveal sales dynamics, exposing potentia
     -   **item_no**: the unique identifier for each item
     -   **sold**: count of items_no sold
     -   **week**: the week number.
-        -   I asumme the following dates for the data: - *starting* *week 0*: December 27, 2021 - January 2, 2022 - *ending* *week 53*: December 26, 2022 - January 1, 2023
+        -   I assume the following dates for the data:
+        -   *starting* *week 0*: December 27, 2021 - January 2, 2022
+        -   *ending* *week 53*: December 26, 2022 - January 1, 2023 <br>
 -   **Feature Engineered**
     -   **year_total**: the total number of items sold for each item over the entire year
     -   **date**: The specific date corresponding to the first day of the week
@@ -312,10 +313,15 @@ sai %>%
 
 ### Splitting the Data
 
-With the variables now set, it's time to divide the data for training and testing of the predictive model. Ideally, the previous year would serve as a training ground, providing a foundation for testing the model. However, due the necessity of maintaining the temporal order, I segmented the data by inventory type, 75% into training to test on the remaining 25%.
+With the variables now set, it's time to divide the data for training and testing the predictive model. Ideally, the previous year would serve as a training ground, providing a foundation for testing the model. However, due the necessity of maintaining the temporal order, I segmented the data by inventory type, 75% into training and remaining 25% into testing.
 
 ```{r message=FALSE, warning=FALSE}
 # create a list of all items to randomly select
+
+# removing the NAs
+sai <- sai %>%
+  filter(!is.na(rolling_4wk_avg))
+
 set.seed(1985)
 items_sample_list <-  unique(sai$item_no) %>% 
   sample(366)
@@ -385,7 +391,7 @@ ggplot(piecha , aes(x="", y=percentage, fill=split, label = label)) +
 
 ## Feature Selection
 
-Now it's time to determine which factors will lead to the best model using stepwise selection. It's the iterative process of adding and removing predictors based on their statistical significance. The inclusion of irrelevant variables can lead to unnecessary complexity in the resulting model and can inflate the variance of prediction errors.
+Now it's time to determine which factors will lead to the best model using stepwise selection. It's the iterative process of adding and removing predictors based on their statistical significance. The inclusion of irrelevant variables can lead to unnecessary complexity.
 
 ```{r message=FALSE, warning=FALSE}
 
@@ -436,6 +442,8 @@ is_mod_summary_mx %>%
 
 ###### **table 1.** *provides a summary of "best" models determined by several goodness-of-fit statistics. Each row represents a model configuration, specified by the model type (a or b) and the predictor variables (week, month, lag1, lag2, 4-week rolling average, best seller). The table displays R-square, the adjusted R-square, Mallows' Cp, and the residual sum of squares (RSS). An asterisk* (\*)*in the predictors' columns indicates the predictor was included in the model."*
 
+<br>
+
 **interpretations**: **RSQ**, **ADJR2**, **CP**, **RSS** are measures for evaluating and comparing the goodness of fit or how well the model fits the inventory data. These metrics should not be used blindly but together in the context with other measures and domain knowledge.
 
 ::: columns
@@ -460,7 +468,7 @@ is_mod_summary_mx %>%
 ```
 :::
 
-**R-squared** values explain the variability in the outcome. Based on table 2., models 3a, 4a, 4b, 5a, 5b, and 6a all have the highest R-squared values of 0.6, indicating that these models explain a significant portion (60%) of the variance in the outcome variable.
+**R-squared** values explain the variability in the outcome. Several models (*3a, 4a, 4b, 5a, 5b, and 6a*) are tied at .60 for RSQ, indicating that these models explain a significant portion (60%) of the variance in the outcome variable.
 :::
 :::
 
@@ -496,7 +504,7 @@ The **adjusted R-squared** is a modified version of R-squared, it incorporates t
 ```
 :::
 
-The model will not fit the data very well if the predictions are way off which leads to large residuals. Table 2. shows model 5a has the lowest **Cp**. A Cp value close to the total number of predictors suggests that the model is well-fitted. Lower values indicate a better model fit.
+The best *Cp* score is when the value is close to the total number of predictors. Table 2 shows thta model 5a has the lowest Cp score of 5.0, which is the same as the number of predictors we're using. Indicating, based on Cp, model 5a is doing the best job at fitting the data.
 :::
 :::
 
@@ -514,9 +522,11 @@ The model will not fit the data very well if the predictions are way off which l
 ```
 :::
 
-When the **RSS** is high, it means the predictions are far off from the actual values, which results in large residuals. Model 6a has the lowest RSS value of 218,998,262. This indicates that among all the models, model 6a's predictions are closest to the actual values, leading to smaller residuals.
+A high **RSS** means the predictions are far off from the actual values, which results in large residuals. Model 6a has the lowest RSS value of 218,998,262. This indicates that among all the models, model 6a's predictions are closest to the actual values, leading to smaller residuals.
 :::
 :::
+
+<br>
 
 # Model Evaluation
 
@@ -544,15 +554,17 @@ is_mod_summary_mx %>%
 
 ###### **Figure 6.** *plots the relationship between the number of predictors, ADJR2, and Cp. As expected, an the number of predictors increase the ADJR2 increases and the Cp decreases. However, the benefits appear to taper off after the inclusion of four predictors. This potentially indicates the onset of overfitting beyond this point, suggesting that a model with four predictors could strike a balance between complexity and predictive power.*
 
-### Maximum Likelihood 
+<br>
 
-**Model Selection** Given that the response variable "*sold*" is count data and skews right, I will also deploy a generalized linear model (GLM) with a Poisson distribution. 
-To avoid over fitting, I want to take my models through one more level of scrutiny before selecting the best predictors, and extrapolate additional 
+### Maximum Likelihood
+
+**Model Selection** Given that the response variable "*sold*" represents count data and has a rightward skew, a generalized linear model (GLM) with a Poisson distribution will be deployed. To avoid overfitting, these models will be subjected to an additional level of scrutiny before selecting the best predictors. This will allow for further extrapolation and refinement
+
 ```{r}
 #https://emilhvitfeldt.github.io/ISLR-tidymodels-labs/03-linear-regression.html
 
 # tidy model way
-# the rep
+
 
 # model 3a
 lm_3 <- glm(sold ~ lag1 + lag2 + rolling_4wk_avg,
@@ -590,6 +602,7 @@ mod_compare %>%
     stub.background.color = "#EFFBFC",
     table.font.color = "#323232",
     stub.border.style = "dashed",
+    table.width = "100%",
     stub.border.width = "1px") %>%
   opt_all_caps() %>%
     opt_table_font(
@@ -602,20 +615,79 @@ mod_compare %>%
  
 ```
 
-###### **table 2.** *reveals that the LOGLIK (log-likelihood) values are very close between the three models, suggesting that all three models fit the data similarly well. Additionally the AIC values are very close supporting the trend seen in the LOGLIK, with model 3a showing the lowest overall  others.*
+###### **table 2.** *reveals that the LOGLIK (log-likelihood) values are very close between the three models, suggesting that all three models fit the data similarly well. Additionally the AIC values are very close supporting the trend seen in the LOGLIK, with model 3a showing the lowest overall others.*
 
+After comparing models, the predictors from 4a. will be applied to the testing set. Here's the summary of model 4a on training data:
+
+```{r}
+summary(lm_4)
+```
+
+<br> model 4:
+
+-   avoids using the the highly correlated variables of week and month
+-   excludes unnecessary variables, where not much is gained (see figure 6.)
 
 ## **Analytics and Evaluation**
 
-```{r}
-# train_precict <- bind_cols(
-#   predict(lm_3, new_data = is_train, type = "conf_int"),
-#   is_train
-# ) %>%
-#   select(item_no, week, sold, .pred_lower, .pred_upper)
+how can match the train_preds with the training set when the model removes 0s? i want to see the predicted vs the actual
 
-# graph the results
+`
+
+```{r}
+lm4_wf <-  workflow(sold ~ month + lag1 + lag2 + rolling_4wk_avg, 
+                    poisson_reg())
+
+lm4_fit <- fit(lm4_wf, data = is_train)
+
+# Make predictions on the testing data
+predictions <- predict(lm4_fit, new_data = is_test)
+
+
+
+results <- bind_cols(predictions, is_test) %>% 
+  select(week, month, item_no, sold, .pred)%>% 
+  mutate(diff = sold - .pred )  %>% 
+  gather(key = "type", value = "total_sold", sold, .pred) 
+
+#   mutate(range = ifelse(total_sold > 1000, "High", "Low"))
+# 
+# plot <- ggplot(results, aes(x = week, y = total_sold, color = type)) +
+#   geom_point() +
+#   facet_wrap(~ range, scales = "free_y") +
+#   ggtitle('Weekly Count of Times Sold') +
+#   xlab('Week') +
+#   ylab('Count of Times Sold') +
+#   scale_color_manual(values = c("blue", "red"),
+#                      labels = c("Actual", "Predicted"))
+
+# Display the plot
+
+
+
 ```
+
+```{r}
+line2 <- results %>%
+  group_by(week, type) %>%
+  summarise(total_sold = sum(total_sold)) %>%
+  ggplot(aes(x = week, y = total_sold, color = type)) +
+  geom_line(size = 2, alpha = 0.5) +
+  geom_point(size = 4, alpha = 0.5)+
+  scale_x_continuous(breaks = seq(0, 55, by = 5)) + 
+  scale_y_continuous(labels = scales::comma_format()) +
+   
+  labs(x = "week", y = "Count of Items Sold", 
+       title = "Predicted vs Actual Items Sold by Week",
+        caption =  " figure 2")+
+  theme_art_nouveau()
+line2
+```
+
+
+
+
+
 
 ###### **Figure 7. explain this graph**
 
