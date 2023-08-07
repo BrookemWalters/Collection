@@ -308,7 +308,7 @@ div.csl-indent {
 </section>
 <section id="limitations" class="level3">
 <h3 class="anchored" data-anchor-id="limitations">Limitations</h3>
-<p>the data set contains only spans 54 weeks, which is less than ideal for time series predictions that typically benefit from multi-year trends. Additionally, my understanding of the data is limited. For this project, I made certain assumptions about the time frame and inventory type. In practical scenarios, collaboration with domain experts are essential components of any predictive analytics project.</p>
+<p>the data set only spans 54 weeks, which is less than ideal for time series predictions that typically benefit from multi-year trends. Additionally, my understanding of the data is limited. For this project, I made certain assumptions about the time frame and inventory type. In practical scenarios, collaboration with domain experts are essential components of any predictive analytics project.</p>
 <p><br>
 </p>
 </section>
@@ -578,16 +578,19 @@ div.csl-indent {
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#https://www.geeksforgeeks.org/visualization-of-a-correlation-matrix-using-ggplot2-in-r/</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># sai %&gt;%</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   select(week, month, lag1, lag2, rolling_4wk_avg, best_seller, sold) %&gt;%</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#   ggpairs(</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#     upper = list(continuous = wrap("cor", size = 5)),</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     lower = list(continuous = "points"),</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#     diag = list(continuous = "densityDiag")</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   ) +</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   labs(caption = "Figure 4") +</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#   theme_art_nouveau()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>sai <span class="sc">%&gt;%</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(week, month, lag1, lag2, rolling_4wk_avg, best_seller, sold) <span class="sc">%&gt;%</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggpairs</span>(</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">upper =</span> <span class="fu">list</span>(<span class="at">continuous =</span> <span class="fu">wrap</span>(<span class="st">"cor"</span>, <span class="at">size =</span> <span class="dv">5</span>)),</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">lower =</span> <span class="fu">list</span>(<span class="at">continuous =</span> <span class="st">"points"</span>),</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">diag =</span> <span class="fu">list</span>(<span class="at">continuous =</span> <span class="st">"densityDiag"</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">"Figure 4"</span>) <span class="sc">+</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_art_nouveau</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output-display">
+<p><img src="pi_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
 </div>
 </section>
 <section id="figure-4.-the-correlation-matrix-reveals-linear-relationships-between-sets-of-variables.-the-data-shows-an-expected-high-correlation-between-month-and-week-0.899-moderate-correlation-between-the-rolling-4-week-average-and-lag1-0.589-and-a-relatively-low-correlation-between-lag2-and-lag1-0.147.-the-absence-of-strong-correlation-between-predictors-is-essential-for-avoiding-multicollinearity-a-factor-that-reduces-model-accuracy." class="level6">
@@ -2122,11 +2125,11 @@ Number of Fisher Scoring iterations: 7</code></pre>
 <li><p>“<a href="https://www.youtube.com/watch?v=-BR4WElPIXg">Multiple Regression, AIC, AICc, and BIC Basics</a>,” <em>Youtube</em>, uploaded by Foltz, Brandon, 31 Aug 2021.</p></li>
 <li><p>“<a href="https://www.geeksforgeeks.org/visualization-of-a-correlation-matrix-using-ggplot2-in-r/">Visualization of a correlation matrix using ggplot2 in R</a>,” <em>GeeksforGeeks</em>, ND.</p></li>
 <li><p>Holtz, Yan “<a href="https://r-graph-gallery.com/piechart-ggplot2.html">ggplot2 Piechart</a>,” <em>R Graph Gallery</em>, ND.</p></li>
-<li><p>Hvitfeldt, Emil, <a href="https://r-graph-gallery.com/piechart-ggplot2.html"><em>ISLR Tidymodels Labs</em></a>, 6 Aug 2022.</p></li>
+<li><p>Hvitfeldt, Emil, <a href="https://emilhvitfeldt.github.io/ISLR-tidymodels-labs/"><em>ISLR Tidymodels Labs</em></a>, 6 Aug 2022.</p></li>
 <li><p>McCormick, Keith, “<a href="https://www.linkedin.com/learning/predictive-analytics-essential-training-for-executives?u=74414348">Predictive Analytics Essential Training for Executives</a>,” <em>LinkedIn Learning</em>, 25 Feb, 2020.</p></li>
 <li><p>Iannone, Richard, “<a href="https://posit.co/blog/great-looking-tables-gt-0-2/">Great Looking Tables: gt</a>,” <em>Posit</em>, 08 April 2020</p></li>
 <li><p>“<a href="https://youtu.be/tplhrRNXx8Q">How to create your own custom ggplot2 theme</a>,” <em>YouTube</em>, uploaded by Riffomonas Project, 7 Oct 2021.</p></li>
-<li><p>“<a href="https://www.youtube.com/watch?v=Kn3llTjYS5">Lead &amp; lag R Functions of dplyr Package</a>” <em>YouTube</em>, uploaded by Statistics Globe, 2 Dec 2019.</p></li>
+<li><p>“<a href="https://www.youtube.com/watch?v=Kn3llTjYS5E">Lead &amp; lag R Functions of dplyr Package</a>” <em>YouTube</em>, uploaded by Statistics Globe, 2 Dec 2019.</p></li>
 <li><p><a href="https://openai.com/">OpenAI</a> | <strong>AI Disclosure Statement</strong>: With prior approval from my course professor, I utilized OpenAI’s tools for idea generation, proofreading, and code debugging in my work. As of August 6, 2023, Grand Valley State University (GVSU) has no official policy on AI use in academics. In lieu of direct guidance, I followed recommendations from <a href="https://learninginnovation.duke.edu/ai-and-teaching-at-duke/">Duke University</a> and <a href="https://www.scribbr.com/ai-tools/chatgpt-university-policies/">Scribbr’s</a> overview of “University Policies on AI Writing Tools.” My final code was derived from both my work, the cited sources, and Stat 631 course materials. Generative AI served as one more learning resource, in addition to YouTube, human review, Posit forums, Linked-In Learning, and educational blogs. <strong>With this disclosure, I aim to contribute to the responsible and intellectually honest use of AI technology in scholarly work.</strong></p></li>
 </ul>
 </section>

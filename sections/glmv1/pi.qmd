@@ -58,11 +58,9 @@ evaluate and deploy a predictive model to forecast the inventory volume.
 
 ### Limitations
 
-the data set contains only spans 54 weeks, which is less than ideal for time series predictions that typically benefit from multi-year trends. Additionally, my understanding of the data is limited. For this project, I made certain assumptions about the time frame and inventory type. In practical scenarios, collaboration with domain experts are essential components of any predictive analytics project.
-
+the data set only spans 54 weeks, which is less than ideal for time series predictions that typically benefit from multi-year trends. Additionally, my understanding of the data is limited. For this project, I made certain assumptions about the time frame and inventory type. In practical scenarios, collaboration with domain experts are essential components of any predictive analytics project.
 
 \
-
 
 ### Final Results
 
@@ -304,15 +302,15 @@ gridExtra::grid.arrange(bar, dot, ncol = 2)
 ```{r message=FALSE, warning=FALSE}
 #https://www.geeksforgeeks.org/visualization-of-a-correlation-matrix-using-ggplot2-in-r/
 
-# sai %>%
-#   select(week, month, lag1, lag2, rolling_4wk_avg, best_seller, sold) %>%
-#   ggpairs(
-#     upper = list(continuous = wrap("cor", size = 5)),
-#     lower = list(continuous = "points"),
-#     diag = list(continuous = "densityDiag")
-#   ) +
-#   labs(caption = "Figure 4") +
-#   theme_art_nouveau()
+sai %>%
+  select(week, month, lag1, lag2, rolling_4wk_avg, best_seller, sold) %>%
+  ggpairs(
+    upper = list(continuous = wrap("cor", size = 5)),
+    lower = list(continuous = "points"),
+    diag = list(continuous = "densityDiag")
+  ) +
+  labs(caption = "Figure 4") +
+  theme_art_nouveau()
 ```
 
 ###### **figure 4.** *The correlation matrix reveals linear relationships between sets of variables. The data shows an expected high correlation between 'Month' and 'Week' (0.899), moderate correlation between the 'Rolling 4-week Average' and 'Lag1' (0.589), and a relatively low correlation between 'Lag2' and 'Lag1' (0.147). The absence of strong correlation between predictors is essential for avoiding multicollinearity, a factor that reduces model accuracy.*
@@ -713,7 +711,7 @@ Much like my leap into the domain of data science, the modeling process must be 
 
 -   Holtz, Yan "[ggplot2 Piechart](https://r-graph-gallery.com/piechart-ggplot2.html)," *R Graph Gallery*, ND.
 
--   Hvitfeldt, Emil, [*ISLR Tidymodels Labs*](https://r-graph-gallery.com/piechart-ggplot2.html), 6 Aug 2022.
+-   Hvitfeldt, Emil, [*ISLR Tidymodels Labs*](https://emilhvitfeldt.github.io/ISLR-tidymodels-labs/), 6 Aug 2022.
 
 -   McCormick, Keith, "[Predictive Analytics Essential Training for Executives](https://www.linkedin.com/learning/predictive-analytics-essential-training-for-executives?u=74414348)," *LinkedIn Learning*, 25 Feb, 2020.
 
@@ -721,7 +719,7 @@ Much like my leap into the domain of data science, the modeling process must be 
 
 -   "[How to create your own custom ggplot2 theme](https://youtu.be/tplhrRNXx8Q)," *YouTube*, uploaded by Riffomonas Project, 7 Oct 2021.
 
--   "[Lead & lag R Functions of dplyr Package](https://www.youtube.com/watch?v=Kn3llTjYS5)" *YouTube*, uploaded by Statistics Globe, 2 Dec 2019.
+-   "[Lead & lag R Functions of dplyr Package](https://www.youtube.com/watch?v=Kn3llTjYS5E)" *YouTube*, uploaded by Statistics Globe, 2 Dec 2019.
 
 -   [OpenAI](https://openai.com/) \| **AI Disclosure Statement**: With prior approval from my course professor, I utilized OpenAI's tools for idea generation, proofreading, and code debugging in my work. As of August 6, 2023, Grand Valley State University (GVSU) has no official policy on AI use in academics. In lieu of direct guidance, I followed recommendations from [Duke University](https://learninginnovation.duke.edu/ai-and-teaching-at-duke/) and [Scribbr's](https://www.scribbr.com/ai-tools/chatgpt-university-policies/) overview of "University Policies on AI Writing Tools." My final code was derived from both my work, the cited sources, and Stat 631 course materials. Generative AI served as one more learning resource, in addition to YouTube, human review, Posit forums, Linked-In Learning, and educational blogs. **With this disclosure, I aim to contribute to the responsible and intellectually honest use of AI technology in scholarly work.**
 
