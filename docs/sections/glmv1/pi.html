@@ -83,7 +83,7 @@ div.csl-indent {
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
 <link href="../../sections/reflections/reflections_main.html" rel="next">
-<link href="../../sections/dataviz/viz_placeholder.html" rel="prev">
+<link href="../../sections/po.html" rel="prev">
 <link href="../../images/logos/favicon2.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -132,7 +132,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../sections/dataviz/viz_placeholder.html">projects</a></li><li class="breadcrumb-item"><a href="../../sections/glmv1/pi.html">Time Series Forecasting</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../sections/po.html">projects</a></li><li class="breadcrumb-item"><a href="../../sections/glmv1/pi.html">Time Series Forecasting</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -192,8 +192,8 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../sections/dataviz/viz_placeholder.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Overview_Draft</span></a>
+  <a href="../../sections/po.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -213,7 +213,7 @@ div.csl-indent {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false">
- <span class="menu-text">reflections</span></a>
+ <span class="menu-text">Reflections</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -222,13 +222,13 @@ div.csl-indent {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../sections/reflections/reflections_main.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">collection of reflections</span></a>
+ <span class="menu-text">Collection of reflections</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../sections/reflections/knowledge/knowledge.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">knowledge</span></a>
+ <span class="menu-text">Knowledge</span></a>
   </div>
 </li>
       </ul>
@@ -236,7 +236,7 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../sections/references/resources.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">resources</span></a>
+ <span class="menu-text">Resources</span></a>
   </div>
 </li>
     </ul>
@@ -254,7 +254,8 @@ div.csl-indent {
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a>
   <ul class="collapse">
   <li><a href="#objective" id="toc-objective" class="nav-link" data-scroll-target="#objective">Objective</a></li>
-  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations">Limitations**</a></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations">Limitations</a></li>
+  <li><a href="#final-results" id="toc-final-results" class="nav-link" data-scroll-target="#final-results">Final Results</a></li>
   </ul></li>
   </ul></li>
   <li><a href="#initial-insights" id="toc-initial-insights" class="nav-link" data-scroll-target="#initial-insights">Initial Insights:</a></li>
@@ -306,12 +307,13 @@ div.csl-indent {
 <p>evaluate and deploy a predictive model to forecast the inventory volume.</p>
 </section>
 <section id="limitations" class="level3">
-<h3 class="anchored" data-anchor-id="limitations">Limitations**</h3>
+<h3 class="anchored" data-anchor-id="limitations">Limitations</h3>
 <p>the data set contains only spans 54 weeks, which is less than ideal for time series predictions that typically benefit from multi-year trends. Additionally, my understanding of the data is limited. For this project, I made certain assumptions about the time frame and inventory type. In practical scenarios, collaboration with domain experts are essential components of any predictive analytics project.</p>
-<p><br></p>
 <p><br>
-<br>
-### Final Results</p>
+</p>
+</section>
+<section id="final-results" class="level3">
+<h3 class="anchored" data-anchor-id="final-results">Final Results</h3>
 <p>The Poisson regression model demonstrated reasonable predictive performance, using four predictors chosen through stepwise selection.</p>
 <p><strong>this report contains:</strong></p>
 <ul>
@@ -2109,7 +2111,7 @@ Number of Fisher Scoring iterations: 7</code></pre>
 <h1><img src="../..\images/gof/AdobeStock_484607993.jpeg" class="img-fluid" data-fig-align="center" width="250"> Conclusion</h1>
 <p>The Poisson regression model isn’t merely a statistical exercise – it’s a powerful tool for strategic planning in a world with tightening external factors, where nimble, effective decision-making is no longer a competitive edge but the norm. Predictive analytics offers a sophisticated approach to understanding and anticipating consumer patterns.</p>
 <p><strong>What does the model reveal?</strong> In this instance, it’s moderately accurate, but those occasional misses aren’t mere mistakes; they are invitations to dig deeper. Each discrepancy in weekly sales predictions points to new paths for refinement. The missteps guide us to search for unseen variables. Is it the rhythm of seasons, the pulse of the market, or the effects of a new promotion?</p>
-<p>Much like my leap into the domain of data science, the modeling process must be adaptive. It’s about evolving models, new features, in-depth analysis – it’s about staying ahead. It’s how businesses align strategies, tune inventories, and discover hidden paths to success.</p>
+<p>Much like my leap into the domain of data science, the modeling process must be adaptive.</p>
 </section>
 <section id="sources" class="level1">
 <h1>Sources</h1>
@@ -2441,13 +2443,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../sections/dataviz/viz_placeholder.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Overview_Draft</span>
+      <a href="../../sections/po.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Overview</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../../sections/reflections/reflections_main.html" class="pagination-link">
-        <span class="nav-page-text">collection of reflections</span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text">Collection of reflections</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

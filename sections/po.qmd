@@ -1,0 +1,9 @@
+---
+title: ""
+---
+
+[![](/images/gof/predictors.png){width="340"}](https://brookemwalters.github.io/Collection/sections/glmv1/pi.html) [![](/images/methodology.png){width="315"}](https://brookemwalters.github.io/Nimby_Site/Final%20Report.html)
+
+[![](/images/sp.png){fig-align="left" width="339"}](https://rpubs.com/ekoorb03/MI_C19Mortality)
+
+*click image to view project*

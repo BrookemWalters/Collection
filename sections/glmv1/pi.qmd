@@ -56,14 +56,14 @@ More specifically, this document guides you through a time series inventory pred
 
 evaluate and deploy a predictive model to forecast the inventory volume.
 
-### Limitations\*\*
+### Limitations
 
 the data set contains only spans 54 weeks, which is less than ideal for time series predictions that typically benefit from multi-year trends. Additionally, my understanding of the data is limited. For this project, I made certain assumptions about the time frame and inventory type. In practical scenarios, collaboration with domain experts are essential components of any predictive analytics project.
 
-<br>
 
 \
-\
+
+
 ### Final Results
 
 The Poisson regression model demonstrated reasonable predictive performance, using four predictors chosen through stepwise selection.
@@ -629,8 +629,7 @@ mod_compare %>%
 
 ###### **table 2.** *reveals that the LOGLIK (log-likelihood) values are very close between the three models, suggesting that all three models fit the data similarly well. Additionally the AIC values are very close supporting the trend seen in the LOGLIK, with model 3a showing the lowest overall others.*
 
-<br> After comparing models, the predictors from 4a. will be applied to the testing set.
-**model 4**:
+<br> After comparing models, the predictors from 4a. will be applied to the testing set. **model 4**:
 
 -   avoids using the highly correlated variables of week and month concurrently (see [figure 4](https://brookemwalters.github.io/Collection/sections/glmv1/pi.html#figure-4.-the-correlation-matrix-reveals-linear-relationships-between-sets-of-variables.-the-data-shows-an-expected-high-correlation-between-month-and-week-0.899-moderate-correlation-between-the-rolling-4-week-average-and-lag1-0.589-and-a-relatively-low-correlation-between-lag2-and-lag1-0.147.-the-absence-of-strong-correlation-between-predictors-is-essential-for-avoiding-multicollinearity-a-factor-that-reduces-model-accuracy.).)
 -   excludes unnecessary variables, where not much is gained (see [figure 6](https://brookemwalters.github.io/Collection/sections/glmv1/pi.html#figure-6.-plots-the-relationship-between-the-number-of-predictors-adjr2-and-cp.-as-expected-an-the-number-of-predictors-increase-the-adjr2-increases-and-the-cp-decreases.-however-the-benefits-appear-to-taper-off-after-the-inclusion-of-four-predictors.-this-potentially-indicates-the-onset-of-overfitting-beyond-this-point-suggesting-that-a-model-with-four-predictors-could-strike-a-balance-between-complexity-and-predictive-power.).)
@@ -648,6 +647,7 @@ summary(lm_4)
 <br>
 
 ## **Analytics and Evaluation**
+
 Using tidymodels, the training data was fitted to the model. Below is the result!
 
 ```{r message=FALSE, warning=FALSE}
@@ -699,7 +699,7 @@ The Poisson regression model isn't merely a statistical exercise -- it's a power
 
 **What does the model reveal?** In this instance, it's moderately accurate, but those occasional misses aren't mere mistakes; they are invitations to dig deeper. Each discrepancy in weekly sales predictions points to new paths for refinement. The missteps guide us to search for unseen variables. Is it the rhythm of seasons, the pulse of the market, or the effects of a new promotion?
 
-Much like my leap into the domain of data science, the modeling process must be adaptive. It's about evolving models, new features, in-depth analysis -- it's about staying ahead. It's how businesses align strategies, tune inventories, and discover hidden paths to success.
+Much like my leap into the domain of data science, the modeling process must be adaptive.
 
 # Sources
 
@@ -726,11 +726,11 @@ Much like my leap into the domain of data science, the modeling process must be 
 -   [OpenAI](https://openai.com/) \| **AI Disclosure Statement**: With prior approval from my course professor, I utilized OpenAI's tools for idea generation, proofreading, and code debugging in my work. As of August 6, 2023, Grand Valley State University (GVSU) has no official policy on AI use in academics. In lieu of direct guidance, I followed recommendations from [Duke University](https://learninginnovation.duke.edu/ai-and-teaching-at-duke/) and [Scribbr's](https://www.scribbr.com/ai-tools/chatgpt-university-policies/) overview of "University Policies on AI Writing Tools." My final code was derived from both my work, the cited sources, and Stat 631 course materials. Generative AI served as one more learning resource, in addition to YouTube, human review, Posit forums, Linked-In Learning, and educational blogs. **With this disclosure, I aim to contribute to the responsible and intellectually honest use of AI technology in scholarly work.**
 
 ## Image Credits
+
 -   [Alice](https://stock.adobe.com/contributor/209279773/alice?load_type=author&prev_url=detail)
 -   [anttoniart](https://stock.adobe.com/contributor/205074521/anttoniart?load_type=author&prev_url=detail)
 -   [Kreatiw](https://stock.adobe.com/contributor/202160280/kreatiw?load_type=author&prev_url=detail)
 -   [mari](https://stock.adobe.com/contributor/203717653/mari?load_type=author&prev_url=detail)
-
 
 ## Packages Used:
 

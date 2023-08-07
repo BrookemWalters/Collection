@@ -2,15 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://brookemwalters.github.io/Collection/about_me.html</loc>
-    <lastmod>2023-08-05T14:04:14.730Z</lastmod>
+    <lastmod>2023-08-07T03:51:12.802Z</lastmod>
   </url>
   <url>
     <loc>https://brookemwalters.github.io/Collection/index.html</loc>
-    <lastmod>2023-08-06T23:20:05.418Z</lastmod>
+    <lastmod>2023-08-07T03:51:15.480Z</lastmod>
   </url>
   <url>
     <loc>https://brookemwalters.github.io/Collection/sections/glmv1/pi.html</loc>
-    <lastmod>2023-08-07T02:58:11.383Z</lastmod>
+    <lastmod>2023-08-07T03:53:15.283Z</lastmod>
   </url>
   <url>
     <loc>https://brookemwalters.github.io/Collection/sections/glmv1/besti.html</loc>
@@ -46,10 +46,18 @@
   </url>
   <url>
     <loc>https://brookemwalters.github.io/Collection/sections/dataviz/viz_placeholder.html</loc>
-    <lastmod>2023-08-05T14:02:34.192Z</lastmod>
+    <lastmod>2023-08-07T03:04:16.046Z</lastmod>
   </url>
   <url>
     <loc>https://brookemwalters.github.io/Collection/sections/references/resources.html</loc>
     <lastmod>2023-08-07T02:33:08.992Z</lastmod>
+  </url>
+  <url>
+    <loc>https://brookemwalters.github.io/Collection/sections/projects overview.html</loc>
+    <lastmod>2023-08-07T03:21:04.958Z</lastmod>
+  </url>
+  <url>
+    <loc>https://brookemwalters.github.io/Collection/sections/po.html</loc>
+    <lastmod>2023-08-07T04:05:19.220Z</lastmod>
   </url>
 </urlset>

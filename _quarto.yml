@@ -43,20 +43,20 @@ website:
     contents:
       - section: "projects"
         contents:
-          - href: sections/dataviz/viz_placeholder.qmd
-            text: "Overview_Draft"
+          - href: sections/po.qmd
+            text: "Overview"
           - href: sections/glmv1/pi.qmd
             text: "Time Series Forecasting"
           - href: https://brookemwalters.github.io/Nimby_Site/Final%20Report.html
             text: "Crime in Coloardo"
-      - section: "reflections"
+      - section: "Reflections"
         contents:
           - href: sections/reflections/reflections_main.qmd
-            text: "collection of reflections"
+            text: "Collection of reflections"
           - href: sections/reflections/knowledge/knowledge.qmd
-            text: "knowledge"
+            text: "Knowledge"
       - href: sections/references/resources.qmd
-        text: "resources"
+        text: "Resources"
 
 
 

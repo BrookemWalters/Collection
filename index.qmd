@@ -9,7 +9,7 @@ about:
     - text: Resume
       url: "https://github.com/BrookemWalters/Collection/blob/main/BrookeWalters_DataScientist.pdf"
     - text: Data Science Projects
-      url: "https://brookemwalters.github.io/Collection/sections/dataviz/viz_placeholder.html"
+      url: "https://brookemwalters.github.io/Collection/sections/po.html"
 comments: false
 ---
 
