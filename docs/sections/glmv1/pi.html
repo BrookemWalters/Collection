@@ -54,7 +54,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -216,8 +235,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../sections/references/references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">references</span></a>
+  <a href="../../sections/references/resources.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">resources</span></a>
   </div>
 </li>
     </ul>
@@ -255,6 +274,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#analytics-and-evaluation" id="toc-analytics-and-evaluation" class="nav-link" data-scroll-target="#analytics-and-evaluation"><strong>Analytics and Evaluation</strong></a></li>
   </ul></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><img src="../..\images/gof/AdobeStock_484607993.jpeg" class="img-fluid" data-fig-align="center" width="250"> Conclusion</a></li>
+  <li><a href="#sources" id="toc-sources" class="nav-link" data-scroll-target="#sources">Sources</a>
+  <ul class="collapse">
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  <li><a href="#image-credits" id="toc-image-credits" class="nav-link" data-scroll-target="#image-credits">Image Credits</a></li>
+  <li><a href="#packages-used" id="toc-packages-used" class="nav-link" data-scroll-target="#packages-used">Packages Used:</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -270,7 +295,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This digital portfolio stands as a testament to my proficiency in applied statistical methods and showcases my capacity for ongoing growth and adaptability in the ever-evolving domains of data science and machine learning. During the summer semester of 2023, I not only expanded my statistical knowledge but also cultivated my craft of data storytelling.</p>
 <p>At its heart, this project is one hypothetical case study for predictive statistical modeling. Leveraging the R programming language, I conducted model selection and broadened my expertise in data wrangling, visualization, and design aesthetics.</p>
 <p>More specifically, this document guides you through a time series inventory prediction— the art of anticipating future consumer demand. Ultimately, it demonstrates how data empowers the decision-making process through forecasting and strategic insights. And remember,</p>
-<p><img src="../..\images/quotes_george-box_models-wrong-some-useful_tribal-simplicity.png" class="img-fluid" width="500"><br>
+<p><img src="../..\images/quotes_george-box_models-wrong-some-useful_tribal-simplicity.png" class="img-fluid" width="500" alt="https://tribalsimplicity.com/2014/07/28/george-box-models-wrong-useful/"><br>
 <br>
 <br>
 <br></p>
@@ -283,8 +308,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="limitations" class="level3">
 <h3 class="anchored" data-anchor-id="limitations">Limitations**</h3>
 <p>the data set contains only spans 54 weeks, which is less than ideal for time series predictions that typically benefit from multi-year trends. Additionally, my understanding of the data is limited. For this project, I made certain assumptions about the time frame and inventory type. In practical scenarios, collaboration with domain experts are essential components of any predictive analytics project.</p>
+<p><br></p>
 <p><br>
-&lt;br ### Final Results</p>
+<br>
+### Final Results</p>
 <p>The Poisson regression model demonstrated reasonable predictive performance, using four predictors chosen through stepwise selection.</p>
 <p><strong>this report contains:</strong></p>
 <ul>
@@ -1978,8 +2005,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="table-2.-reveals-that-the-loglik-log-likelihood-values-are-very-close-between-the-three-models-suggesting-that-all-three-models-fit-the-data-similarly-well.-additionally-the-aic-values-are-very-close-supporting-the-trend-seen-in-the-loglik-with-model-3a-showing-the-lowest-overall-others." class="level6">
 <h6 class="anchored" data-anchor-id="table-2.-reveals-that-the-loglik-log-likelihood-values-are-very-close-between-the-three-models-suggesting-that-all-three-models-fit-the-data-similarly-well.-additionally-the-aic-values-are-very-close-supporting-the-trend-seen-in-the-loglik-with-model-3a-showing-the-lowest-overall-others."><strong>table 2.</strong> <em>reveals that the LOGLIK (log-likelihood) values are very close between the three models, suggesting that all three models fit the data similarly well. Additionally the AIC values are very close supporting the trend seen in the LOGLIK, with model 3a showing the lowest overall others.</em></h6>
-<p><br> After comparing models, the predictors from 4a. will be applied to the testing set.</p>
-<p><br> <strong>model 4</strong>:</p>
+<p><br> After comparing models, the predictors from 4a. will be applied to the testing set. <strong>model 4</strong>:</p>
 <ul>
 <li>avoids using the highly correlated variables of week and month concurrently (see <a href="https://brookemwalters.github.io/Collection/sections/glmv1/pi.html#figure-4.-the-correlation-matrix-reveals-linear-relationships-between-sets-of-variables.-the-data-shows-an-expected-high-correlation-between-month-and-week-0.899-moderate-correlation-between-the-rolling-4-week-average-and-lag1-0.589-and-a-relatively-low-correlation-between-lag2-and-lag1-0.147.-the-absence-of-strong-correlation-between-predictors-is-essential-for-avoiding-multicollinearity-a-factor-that-reduces-model-accuracy.">figure 4</a>.)</li>
 <li>excludes unnecessary variables, where not much is gained (see <a href="https://brookemwalters.github.io/Collection/sections/glmv1/pi.html#figure-6.-plots-the-relationship-between-the-number-of-predictors-adjr2-and-cp.-as-expected-an-the-number-of-predictors-increase-the-adjr2-increases-and-the-cp-decreases.-however-the-benefits-appear-to-taper-off-after-the-inclusion-of-four-predictors.-this-potentially-indicates-the-onset-of-overfitting-beyond-this-point-suggesting-that-a-model-with-four-predictors-could-strike-a-balance-between-complexity-and-predictive-power.">figure 6</a>.)</li>
@@ -2028,6 +2054,7 @@ Number of Fisher Scoring iterations: 7</code></pre>
 </section>
 <section id="analytics-and-evaluation" class="level2">
 <h2 class="anchored" data-anchor-id="analytics-and-evaluation"><strong>Analytics and Evaluation</strong></h2>
+<p>Using tidymodels, the training data was fitted to the model. Below is the result!</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
@@ -2083,12 +2110,82 @@ Number of Fisher Scoring iterations: 7</code></pre>
 <p>The Poisson regression model isn’t merely a statistical exercise – it’s a powerful tool for strategic planning in a world with tightening external factors, where nimble, effective decision-making is no longer a competitive edge but the norm. Predictive analytics offers a sophisticated approach to understanding and anticipating consumer patterns.</p>
 <p><strong>What does the model reveal?</strong> In this instance, it’s moderately accurate, but those occasional misses aren’t mere mistakes; they are invitations to dig deeper. Each discrepancy in weekly sales predictions points to new paths for refinement. The missteps guide us to search for unseen variables. Is it the rhythm of seasons, the pulse of the market, or the effects of a new promotion?</p>
 <p>Much like my leap into the domain of data science, the modeling process must be adaptive. It’s about evolving models, new features, in-depth analysis – it’s about staying ahead. It’s how businesses align strategies, tune inventories, and discover hidden paths to success.</p>
+</section>
+<section id="sources" class="level1">
+<h1>Sources</h1>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ul>
+<li><p>“<a href="https://www.rdocumentation.org/packages/zoo/versions/1.8-12/topics/rollmean">Rollmean: Rolling Means/Maximums/Medians/Sums</a>,” <em>Data Camp</em>, ND.</p></li>
+<li><p>“<a href="https://www.youtube.com/watch?v=-BR4WElPIXg">Multiple Regression, AIC, AICc, and BIC Basics</a>,” <em>Youtube</em>, uploaded by Foltz, Brandon, 31 Aug 2021.</p></li>
+<li><p>“<a href="https://www.geeksforgeeks.org/visualization-of-a-correlation-matrix-using-ggplot2-in-r/">Visualization of a correlation matrix using ggplot2 in R</a>,” <em>GeeksforGeeks</em>, ND.</p></li>
+<li><p>Holtz, Yan “<a href="https://r-graph-gallery.com/piechart-ggplot2.html">ggplot2 Piechart</a>,” <em>R Graph Gallery</em>, ND.</p></li>
+<li><p>Hvitfeldt, Emil, <a href="https://r-graph-gallery.com/piechart-ggplot2.html"><em>ISLR Tidymodels Labs</em></a>, 6 Aug 2022.</p></li>
+<li><p>McCormick, Keith, “<a href="https://www.linkedin.com/learning/predictive-analytics-essential-training-for-executives?u=74414348">Predictive Analytics Essential Training for Executives</a>,” <em>LinkedIn Learning</em>, 25 Feb, 2020.</p></li>
+<li><p>Iannone, Richard, “<a href="https://posit.co/blog/great-looking-tables-gt-0-2/">Great Looking Tables: gt</a>,” <em>Posit</em>, 08 April 2020</p></li>
+<li><p>“<a href="https://youtu.be/tplhrRNXx8Q">How to create your own custom ggplot2 theme</a>,” <em>YouTube</em>, uploaded by Riffomonas Project, 7 Oct 2021.</p></li>
+<li><p>“<a href="https://www.youtube.com/watch?v=Kn3llTjYS5">Lead &amp; lag R Functions of dplyr Package</a>” <em>YouTube</em>, uploaded by Statistics Globe, 2 Dec 2019.</p></li>
+<li><p><a href="https://openai.com/">OpenAI</a> | <strong>AI Disclosure Statement</strong>: With prior approval from my course professor, I utilized OpenAI’s tools for idea generation, proofreading, and code debugging in my work. As of August 6, 2023, Grand Valley State University (GVSU) has no official policy on AI use in academics. In lieu of direct guidance, I followed recommendations from <a href="https://learninginnovation.duke.edu/ai-and-teaching-at-duke/">Duke University</a> and <a href="https://www.scribbr.com/ai-tools/chatgpt-university-policies/">Scribbr’s</a> overview of “University Policies on AI Writing Tools.” My final code was derived from both my work, the cited sources, and Stat 631 course materials. Generative AI served as one more learning resource, in addition to YouTube, human review, Posit forums, Linked-In Learning, and educational blogs. <strong>With this disclosure, I aim to contribute to the responsible and intellectually honest use of AI technology in scholarly work.</strong></p></li>
+</ul>
+</section>
+<section id="image-credits" class="level2">
+<h2 class="anchored" data-anchor-id="image-credits">Image Credits</h2>
+<ul>
+<li><a href="https://stock.adobe.com/contributor/209279773/alice?load_type=author&amp;prev_url=detail">Alice</a></li>
+<li><a href="https://stock.adobe.com/contributor/205074521/anttoniart?load_type=author&amp;prev_url=detail">anttoniart</a></li>
+<li><a href="https://stock.adobe.com/contributor/202160280/kreatiw?load_type=author&amp;prev_url=detail">Kreatiw</a></li>
+<li><a href="https://stock.adobe.com/contributor/203717653/mari?load_type=author&amp;prev_url=detail">mari</a></li>
+</ul>
+</section>
+<section id="packages-used" class="level2">
+<h2 class="anchored" data-anchor-id="packages-used">Packages Used:</h2>
+<ul>
+<li>broom <span class="citation" data-cites="broom">(<a href="#ref-broom" role="doc-biblioref">Robinson, Hayes, and Couch 2023</a>)</span></li>
+<li>GGally <span class="citation" data-cites="GGally">(<a href="#ref-GGally" role="doc-biblioref">Schloerke et al. 2021</a>)</span></li>
+<li>gt <span class="citation" data-cites="gt">(<a href="#ref-gt" role="doc-biblioref">Iannone et al. 2023</a>)</span></li>
+<li>leaps <span class="citation" data-cites="leaps">(<a href="#ref-leaps" role="doc-biblioref">Miller 2020</a>)</span></li>
+<li>MMWRweek <span class="citation" data-cites="MMWRweek">(<a href="#ref-MMWRweek" role="doc-biblioref">Niemi 2020</a>)</span></li>
+<li>pacman<span class="citation" data-cites="pacman">(<a href="#ref-pacman" role="doc-biblioref">Rinker and Kurkiewicz 2018</a>)</span></li>
+<li>poissonreg <span class="citation" data-cites="poissonreg">(<a href="#ref-poissonreg" role="doc-biblioref">Kuhn and Frick 2022</a>)</span></li>
+<li>tidymodels <span class="citation" data-cites="tidymodels">(<a href="#ref-tidymodels" role="doc-biblioref">Kuhn and Wickham 2020</a>)</span></li>
+<li>tidyverse <span class="citation" data-cites="tidyverse">(<a href="#ref-tidyverse" role="doc-biblioref">Wickham et al. 2019</a>)</span></li>
+</ul>
+
 
 
 </section>
+</section>
 
 
-<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-gt" class="csl-entry" role="listitem">
+Iannone, Richard, Joe Cheng, Barret Schloerke, Ellis Hughes, Alexandra Lauer, and JooYoung Seo. 2023. <span>“Gt: Easily Create Presentation-Ready Display Tables.”</span> <a href="https://CRAN.R-project.org/package=gt">https://CRAN.R-project.org/package=gt</a>.
+</div>
+<div id="ref-poissonreg" class="csl-entry" role="listitem">
+Kuhn, Max, and Hannah Frick. 2022. <span>“Poissonreg: Model Wrappers for Poisson Regression.”</span> <a href="https://CRAN.R-project.org/package=poissonreg">https://CRAN.R-project.org/package=poissonreg</a>.
+</div>
+<div id="ref-tidymodels" class="csl-entry" role="listitem">
+Kuhn, Max, and Hadley Wickham. 2020. <span>“Tidymodels: A Collection of Packages for Modeling and Machine Learning Using Tidyverse Principles.”</span> <a href="https://www.tidymodels.org">https://www.tidymodels.org</a>.
+</div>
+<div id="ref-leaps" class="csl-entry" role="listitem">
+Miller, Thomas Lumley based on Fortran code by Alan. 2020. <span>“Leaps: Regression Subset Selection.”</span> <a href="https://CRAN.R-project.org/package=leaps">https://CRAN.R-project.org/package=leaps</a>.
+</div>
+<div id="ref-MMWRweek" class="csl-entry" role="listitem">
+Niemi, Jarad. 2020. <span>“MMWRweek: Convert Dates to MMWR Day, Week, and Year.”</span> <a href="https://CRAN.R-project.org/package=MMWRweek">https://CRAN.R-project.org/package=MMWRweek</a>.
+</div>
+<div id="ref-pacman" class="csl-entry" role="listitem">
+Rinker, Tyler W., and Dason Kurkiewicz. 2018. <span>“<span></span>Pacman<span></span>: <span></span>P<span></span>ackage Management for <span></span>r<span></span>.”</span> <a href="http://github.com/trinker/pacman">http://github.com/trinker/pacman</a>.
+</div>
+<div id="ref-broom" class="csl-entry" role="listitem">
+Robinson, David, Alex Hayes, and Simon Couch. 2023. <span>“Broom: Convert Statistical Objects into Tidy Tibbles.”</span> <a href="https://CRAN.R-project.org/package=broom">https://CRAN.R-project.org/package=broom</a>.
+</div>
+<div id="ref-GGally" class="csl-entry" role="listitem">
+Schloerke, Barret, Di Cook, Joseph Larmarange, Francois Briatte, Moritz Marbach, Edwin Thoen, Amos Elberg, and Jason Crowley. 2021. <span>“GGally: Extension to ’Ggplot2’.”</span> <a href="https://CRAN.R-project.org/package=GGally">https://CRAN.R-project.org/package=GGally</a>.
+</div>
+<div id="ref-tidyverse" class="csl-entry" role="listitem">
+Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019. <span>“Welcome to the <span></span>Tidyverse<span></span>”</span> 4: 1686. <a href="https://doi.org/10.21105/joss.01686">https://doi.org/10.21105/joss.01686</a>.
+</div>
+</div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
 <li id="fn1"><h2 id="sta-631---statistical-modeling-and-regression" class="anchored"><strong>STA 631 - STATISTICAL MODELING AND REGRESSION</strong></h2>

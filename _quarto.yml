@@ -55,8 +55,8 @@ website:
             text: "collection of reflections"
           - href: sections/reflections/knowledge/knowledge.qmd
             text: "knowledge"
-      - href: sections/references/references.qmd
-        text: "references"
+      - href: sections/references/resources.qmd
+        text: "resources"
 
 
 

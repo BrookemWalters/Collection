@@ -4,6 +4,7 @@ format:
   html:
     code-fold: true
     toc: true
+bibliography: references.bib
 ---
 
 ![](/images/logos/logo_white.png)
@@ -44,7 +45,7 @@ At its heart, this project is one hypothetical case study for predictive statist
 
 More specifically, this document guides you through a time series inventory prediction--- the art of anticipating future consumer demand. Ultimately, it demonstrates how data empowers the decision-making process through forecasting and strategic insights. And remember,
 
-![](/images/quotes_george-box_models-wrong-some-useful_tribal-simplicity.png){width="500"}\
+![https://tribalsimplicity.com/2014/07/28/george-box-models-wrong-useful/](/images/quotes_george-box_models-wrong-some-useful_tribal-simplicity.png){width="500"}\
 \
 \
 <br>
@@ -59,8 +60,11 @@ evaluate and deploy a predictive model to forecast the inventory volume.
 
 the data set contains only spans 54 weeks, which is less than ideal for time series predictions that typically benefit from multi-year trends. Additionally, my understanding of the data is limited. For this project, I made certain assumptions about the time frame and inventory type. In practical scenarios, collaboration with domain experts are essential components of any predictive analytics project.
 
+<br>
+
 \
-\<br \### Final Results
+\
+### Final Results
 
 The Poisson regression model demonstrated reasonable predictive performance, using four predictors chosen through stepwise selection.
 
@@ -626,8 +630,7 @@ mod_compare %>%
 ###### **table 2.** *reveals that the LOGLIK (log-likelihood) values are very close between the three models, suggesting that all three models fit the data similarly well. Additionally the AIC values are very close supporting the trend seen in the LOGLIK, with model 3a showing the lowest overall others.*
 
 <br> After comparing models, the predictors from 4a. will be applied to the testing set.
-
-<br> **model 4**:
+**model 4**:
 
 -   avoids using the highly correlated variables of week and month concurrently (see [figure 4](https://brookemwalters.github.io/Collection/sections/glmv1/pi.html#figure-4.-the-correlation-matrix-reveals-linear-relationships-between-sets-of-variables.-the-data-shows-an-expected-high-correlation-between-month-and-week-0.899-moderate-correlation-between-the-rolling-4-week-average-and-lag1-0.589-and-a-relatively-low-correlation-between-lag2-and-lag1-0.147.-the-absence-of-strong-correlation-between-predictors-is-essential-for-avoiding-multicollinearity-a-factor-that-reduces-model-accuracy.).)
 -   excludes unnecessary variables, where not much is gained (see [figure 6](https://brookemwalters.github.io/Collection/sections/glmv1/pi.html#figure-6.-plots-the-relationship-between-the-number-of-predictors-adjr2-and-cp.-as-expected-an-the-number-of-predictors-increase-the-adjr2-increases-and-the-cp-decreases.-however-the-benefits-appear-to-taper-off-after-the-inclusion-of-four-predictors.-this-potentially-indicates-the-onset-of-overfitting-beyond-this-point-suggesting-that-a-model-with-four-predictors-could-strike-a-balance-between-complexity-and-predictive-power.).)
@@ -645,6 +648,7 @@ summary(lm_4)
 <br>
 
 ## **Analytics and Evaluation**
+Using tidymodels, the training data was fitted to the model. Below is the result!
 
 ```{r message=FALSE, warning=FALSE}
 lm4_wf <-  workflow(sold ~ month + lag1 + lag2 + rolling_4wk_avg, 
@@ -689,10 +693,53 @@ line2
 \
 <br>
 
-# ![](/images/gof/AdobeStock_484607993.jpeg){fig-align="center" width="250"}  Conclusion
+# ![](/images/gof/AdobeStock_484607993.jpeg){fig-align="center" width="250"} Conclusion
 
 The Poisson regression model isn't merely a statistical exercise -- it's a powerful tool for strategic planning in a world with tightening external factors, where nimble, effective decision-making is no longer a competitive edge but the norm. Predictive analytics offers a sophisticated approach to understanding and anticipating consumer patterns.
 
 **What does the model reveal?** In this instance, it's moderately accurate, but those occasional misses aren't mere mistakes; they are invitations to dig deeper. Each discrepancy in weekly sales predictions points to new paths for refinement. The missteps guide us to search for unseen variables. Is it the rhythm of seasons, the pulse of the market, or the effects of a new promotion?
 
 Much like my leap into the domain of data science, the modeling process must be adaptive. It's about evolving models, new features, in-depth analysis -- it's about staying ahead. It's how businesses align strategies, tune inventories, and discover hidden paths to success.
+
+# Sources
+
+## References
+
+-   "[Rollmean: Rolling Means/Maximums/Medians/Sums](https://www.rdocumentation.org/packages/zoo/versions/1.8-12/topics/rollmean)," *Data Camp*, ND.
+
+-   "[Multiple Regression, AIC, AICc, and BIC Basics](https://www.youtube.com/watch?v=-BR4WElPIXg)," *Youtube*, uploaded by Foltz, Brandon, 31 Aug 2021.
+
+-   "[Visualization of a correlation matrix using ggplot2 in R](https://www.geeksforgeeks.org/visualization-of-a-correlation-matrix-using-ggplot2-in-r/)," *GeeksforGeeks*, ND.
+
+-   Holtz, Yan "[ggplot2 Piechart](https://r-graph-gallery.com/piechart-ggplot2.html)," *R Graph Gallery*, ND.
+
+-   Hvitfeldt, Emil, [*ISLR Tidymodels Labs*](https://r-graph-gallery.com/piechart-ggplot2.html), 6 Aug 2022.
+
+-   McCormick, Keith, "[Predictive Analytics Essential Training for Executives](https://www.linkedin.com/learning/predictive-analytics-essential-training-for-executives?u=74414348)," *LinkedIn Learning*, 25 Feb, 2020.
+
+-   Iannone, Richard, "[Great Looking Tables: gt](https://posit.co/blog/great-looking-tables-gt-0-2/)," *Posit*, 08 April 2020
+
+-   "[How to create your own custom ggplot2 theme](https://youtu.be/tplhrRNXx8Q)," *YouTube*, uploaded by Riffomonas Project, 7 Oct 2021.
+
+-   "[Lead & lag R Functions of dplyr Package](https://www.youtube.com/watch?v=Kn3llTjYS5)" *YouTube*, uploaded by Statistics Globe, 2 Dec 2019.
+
+-   [OpenAI](https://openai.com/) \| **AI Disclosure Statement**: With prior approval from my course professor, I utilized OpenAI's tools for idea generation, proofreading, and code debugging in my work. As of August 6, 2023, Grand Valley State University (GVSU) has no official policy on AI use in academics. In lieu of direct guidance, I followed recommendations from [Duke University](https://learninginnovation.duke.edu/ai-and-teaching-at-duke/) and [Scribbr's](https://www.scribbr.com/ai-tools/chatgpt-university-policies/) overview of "University Policies on AI Writing Tools." My final code was derived from both my work, the cited sources, and Stat 631 course materials. Generative AI served as one more learning resource, in addition to YouTube, human review, Posit forums, Linked-In Learning, and educational blogs. **With this disclosure, I aim to contribute to the responsible and intellectually honest use of AI technology in scholarly work.**
+
+## Image Credits
+-   [Alice](https://stock.adobe.com/contributor/209279773/alice?load_type=author&prev_url=detail)
+-   [anttoniart](https://stock.adobe.com/contributor/205074521/anttoniart?load_type=author&prev_url=detail)
+-   [Kreatiw](https://stock.adobe.com/contributor/202160280/kreatiw?load_type=author&prev_url=detail)
+-   [mari](https://stock.adobe.com/contributor/203717653/mari?load_type=author&prev_url=detail)
+
+
+## Packages Used:
+
+-   broom [@broom]
+-   GGally [@GGally]
+-   gt [@gt]
+-   leaps [@leaps]
+-   MMWRweek [@MMWRweek]
+-   pacman[@pacman]
+-   poissonreg [@poissonreg]
+-   tidymodels [@tidymodels]
+-   tidyverse [@tidyverse]

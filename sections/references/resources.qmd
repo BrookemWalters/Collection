@@ -1,0 +1,29 @@
+---
+title: "Resources"
+format: html
+editor: visual
+---
+
+## Site Design
+
+-   Quarto ,"[Comprehensive guide to using Quarto](https://quarto.org/docs/guide/){target="_blank"}"
+
+-   Inspired by:
+
+    -   Mike Mahoney , "[personal website + blog](https://www.mm218.dev/){target="_blank"}"
+    -   Beatriz Milz , "[personal website + blog](https://beamilz.com/){target="_blank"}"
+    -   Dr. Mine Çetinkaya-Rundel , "[Regression Analysis course page](https://sta210-s22.github.io/website/){target="_blank"}"
+
+## Reflection Resources
+
+-   NHS-R Community, "[Plotting interactive visualizations with Plotly in R](https://www.youtube.com/watch?v=WmofiOklux8){target="_blank"}"
+-   Posit, "[Great Looking Tables: gt (v0.2)](https://posit.co/blog/great-looking-tables-gt-0-2/){target="_blank"}"
+-   Alexandre Morin-Chassé, "[The Stellar Chart: An Elegant Alternative to Radar Charts](https://medium.com/nightingale/the-stellar-chart-an-elegant-alternative-to-radar-charts-ae6a6931a28e){target="_blank"}"
+
+## Image Credits
+
+-   [Artsy](https://www.artsy.net/artwork/alphonse-mucha-reverie-3 "Alphonse Mucha Reverie, 1897"){target="_blank"}
+-   [Good Studio](https://stock.adobe.com/contributor/211078864/oskar-reschke?load_type=author&prev_url=detail "solar system in dotwork style"){target="_blank"}
+-   [Oskar Reschke](https://stock.adobe.com/contributor/211078864/oskar-reschke?load_type=author&prev_url=detail "Brain/Heart Hybrid drawing"){target="_blank"}
+
+\

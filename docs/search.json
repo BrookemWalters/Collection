@@ -30,16 +30,16 @@
   {
     "objectID": "sections/references/references.html#resources",
     "href": "sections/references/references.html#resources",
-    "title": "References",
+    "title": "Resources",
     "section": "Resources",
-    "text": "Resources\n\nNHS-R Community, “Plotting interactive visualizations with Plotly in R”\nPosit, “Great Looking Tables: gt (v0.2)”\nAlexandre Morin-Chassé, “The Stellar Chart: An Elegant Alternative to Radar Charts”\nMatt Bartholomew, “Making a Better Map Part 2: ggplot and Tigris”"
+    "text": "Resources\n\nNHS-R Community, “Plotting interactive visualizations with Plotly in R”\nPosit, “Great Looking Tables: gt (v0.2)”\nAlexandre Morin-Chassé, “The Stellar Chart: An Elegant Alternative to Radar Charts”"
   },
   {
     "objectID": "sections/references/references.html#image-credits",
     "href": "sections/references/references.html#image-credits",
-    "title": "References",
+    "title": "Resources",
     "section": "Image Credits",
-    "text": "Image Credits\n\nArtsy\nGood Studio\nOskar Reschke"
+    "text": "Image Credits\n\nArtsy\nGood Studio\nOskar Reschke\n\n\n\n\nAI Disclosure Statement:\nWith prior approval from my course professor, I utilized OpenAI’s tools for idea generation, proofreading, and code debugging in my work. As of August 6, 2023, Grand Valley State University (GVSU) has no official policy on AI use in academics. In lieu of direct guidance, I followed recommendations from Duke University and Scribbr’s overview of “University Policies on AI Writing Tools.” My final code was derived from both my work, the cited sources, and Stat 631 course materials. Generative AI served as one more learning resource, in addition to YouTube, Posit forums, Linked-In Learning, and educational blogs.\nWith this disclosure, I aim to contribute to the responsible and intellectually honest use of AI technology in scholarly work."
   },
   {
     "objectID": "sections/reflections/goals.html",
@@ -312,7 +312,7 @@
     "href": "sections/glmv1/pi.html#summary",
     "title": "Project Overview",
     "section": "Summary",
-    "text": "Summary\n\nObjective\nevaluate and deploy a predictive model to forecast the inventory volume.\n\n\nLimitations**\nthe data set contains only spans 54 weeks, which is less than ideal for time series predictions that typically benefit from multi-year trends. Additionally, my understanding of the data is limited. For this project, I made certain assumptions about the time frame and inventory type. In practical scenarios, collaboration with domain experts are essential components of any predictive analytics project.\n\n&lt;br ### Final Results\nThe Poisson regression model demonstrated reasonable predictive performance, using four predictors chosen through stepwise selection.\nthis report contains:\n\nData Processing\n\nfeature engineering\ndata splitting into training and testing sets  \n\nModel Development\n\nstep-wise model selection methodology  \n\nModel Evaluation\n\nexploratory and descriptive analytics\ninterpretation and evaluation of model outcomes"
+    "text": "Summary\n\nObjective\nevaluate and deploy a predictive model to forecast the inventory volume.\n\n\nLimitations**\nthe data set contains only spans 54 weeks, which is less than ideal for time series predictions that typically benefit from multi-year trends. Additionally, my understanding of the data is limited. For this project, I made certain assumptions about the time frame and inventory type. In practical scenarios, collaboration with domain experts are essential components of any predictive analytics project.\n\n\n\n### Final Results\nThe Poisson regression model demonstrated reasonable predictive performance, using four predictors chosen through stepwise selection.\nthis report contains:\n\nData Processing\n\nfeature engineering\ndata splitting into training and testing sets  \n\nModel Development\n\nstep-wise model selection methodology  \n\nModel Evaluation\n\nexploratory and descriptive analytics\ninterpretation and evaluation of model outcomes"
   },
   {
     "objectID": "sections/glmv1/pi.html#model-development",
@@ -326,7 +326,7 @@
     "href": "sections/glmv1/pi.html#analytics-and-evaluation",
     "title": "Project Overview",
     "section": "Analytics and Evaluation",
-    "text": "Analytics and Evaluation\n\n\nCode\nlm4_wf &lt;-  workflow(sold ~ month + lag1 + lag2 + rolling_4wk_avg, \n                    poisson_reg())\n\nlm4_fit &lt;- fit(lm4_wf, data = is_train)\n\n# Make predictions on the testing data\npredictions &lt;- predict(lm4_fit, new_data = is_test)\n\n\n\nresults &lt;- bind_cols(predictions, is_test) %&gt;%\n  select(week, month, item_no, sold, .pred) %&gt;%\n  mutate(residulals =  .pred - sold) %&gt;%\n  pivot_longer(cols = c(sold, .pred), names_to = \"type\", values_to = \"total_sold\") %&gt;%\n  mutate(type = ifelse(type == \"sold\", \"Actual\", \"Predicted\"))\n\n\nline2 &lt;- results %&gt;%\n  group_by(week, type) %&gt;%\n  summarise(total_sold = sum(total_sold)) %&gt;%\n  ggplot(aes(x = week, y = total_sold, color = type)) +\n  geom_line(size = 2, alpha = 0.5) +\n  geom_point(size = 4, alpha = 0.5)+\n  scale_x_continuous(breaks = seq(0, 55, by = 5)) + \n  scale_y_continuous(labels = scales::comma_format()) +\n   \n  labs(x = \"week\", y = \"Count of Items Sold\", \n       title = \"Predicted vs Actual Items Sold by Week\",\n       subtitle = \"test subset data\",\n        caption =  \" figure 7\")+\n  scale_color_manual(values = c(\"Predicted\" = \"#DF5875\", \"Actual\" = \"#68576D\"))+\n  theme_art_nouveau()\n\nline2\n\n\n\n\n\n\nFigure 7 illustrates the comparison between the actual and predicted counts of items sold by week. The line plot demonstrates that the model’s predictions generally align with the actual sales trends, capturing the underlying pattern of the training data. However,there are areas of concern, most notably, during weeks 38 and 39, there was a significant over-prediction for item A510004 (the top item by volume) by ~6k units for both weeks. Such deviations may indicate areas where the model’s assumptions might not fully capture the underlying dynamics."
+    "text": "Analytics and Evaluation\nUsing tidymodels, the training data was fitted to the model. Below is the result!\n\n\nCode\nlm4_wf &lt;-  workflow(sold ~ month + lag1 + lag2 + rolling_4wk_avg, \n                    poisson_reg())\n\nlm4_fit &lt;- fit(lm4_wf, data = is_train)\n\n# Make predictions on the testing data\npredictions &lt;- predict(lm4_fit, new_data = is_test)\n\n\n\nresults &lt;- bind_cols(predictions, is_test) %&gt;%\n  select(week, month, item_no, sold, .pred) %&gt;%\n  mutate(residulals =  .pred - sold) %&gt;%\n  pivot_longer(cols = c(sold, .pred), names_to = \"type\", values_to = \"total_sold\") %&gt;%\n  mutate(type = ifelse(type == \"sold\", \"Actual\", \"Predicted\"))\n\n\nline2 &lt;- results %&gt;%\n  group_by(week, type) %&gt;%\n  summarise(total_sold = sum(total_sold)) %&gt;%\n  ggplot(aes(x = week, y = total_sold, color = type)) +\n  geom_line(size = 2, alpha = 0.5) +\n  geom_point(size = 4, alpha = 0.5)+\n  scale_x_continuous(breaks = seq(0, 55, by = 5)) + \n  scale_y_continuous(labels = scales::comma_format()) +\n   \n  labs(x = \"week\", y = \"Count of Items Sold\", \n       title = \"Predicted vs Actual Items Sold by Week\",\n       subtitle = \"test subset data\",\n        caption =  \" figure 7\")+\n  scale_color_manual(values = c(\"Predicted\" = \"#DF5875\", \"Actual\" = \"#68576D\"))+\n  theme_art_nouveau()\n\nline2\n\n\n\n\n\n\nFigure 7 illustrates the comparison between the actual and predicted counts of items sold by week. The line plot demonstrates that the model’s predictions generally align with the actual sales trends, capturing the underlying pattern of the training data. However,there are areas of concern, most notably, during weeks 38 and 39, there was a significant over-prediction for item A510004 (the top item by volume) by ~6k units for both weeks. Such deviations may indicate areas where the model’s assumptions might not fully capture the underlying dynamics."
   },
   {
     "objectID": "sections/glmv1/pi.html#maximum-likelihood-and-aic-akaike-information-criterion",
@@ -348,5 +348,75 @@
     "title": "Project Overview",
     "section": "Understanding Model Performance",
     "text": "Understanding Model Performance"
+  },
+  {
+    "objectID": "sections/references/references.html",
+    "href": "sections/references/references.html",
+    "title": "Resources",
+    "section": "",
+    "text": "Quarto ,“Comprehensive guide to using Quarto”\nInspired by:\n\nMike Mahoney , “personal website + blog”\nBeatriz Milz , “personal website + blog”\nDr. Mine Çetinkaya-Rundel , “Regression Analysis course page”"
+  },
+  {
+    "objectID": "sections/references/references.html#site-design",
+    "href": "sections/references/references.html#site-design",
+    "title": "Resources",
+    "section": "",
+    "text": "Quarto ,“Comprehensive guide to using Quarto”\nInspired by:\n\nMike Mahoney , “personal website + blog”\nBeatriz Milz , “personal website + blog”\nDr. Mine Çetinkaya-Rundel , “Regression Analysis course page”"
+  },
+  {
+    "objectID": "sections/references/references.html#reflection-resources",
+    "href": "sections/references/references.html#reflection-resources",
+    "title": "Resources",
+    "section": "Reflection Resources",
+    "text": "Reflection Resources\n\nNHS-R Community, “Plotting interactive visualizations with Plotly in R”\nPosit, “Great Looking Tables: gt (v0.2)”\nAlexandre Morin-Chassé, “The Stellar Chart: An Elegant Alternative to Radar Charts”"
+  },
+  {
+    "objectID": "sections/references/resources.html",
+    "href": "sections/references/resources.html",
+    "title": "Resources",
+    "section": "",
+    "text": "Quarto ,“Comprehensive guide to using Quarto”\nInspired by:\n\nMike Mahoney , “personal website + blog”\nBeatriz Milz , “personal website + blog”\nDr. Mine Çetinkaya-Rundel , “Regression Analysis course page”"
+  },
+  {
+    "objectID": "sections/references/resources.html#site-design",
+    "href": "sections/references/resources.html#site-design",
+    "title": "Resources",
+    "section": "",
+    "text": "Quarto ,“Comprehensive guide to using Quarto”\nInspired by:\n\nMike Mahoney , “personal website + blog”\nBeatriz Milz , “personal website + blog”\nDr. Mine Çetinkaya-Rundel , “Regression Analysis course page”"
+  },
+  {
+    "objectID": "sections/references/resources.html#reflection-resources",
+    "href": "sections/references/resources.html#reflection-resources",
+    "title": "Resources",
+    "section": "Reflection Resources",
+    "text": "Reflection Resources\n\nNHS-R Community, “Plotting interactive visualizations with Plotly in R”\nPosit, “Great Looking Tables: gt (v0.2)”\nAlexandre Morin-Chassé, “The Stellar Chart: An Elegant Alternative to Radar Charts”"
+  },
+  {
+    "objectID": "sections/references/resources.html#image-credits",
+    "href": "sections/references/resources.html#image-credits",
+    "title": "Resources",
+    "section": "Image Credits",
+    "text": "Image Credits\n\nArtsy\nGood Studio\nOskar Reschke"
+  },
+  {
+    "objectID": "sections/glmv1/pi.html#packages-used",
+    "href": "sections/glmv1/pi.html#packages-used",
+    "title": "Project Overview",
+    "section": "Packages Used:",
+    "text": "Packages Used:\n\nbroom (Robinson, Hayes, and Couch 2023)\nGGally (Schloerke et al. 2021)\ngt (Iannone et al. 2023)\nleaps (Miller 2020)\nMMWRweek (Niemi 2020)\npacman(Rinker and Kurkiewicz 2018)\npoissonreg (Kuhn and Frick 2022)\ntidymodels (Kuhn and Wickham 2020)\ntidyverse (Wickham et al. 2019)"
+  },
+  {
+    "objectID": "sections/glmv1/pi.html#references",
+    "href": "sections/glmv1/pi.html#references",
+    "title": "Project Overview",
+    "section": "References",
+    "text": "References\n\n“Rollmean: Rolling Means/Maximums/Medians/Sums,” Data Camp, ND.\n“Multiple Regression, AIC, AICc, and BIC Basics,” Youtube, uploaded by Foltz, Brandon, 31 Aug 2021.\n“Visualization of a correlation matrix using ggplot2 in R,” GeeksforGeeks, ND.\nHoltz, Yan “ggplot2 Piechart,” R Graph Gallery, ND.\nHvitfeldt, Emil, ISLR Tidymodels Labs, 6 Aug 2022.\nMcCormick, Keith, “Predictive Analytics Essential Training for Executives,” LinkedIn Learning, 25 Feb, 2020.\nIannone, Richard, “Great Looking Tables: gt,” Posit, 08 April 2020\n“How to create your own custom ggplot2 theme,” YouTube, uploaded by Riffomonas Project, 7 Oct 2021.\n“Lead & lag R Functions of dplyr Package” YouTube, uploaded by Statistics Globe, 2 Dec 2019.\nOpenAI | AI Disclosure Statement: With prior approval from my course professor, I utilized OpenAI’s tools for idea generation, proofreading, and code debugging in my work. As of August 6, 2023, Grand Valley State University (GVSU) has no official policy on AI use in academics. In lieu of direct guidance, I followed recommendations from Duke University and Scribbr’s overview of “University Policies on AI Writing Tools.” My final code was derived from both my work, the cited sources, and Stat 631 course materials. Generative AI served as one more learning resource, in addition to YouTube, human review, Posit forums, Linked-In Learning, and educational blogs. With this disclosure, I aim to contribute to the responsible and intellectually honest use of AI technology in scholarly work."
+  },
+  {
+    "objectID": "sections/glmv1/pi.html#image-credits",
+    "href": "sections/glmv1/pi.html#image-credits",
+    "title": "Project Overview",
+    "section": "Image Credits",
+    "text": "Image Credits\n\nAlice\nanttoniart\nKreatiw\nmari"
   }
 ]
