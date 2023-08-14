@@ -31,7 +31,7 @@ website:
         menu:
           - text: about me
             href: index.qmd
-          - text: interactive positionality statement
+          - text: "positionality"
             href: sections/reflections/sop.qmd
 
     
@@ -47,14 +47,11 @@ website:
             text: "Time Series Forecasting"
           - href: https://brookemwalters.github.io/Nimby_Site/Final%20Report.html
             text: "Crime in Coloardo"
-      - section: "Reflections"
-        contents:
-          - href: sections/reflections/reflections_main.qmd
-            text: "Collection of reflections"
-          - href: sections/reflections/knowledge/knowledge.qmd
-            text: "Knowledge"
+          - href: https://rpubs.com/ekoorb03/MI_C19Mortality
+            text: "The Socioeconomics of Covid-19s"
       - href: sections/references/resources.qmd
         text: "Resources"
+
 
 
 

@@ -32,7 +32,7 @@ pacman::p_load(tidyverse, # for data cleaning and preparing
 
 # Project Overview
 
-"Welcome to my Stats 631[^1] final project!
+Welcome to my Stats 631[^1] final project!
 
 [^1]:
     ## **STA 631 - STATISTICAL MODELING AND REGRESSION**
