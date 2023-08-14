@@ -68,10 +68,7 @@ server <- function(input, output) {
                 but that experience was one of many that ingrained in me the false notion that white was the ideal.
                 It's more vivid than any of the racially explicit derogatory terms thrown at me by strangers. 
                 
-                Trying to unlearn that mentality is an ongoing endeavor. 
-                
-                Now that critical race theory has gone corporate, and I often find myself the only brown person in the room, 
-                I wonder just how honest I can be and keep my paycheck." 
+                Trying to unlearn that mentality is an ongoing endeavor." 
             ),
             
             pos_palette = c("#CBD1C9", "#F3938F", "#FCD470", "#CCAE8E")

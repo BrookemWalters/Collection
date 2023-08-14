@@ -46,7 +46,7 @@
     "href": "sections/reflections/goals.html",
     "title": "Goals",
     "section": "",
-    "text": "Goals\n\nMission:\n\nDesign a portfolio showcasing key skills sought after in the data science industry, such as SQL, A/B testing, and classification models.\nBridge the gap between my current resume and market demand, while demonstrating STAT 631 course objectives.\n\n\n\n\n\nProject Objectives:\n\nInvestigate the interplay between a municipality’s walkability index (proximity and density of amenities) and various socio-economic factors within the Greater Grand Rapids Area by leveraging statistical modeling and data analysis techniques.\n\n\n\n\nConstruct a SQL database integrating time-series data from reputable sources including but not limited to:\n\nNational Center for Health Statistics\nUS Bureau of Labor Statistics\nWalkability Scores\n\n\n\n\n\nBuild and evaluate three different predictive models about the impact of a city’s walkability on socio-economic parameters. Potential relationships to explore:\n\nIndustries Growth Type and Walkability\nWalkability Scores and Average Life Expectancy\nIncome Disparity and Walkability Scores\n\n\n\n\n\nDemonstrate data storytelling in a ‘scannable’ format guided by UX design principles. The focus will be on translating complex statistical results into business language that appeals to a corporate audience. The portfolio will be designed using Quarto and hosted on GitHub pages."
+    "text": "Goals\n\nMission:\n\nDesign a portfolio showcasing key skills sought after in the data science industry, such as SQL, A/B testing, and classification models.\nBridge the gap between my current resume and market demand, while demonstrating STAT 631 course objectives.\n\n\n\n\n\nProject Objectives:\n\nInvestigate the interplay between a municipality’s walkability index (proximity and density of amenities) and various socio-economic factors within the Greater Grand Rapids Area by leveraging statistical modeling and data analysis techniques.\n\n\n\n\nElements\nMy portfolio’s “brand theme” is inspired by femininity, philosophy and the art nouveau movement of the early 20th century. Using these styling elements, my goal is to build several mini-interconnected projects demonstrating .\nThe assigned reflections are incorporated into this site to exercise and refine my writing skills alongside deepening my understanding of statistical modeling. I’ve chosen to use them as a platform to experiment with less conventional data visualizations, unbound by the professional constraints of my day job; a refreshing departure from the effective, yet monotonous, bar charts and tables that typically dominate the market intelligence reports I produce.\n\n\n\n\nDemonstrate data storytelling in a ‘scannable’ format guided by UX design principles. The focus will be on translating complex statistical results into business language that appeals to a corporate audience. The portfolio will be designed using Quarto and hosted on GitHub pages."
   },
   {
     "objectID": "sections/reflections/knowledge/knowledge.html",
@@ -396,7 +396,7 @@
     "href": "sections/references/resources.html#image-credits",
     "title": "Resources",
     "section": "Image Credits",
-    "text": "Image Credits\n\nArtsy\nGood Studio\nOskar Reschke"
+    "text": "Image Credits\n\nArtsy\nGood Studio\nOskar Reschke\nHotpot"
   },
   {
     "objectID": "sections/glmv1/pi.html#packages-used",
@@ -432,5 +432,12 @@
     "title": "Brooke Walter's Portfolio",
     "section": "",
     "text": "click image to view project"
+  },
+  {
+    "objectID": "sections/reflections/sop.html",
+    "href": "sections/reflections/sop.html",
+    "title": "Brooke Walter's Portfolio",
+    "section": "",
+    "text": "click image to read the reflection"
   }
 ]

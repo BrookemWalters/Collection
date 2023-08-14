@@ -31,17 +31,15 @@ website:
         menu:
           - text: about me
             href: index.qmd
-          - text: portfolio pitch
-            href: sections/reflections/pitch.qmd
-          - text: portfolio goals
-            href: sections/reflections/goals.qmd
+          - text: interactive positionality statement
+            href: sections/reflections/sop.qmd
 
     
     style: "docked"
     search: true
     collapse-level: 1
     contents:
-      - section: "projects"
+      - section: "Projects"
         contents:
           - href: sections/po.qmd
             text: "Overview"

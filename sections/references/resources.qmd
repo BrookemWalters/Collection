@@ -25,5 +25,6 @@ editor: visual
 -   [Artsy](https://www.artsy.net/artwork/alphonse-mucha-reverie-3 "Alphonse Mucha Reverie, 1897"){target="_blank"}
 -   [Good Studio](https://stock.adobe.com/contributor/211078864/oskar-reschke?load_type=author&prev_url=detail "solar system in dotwork style"){target="_blank"}
 -   [Oskar Reschke](https://stock.adobe.com/contributor/211078864/oskar-reschke?load_type=author&prev_url=detail "Brain/Heart Hybrid drawing"){target="_blank"}
+-   [Hotpot](https://hotpot.ai/about)
 
 \

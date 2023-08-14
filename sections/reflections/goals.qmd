@@ -21,17 +21,11 @@ output:
 
 \
 
--   Construct a SQL database integrating time-series data from reputable sources including but not limited to:
-    -   [National Center for Health Statistics](https://www.cdc.gov/nchs/pressroom/recent-data.htm){target="_blank"}
-    -   [US Bureau of Labor Statistics](https://www.bls.gov/){target="_blank"}
-    -   [Walkability Scores](https://edg.epa.gov/metadata/catalog/main/home.page;jsessionid=FFF65D9A779A543E6E84CC10BC78B7D3){target="_blank"}
+-   Elements
 
-\
+    My portfolio's "brand theme" is inspired by femininity, philosophy and the art nouveau movement of the early 20th century. Using these styling elements, my goal is to build several mini-interconnected projects demonstrating .
 
--   Build and evaluate three different predictive models about the impact of a city's walkability on socio-economic parameters. **Potential relationships to explore**:
-    -   Industries Growth Type and Walkability
-    -   Walkability Scores and Average Life Expectancy
-    -   Income Disparity and Walkability Scores
+    The assigned reflections are incorporated into this site to exercise and refine my writing skills alongside deepening my understanding of statistical modeling. I've chosen to use them as a platform to experiment with less conventional data visualizations, unbound by the professional constraints of my day job; a refreshing departure from the effective, yet monotonous, bar charts and tables that typically dominate the market intelligence reports I produce.
 
 \
 
