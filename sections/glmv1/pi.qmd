@@ -16,9 +16,9 @@ if (!require("pacman")) {
   install.packages("pacman")
   library("pacman")
 }
-#Import Libraries
+#import Libraries
 
-# Use p_load() to install (if necessary) and load  packages
+#  p_load() to install (if necessary) and load  packages
 pacman::p_load(tidyverse, # for data cleaning and preparing
                tidymodels, # for modeling
                leaps, # for creating lags
@@ -123,6 +123,8 @@ ggplot(aes(x = total_sold)) +
         caption =  " figure 1.2")+
   theme_art_nouveau()
 
+# "ggplot2 - Easy way to mix multiple graphs on the same page", STHDA
+# http://www.sthda.com/english/wiki/wiki.php?id_contents=7930#
 # display the histograms side by side
 gridExtra::grid.arrange(hist, hist1, ncol = 2)
 ```
@@ -161,7 +163,7 @@ line1
 
 # Data Processing
 
-The new features (see data dictionary), reveal sales dynamics, exposing potential seasonal pattern influences. Ideally, this process includes consultation with domain experts to ensure predictor viability and relevance.
+From the raw data, I created new features (see data dictionary),that reveal sales dynamics and seasonal patterns. Ideally, this process includes consultation with domain experts to ensure predictor viability and relevance.
 
 ### data dictionary
 
@@ -215,7 +217,7 @@ sai <- sai %>%
   mutate(calendar_week = ifelse(week == 0, 52, ifelse(week == 53, 1, week)),
          calendar_year = ifelse(week == 0, year - 1, ifelse(week == 53, year + 1, year)))
 
-# Now use calendar_year and calendar_week in the MMWRweek2Date function
+#  calendar_year and calendar_week in the MMWRweek2Date function to make a date from week# and year
 sai$date <- MMWRweek2Date(sai$calendar_year, sai$calendar_week)
 
 
@@ -227,7 +229,7 @@ sai <- sai %>%
 
 
 
-# create teh data and extract the month
+# create the data and extract the month
 # wanted month to be quantitative to reduce model complexity
 
 sai$date <- MMWRweek2Date(sai$wk_ending_year, sai$calendar_week)
@@ -236,6 +238,7 @@ sai$month <- month(sai$date)
 
 
 # create lag periods
+# "lead & lag R Functions of dplyr Package", StatsGlobe
 # https://www.youtube.com/watch?v=Kn3llTjYS5E
 
 sai <- sai %>%
@@ -404,7 +407,10 @@ It's time to use stepwise selection to identify the best factors for the model. 
 
 ```{r message=FALSE, warning=FALSE}
 
+# "Variable selection in R", Amelia McNamara
 # https://youtu.be/IScjygOnO0w
+
+
 # forward Stepwise Selection
 # nvmax = 8 specifies the maximum number of predictors to incorporate in the model.
 is_mod <- regsubsets(sold ~ week + month + lag1 + lag2 + rolling_4wk_avg + best_seller,
@@ -414,8 +420,10 @@ is_mod_summary_mx <- with(summary(is_mod), data.frame(rsq,adjr2, cp, rss, outmat
 is_mod_summary_mx$predictors <- c(1,1,2,2,3,3,4,4,5,5,6) # for graphing
 is_mod_summary_mx$model <- c('a','b','a','b','a','b','a','b','a', 'b', 'a') # for graphing
 
-# update this too  look more like my other graphs
-#https://posit.co/blog/great-looking-tables-gt-0-2/# turn results into a pretty table
+
+# "Great Looking Tables: gt", Posit
+#https://posit.co/blog/great-looking-tables-gt-0-2/
+# turn results into a pretty table
 # is_mod_summary_mx
 
 is_mod_summary_mx %>% 
@@ -541,7 +549,8 @@ A high **RSS** means the predictions are far off from the actual values, which r
 # Model Evaluation
 
 ```{r fig.height=4, fig.width=10}
-#https://www.youtube.com/watch?v=-BR4WElPIXg
+
+
 gcolors <- c("#68576D", "#DF5875")
 
 is_mod_summary_mx %>%
@@ -571,6 +580,7 @@ is_mod_summary_mx %>%
 **Model Selection** Given that the response variable "*sold*" represents count data and has a rightward skew, a generalized linear model (GLM) with a Poisson distribution is one relevant model option. To avoid overfitting, these models will be subjected to an additional level of scrutiny before selecting the best predictors.
 
 ```{r}
+# ISLR tidymodels labs
 #https://emilhvitfeldt.github.io/ISLR-tidymodels-labs/03-linear-regression.html
 
 # tidy model way
@@ -591,7 +601,7 @@ lm_5 <- glm(sold ~ month + week + lag1 + lag2 + rolling_4wk_avg,
             data = is_train,
             family = poisson)
 
-# Combine the results into a data frame
+# create a dataframe from the results from glance into a data frame
 mod_compare <- rbind(broom::glance(lm_3), broom::glance(lm_4), broom::glance(lm_5))
 model_names <- c("3a", "4a", "5a")
 mod_compare$model_name <- model_names
@@ -627,7 +637,7 @@ mod_compare %>%
 
 ###### **table 2.** *reveals that the LOGLIK (log-likelihood) values are very close between the three models, suggesting that all three models fit the data similarly well. Additionally the AIC values are very close supporting the trend seen in the LOGLIK, with model 3a showing the lowest overall others.*
 
-<br> After comparing models, the predictors from 4a. will be applied to the testing set. **model 4**:
+<br> After comparing models, the predictors from 4a. will be applied to the testing set. **model 4a**:
 
 -   avoids using the highly correlated variables of week and month concurrently (see [figure 4](https://brookemwalters.github.io/Collection/sections/glmv1/pi.html#figure-4.-the-correlation-matrix-reveals-linear-relationships-between-sets-of-variables.-the-data-shows-an-expected-high-correlation-between-month-and-week-0.899-moderate-correlation-between-the-rolling-4-week-average-and-lag1-0.589-and-a-relatively-low-correlation-between-lag2-and-lag1-0.147.-the-absence-of-strong-correlation-between-predictors-is-essential-for-avoiding-multicollinearity-a-factor-that-reduces-model-accuracy.).)
 -   excludes unnecessary variables, where not much is gained (see [figure 6](https://brookemwalters.github.io/Collection/sections/glmv1/pi.html#figure-6.-plots-the-relationship-between-the-number-of-predictors-adjr2-and-cp.-as-expected-an-the-number-of-predictors-increase-the-adjr2-increases-and-the-cp-decreases.-however-the-benefits-appear-to-taper-off-after-the-inclusion-of-four-predictors.-this-potentially-indicates-the-onset-of-overfitting-beyond-this-point-suggesting-that-a-model-with-four-predictors-could-strike-a-balance-between-complexity-and-predictive-power.).)
@@ -646,7 +656,7 @@ summary(lm_4)
 
 ## **Analytics and Evaluation**
 
-Using tidymodels, the training data was fitted to the model. Below is the result!
+With `tidymodels` functions, the formula is fitted and then applied to the testing data, the 25% of the inventory separated earlier. The results below visualize the differences between the Poisson model's predictions and the actual weekly inventory demands.
 
 ```{r message=FALSE, warning=FALSE}
 lm4_wf <-  workflow(sold ~ month + lag1 + lag2 + rolling_4wk_avg, 
@@ -687,8 +697,7 @@ line2
 
 ###### **Figure 7** *illustrates the comparison between the actual and predicted counts of items sold by week. The line plot demonstrates that the model's predictions generally align with the actual sales trends, capturing the underlying pattern of the training data. However,there are areas of concern, most notably, during weeks 38 and 39, there was a significant over-prediction for item A510004 (the top item by volume) by \~6k units for both weeks. Such deviations may indicate areas where the model's assumptions might not fully capture the underlying dynamics.*
 
-\
-\
+
 <br>
 
 # ![](/images/gof/AdobeStock_484607993.jpeg){fig-align="center" width="250"} Conclusion
@@ -714,6 +723,8 @@ Much like my leap into the domain of data science, the modeling process must be 
 -   Hvitfeldt, Emil, [*ISLR Tidymodels Labs*](https://emilhvitfeldt.github.io/ISLR-tidymodels-labs/), 6 Aug 2022.
 
 -   McCormick, Keith, "[Predictive Analytics Essential Training for Executives](https://www.linkedin.com/learning/predictive-analytics-essential-training-for-executives?u=74414348)," *LinkedIn Learning*, 25 Feb, 2020.
+
+-   McNamara, Amelia, "[Variable selection in R](https://www.youtube.com/watch?v=IScjygOnO0w)," *YouTube*, 26 Oct, 2020.
 
 -   Iannone, Richard, "[Great Looking Tables: gt](https://posit.co/blog/great-looking-tables-gt-0-2/)," *Posit*, 08 April 2020
 
