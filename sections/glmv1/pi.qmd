@@ -695,8 +695,7 @@ line2 <- results %>%
 line2
 ```
 
-###### **Figure 7** *illustrates the comparison between the actual and predicted counts of items sold by week. The line plot demonstrates that the model's predictions generally align with the actual sales trends, capturing the underlying pattern of the training data. However,there are areas of concern, most notably, during weeks 38 and 39, there was a significant over-prediction for item A510004 (the top item by volume) by \~6k units for both weeks. Such deviations may indicate areas where the model's assumptions might not fully capture the underlying dynamics.*
-
+###### **Figure 7.** *illustrates the comparison between the actual and predicted counts of items sold by week. The line plot demonstrates that the model's predictions generally align with the actual sales trends, capturing the underlying pattern of the training data. However,there are areas of concern, most notably, during weeks 38 and 39, there was a significant over-prediction for item A510004 (the top item by volume) by \~6k units for both weeks. Such deviations may indicate areas where the model's assumptions might not fully capture the underlying dynamics.*
 
 <br>
 
