@@ -27,7 +27,7 @@ website:
         href: https://www.linkedin.com/in/bmwlters
         text: "LinkedIn"
       - icon: person-fill
-        text: "pitch"
+        text: "Meet Brooke Walters"
         menu:
           - text: about me
             href: index.qmd
