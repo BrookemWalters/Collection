@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: Brooke Walter's Portfolio
+  title: Brooke Walters' Portfolio
   page-navigation: true
   site-url: https://brookemwalters.github.io/Collection/
   favicon: "images/logos/favicon2.png"
