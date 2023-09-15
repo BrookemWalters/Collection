@@ -7,7 +7,7 @@ about:
     - text: Email
       url: "mailto:brooke.melissa.walters.@gmail.com"
     - text: Resume
-      url: "https://github.com/BrookemWalters/Collection/blob/main/BrookeWalters_DataScientist.pdf"
+      url: "https://brookemwalters.github.io/resume/"
     - text: Data Science Projects
       url: "https://brookemwalters.github.io/Collection/sections/po.html"
 comments: false
