@@ -43,6 +43,8 @@ website:
         contents:
           - href: sections/po.qmd
             text: "Overview"
+          - href: https://brookemwalters.github.io/digitaleccon/
+            text: "Exploring Digital Markets"            
           - href: sections/glmv1/pi.qmd
             text: "Time Series Forecasting"
           - href: https://brookemwalters.github.io/Nimby_Site/Final%20Report.html
