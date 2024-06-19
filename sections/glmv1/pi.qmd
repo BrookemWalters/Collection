@@ -10,7 +10,7 @@ bibliography: references.bib
 ![](/images/logos/logo_white.png)
 
 ```{r include=FALSE}
-setwd("~/gvsu/summer 23/stat 631/Collection/sections/glmv1")
+setwd("~/gvsu/stat 631/Collection/sections/glmv1")
 
 if (!require("pacman")) {
   install.packages("pacman")
